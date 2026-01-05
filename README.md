@@ -25,8 +25,17 @@ Download the latest release from....
 git clone SSH-LINK
 cd FILENAME
 ```
+### Git commands
+```
+git pull (takes changes from github into your current branch, always do when changing branch or when starting to code, do often)  
 
----
+git fetch (retrieves new branches and notifys of changes to branches, does NOT update locally, use git pull to update)
+
+git add . (adds all changes made)  
+git commit -m "Message her in correct format" (commits everything added, see guide for writing messages correct)  
+git push (pushes to github)  
+
+```--
 
 ## 🧪 Run Tests
 
