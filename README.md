@@ -86,7 +86,7 @@ pythonTemplate/
 ## 👤 Author(s)
 
 **Kasper S. Karlsen**  [GitHub Profile](https://github.com/kasper280403)  
-
+**Harald A. Søvde**    [GitHub Profile](https://github.com/haraldsovde-crypto)  
 _Developed for NMBU/inf202 at NMBU_
 
 
