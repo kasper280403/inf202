@@ -87,7 +87,7 @@ pythonTemplate/
 
 **Kasper S. Karlsen**  [GitHub Profile](https://github.com/kasper280403)  
 
-_Developed for ORGNISATION/COURSE at PLACE_
+_Developed for NMBU/inf202 at NMBU_
 
 
 ---
