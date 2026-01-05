@@ -35,7 +35,9 @@ git add . (adds all changes made)
 git commit -m "Message her in correct format" (commits everything added, see guide for writing messages correct)  
 git push (pushes to github)  
 
-```--
+```
+
+--
 
 ## 🧪 Run Tests
 
