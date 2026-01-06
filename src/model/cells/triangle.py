@@ -9,14 +9,5 @@ class Triangle(Cell):
 
 
     def check_neighbour(self, test_corner_point_ids):
-        n_equal = 0
-
-        for i in self.corner_point_ids:
-            if i in test_corner_point_ids:
-                n_equal += 1
-
-        if n_equal > 1:
-            return True
-        else:
-            return False
+        return len(set(self.corner_point_ids) & set(test_corner_point_ids)) == 2
 
