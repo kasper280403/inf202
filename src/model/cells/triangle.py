@@ -32,13 +32,25 @@ class Triangle(Cell):
         return len(set(self.corner_point_ids) & set(test_corner_point_ids)) == 2
 
     def get_midpoint(self):
+        """
+        Getter for the midpoint of the cell.
+        If the midpoint == -1 is not yet calculateted, the calculate_midpoint is called.
+
+        Returns:
+             list[int]: Midpoint of the cell, x, y coordinates.
+        """
         if self.midpoint == -1:
-            self.set_midpoint()
+            self.calculate_midpoint()
 
         return self.midpoint
 
 
-    def set_midpoint(self):
+    def calculate_midpoint(self):
+        """
+        Calculates the midpoint of the cell.
+        Uses the point IDs to extract the x, y coordinates, from the Point class
+        Sets the self.midpoint
+        """
         x_coordinates = []
         y_coordinates = []
 
