@@ -1,8 +1,16 @@
 import itertools
 
 class Cell:
-    id_counter = itertools.count()
+    """
+    Represents a cell of any type, parent class
 
+    Attributes:
+        id (int): The cells id
+        corner_point_ids (list[int]): Corner point ids for this cell
+        neighbor_ids (list[int]): IDs of bordering cells.
+    """
+
+    id_counter = itertools.count()
     def __init__(self, corner_point_ids):
         self.id = next(self.id_counter)
         self.corner_point_ids = corner_point_ids
