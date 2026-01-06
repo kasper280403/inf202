@@ -9,7 +9,6 @@ class Cell:
         corner_points (list[Point]): Instances of the class Point
         neighbor_ids (list[int]): IDs of bordering cells.
     """
-
     id_counter = itertools.count()
 
     def __init__(self, corner_points):
