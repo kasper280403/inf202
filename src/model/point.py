@@ -13,9 +13,6 @@ class Point:
     def get_xcoordinates(self):
         return(self._x)
     
-    def get_id(self):
-        return(self._id)
-    
     def __hash__(self):
         hash((self._x,self._y))
 
