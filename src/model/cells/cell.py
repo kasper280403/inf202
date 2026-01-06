@@ -5,19 +5,20 @@ class Cell:
     Represents a cell of any type, parent class
 
     Attributes:
-        id (int): The cells id
+        cell_id (int): The cells id
         corner_points (list[Point]): Instances of the class Point
         neighbor_ids (list[int]): IDs of bordering cells.
     """
 
     id_counter = itertools.count()
+
     def __init__(self, corner_points):
-        self.id = next(self.id_counter)
+        self.cell_id = next(self.id_counter)
         self.corner_points = corner_points
         self.neighbor_ids = []
 
     def get_id(self):
-        return self.id
+        return self.cell_id
 
     def get_corner_points(self):
         return self.corner_points

@@ -10,8 +10,8 @@ class Triangle(Cell):
         corner_points (list[Point]): Instances of the class Point
         neighbor_ids (list[int]): IDs of bordering cells.
     """
-    def __init__(self, id, corner_points, neighbor_ids):
-        super().__init__(id)
+    def __init__(self, cell_id, corner_points, neighbor_ids):
+        super().__init__(cell_id)
         super().__init__(corner_points)
         super().__init__(neighbor_ids)
         self.midpoint = -1
