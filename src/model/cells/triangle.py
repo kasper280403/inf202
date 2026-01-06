@@ -6,7 +6,7 @@ class Triangle(Cell):
     Represents a cell of the type triangle.
 
     Attributes(inherited from Cell):
-        id (int): Uniqie identifier of the cell.
+        id (int): Unique identifier of the cell.
         corner_point_ids (list[int]): Corner points of the cell.
         neighbor_ids (list[int]): IDs of bordering cells.
     """
@@ -18,7 +18,7 @@ class Triangle(Cell):
 
     def check_neighbour(self, test_corner_point_ids):
         """
-        Cheks if a setg of corner points share have 2 of the same points its own.
+        Cheks if a set of corner points share 2 of the same points as its own.
         Determines if the other cell is bordering itself
 
         Args:
