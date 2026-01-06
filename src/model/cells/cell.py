@@ -1,5 +1,6 @@
 import itertools
 
+
 class Cell:
     """
     Represents a cell of any type, parent class
