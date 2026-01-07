@@ -8,7 +8,7 @@ class Point:
         _x (int): x coordinate of this point
         _y (int): y coordinate of this point
     """
-    def __init__(self,cord):
+    def __init__(self, cord):
         self._x = cord[0]
         self._y = cord[1]
 
