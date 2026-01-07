@@ -10,11 +10,9 @@ class Triangle(Cell):
         corner_points (list[Point]): Instances of the class Point
         neighbor_ids (list[int]): IDs of bordering cells.
     """
-    def __init__(self, cell_id, corner_points, neighbor_ids):
-        super().__init__(cell_id)
+    def __init__(self, corner_points):
         super().__init__(corner_points)
-        super().__init__(neighbor_ids)
-        self.midpoint = -1
+        self.midpoint = None
 
 
     def check_neighbour(self, test_corner_points):
@@ -40,7 +38,7 @@ class Triangle(Cell):
         Returns:
              list[int]: Midpoint of the cell, x, y coordinates.
         """
-        if self.midpoint == -1:
+        if self.midpoint is None:
             self.calculate_midpoint()
 
         return self.midpoint
@@ -56,13 +54,11 @@ class Triangle(Cell):
         y_coordinates = []
 
         for point in self.corner_points:
-            x_coordinates.append(point.get_x_coordinate)
-            x_coordinates.append(point.get_y_coordinate)
+            x_coordinates.append(point.get_x_coordinate())
+            y_coordinates.append(point.get_y_coordinate())
 
-        x_mid = 1/3 * sum(x_coordinates)
-        y_mid = 1/3 * sum(y_coordinates)
+        x_mid = sum(x_coordinates) / 3
+        y_mid = sum(y_coordinates) / 3
 
         self.midpoint =  [x_mid, y_mid]
-
-
 
