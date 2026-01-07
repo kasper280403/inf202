@@ -37,9 +37,6 @@ for triangle in triangles:
 triangle20 = triangle_list[19]
 
 
-
-#need method for borders as well
-
 '''
 Mål: 
 - Generere slik at alt her blir til en klasse. 
@@ -50,8 +47,6 @@ Factory som skiller om det er border element eller noe midt inni
 
 Alt er i samme factory, dette er bare ulike metoder.
 
-
-
 '''
 
 """
@@ -59,7 +54,6 @@ A factory class with multiple metods.
 Goal - Achieve to implement, point, triangle and border factories.
 
 """
-
 
 class Factory:
     def __init__(self, points, triangle, lines):
