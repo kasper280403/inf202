@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class CreateImage():
+    """
+    Class to print out triangles in a mesh
+    """
     def __init__(self,TriangleList):
         self._triangles = TriangleList #get a list of triangles can be done multiple ways
         self._umax = 1
