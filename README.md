@@ -9,7 +9,7 @@ Software to simulate an oil spill in the ocean at the coast of a fictional town.
 
 ## 📥 Download & Run
 
-Download the latest release from [Github](https://github.com/kasper280403/inf202)  
+Download the latest release from [GitHub](https://github.com/kasper280403/inf202)  
 Or clone with ssh `git@github.com:kasper280403/inf202.git`
 
 ### ✅ Run the program
@@ -41,6 +41,10 @@ git push (pushes to github)
 ---
 
 ## 🧪 Run Tests
+
+```bash
+  pytest tests/
+```
 
 ---
 
