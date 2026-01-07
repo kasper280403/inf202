@@ -60,12 +60,17 @@ Goal - Achieve to implement, point, triangle and border factories.
 
 """
 
+
 class Factory:
     def __init__(self, points, triangle, lines):
-        self.points = point_list
-        self.triangles = triangle_list
-        self.lines = line_list
+        self.points = points
+        self.triangles = triangles
+        self.lines = lines
         
 
     def get_point_list(self):
         return self.point_list
+
+    def get_triangle_list(self):
+        return self.triangle_list
+    
