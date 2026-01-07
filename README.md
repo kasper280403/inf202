@@ -14,9 +14,18 @@ Or clone with ssh `git@github.com:kasper280403/inf202.git`
 
 ### ✅ Run the program
 
+Works on **Windows, macOS, and Linux**.
+
+#### macOS / Linux (bash)
 ```bash
     python3 src/model/main.py
 ```
+
+#### Windows (PowerShell)
+```powershell
+  python3 src/model/main.py
+```
+
 ---
 ## 🛠️ Development
 
@@ -42,9 +51,17 @@ git push (pushes to github)
 
 ## 🧪 Run Tests
 
+#### macOS / Linux (bash)
 ```bash
   pytest tests/
 ```
+
+#### Windows (PowerShell)
+```powershell
+  pytest tests/
+```
+
+
 
 ---
 
