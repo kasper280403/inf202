@@ -16,7 +16,6 @@ class Triangle(Cell):
         super().__init__(neighbor_ids)
         self.midpoint = -1
 
-
     def check_neighbour(self, test_corner_points):
         """
         Cheks if a set of corner points share 2 of the same points as its own.
@@ -44,7 +43,6 @@ class Triangle(Cell):
             self.calculate_midpoint()
 
         return self.midpoint
-
 
     def calculate_midpoint(self):
         """
