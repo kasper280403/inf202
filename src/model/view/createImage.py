@@ -19,7 +19,7 @@ class CreateImage():
         plt.colorbar(sm, cax=cbar_ax, label='c')
 
         for i in self._triangles:
-            plt.gca().add_patch(plt.Polygon(i.get_coordinates(), color=plt.cm.viridis((u - umin)/(umax - umin)), alpha=0.9))
+            plt.gca().add_patch(plt.Polygon(i.get_coordinates(), color=plt.cm.viridis((self._u - self._umin)/(self._umax - self._umin)), alpha=0.9))
         # Add labels to axes
         plt.xlabel('a')
         plt.ylabel('b')
