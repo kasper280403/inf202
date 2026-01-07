@@ -9,6 +9,10 @@ class Triangle(Cell):
         id (int): Unique identifier of the cell.
         corner_points (list[Point]): Instances of the class Point
         neighbor_ids (list[int]): IDs of bordering cells.
+        oil_value (float): The amount of oil in that cell.
+
+    Attributes(exclusive to Triangle):
+        midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
     """
     def __init__(self, corner_points):
         super().__init__(corner_points)
