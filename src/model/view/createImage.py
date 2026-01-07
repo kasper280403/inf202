@@ -7,7 +7,7 @@ umin = 0
 
 u = 0.0 # used for different colors
 
-Triangles = Mesh.get_triangles()
+Triangles = Mesh.get_triangles() #get a list of triangles can be done multiple ways
 # Plot the mesh by adding all triangles with their value
 plt.figure()
 
@@ -34,6 +34,6 @@ plt.ylim(0, 1)  # set the y-axis limits
 plt.gca().set_aspect('equal')
 
 # Show plot
-plt.savefig(f"img_test.png")
+plt.savefig("img.png")
 
 plt.close()
