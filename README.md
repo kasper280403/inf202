@@ -9,7 +9,8 @@ Software to simulate an oil spill in the ocean at the coast of a fictional town.
 
 ## 📥 Download & Run
 
-Download the latest release from....
+Download the latest release from [Github](https://github.com/kasper280403/inf202)  
+Or clone with ssh `git@github.com:kasper280403/inf202.git`
 
 ### ✅ Run the Game
 
@@ -21,9 +22,9 @@ Download the latest release from....
 
 ### Clone the Repository
 
-```bash
-git clone SSH-LINK
-cd FILENAME
+```
+git clone git@github.com:kasper280403/inf202.git
+cd inf202
 ```
 ### Git commands
 ```
@@ -79,28 +80,32 @@ def calculate_average(values):
 ## 🧱 Project Structure
 
 ```
-pythonTemplate/
-├── src/
-│   ├── main/
-│   │   ├── main.py
-│   │   ├── resource_getter.py
-│   │   └── user_input.py
-│   └── resources/
-├── tests/
+inf202/
 ├── README.md
 ├── requirements.txt
-└── .gitignore
+├── src/
+│   ├── model/
+│   │   ├── cells/
+│   │   │   ├── cell.py
+│   │   │   └── triangle.py
+│   │   ├── main.py
+│   │   └── points/
+│   │       └── point.py
+│   └── resources/
+│       └── resources.txt
+└── tests/
+    └── test.txt
 ```
 
 ---
 
-## 👤 Author(s)
+## 👤 Authors
 
 **Kasper S. Karlsen**  [GitHub Profile](https://github.com/kasper280403)  
 **Harald A. Søvde**    [GitHub Profile](https://github.com/haraldsovde-crypto)  
 **Fredrik Tveter**    [GitHub Profile](https://github.com/fredriktvet)  
-_Developed for NMBU/inf202 at NMBU_
 
+_Developed for NMBU/inf202 at NMBU_
 
 ---
 
