@@ -28,5 +28,3 @@ class Cell:
 
     def add_neighbor(self, neighbor_id):
         self.neighbor_ids.append(neighbor_id)
-
-
