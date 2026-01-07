@@ -9,21 +9,51 @@ Software to simulate an oil spill in the ocean at the coast of a fictional town.
 
 ## 📥 Download & Run
 
+###  Download
+
 Download the latest release from [GitHub](https://github.com/kasper280403/inf202)  
 Or clone with ssh `git@github.com:kasper280403/inf202.git`
 
-### ✅ Run the program
+###  Run the program
+*Works on **Windows, macOS, and Linux**.*
 
-Works on **Windows, macOS, and Linux**.
+The setup is recommended, if you do not want to, or have 
+already done it skip ahead to the run part.
 
-#### macOS / Linux (bash)
+### Setup (recommended)
+
+#### 1) Create venv
+```bash
+   python -m venv .venv
+```
+
+#### 2) Activate the virtual environment:
+
+   macOS / Linux:
+   ```bash
+     source .venv/bin/activate
+   ```
+   
+   Windows:
+   ```powershell
+      .venv\Scripts\Activate.ps1
+   ```
+
+#### 3) Install dependencies:
+```bash
+   python -m pip install -r requirements.txt
+```
+
+### Run
+
+macOS / Linux (bash)
 ```bash
     python3 src/model/main.py
 ```
 
-#### Windows (PowerShell)
+Windows (PowerShell)
 ```powershell
-  python3 src/model/main.py
+  python src/model/main.py
 ```
 
 ---
@@ -58,7 +88,7 @@ git push (pushes to github)
 
 #### Windows (PowerShell)
 ```powershell
-  pytest tests/
+  python -m pytest tests/
 ```
 
 
