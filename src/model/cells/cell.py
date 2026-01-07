@@ -9,6 +9,7 @@ class Cell:
         cell_id (int): The cells id
         corner_points (list[Point]): Instances of the class Point
         neighbor_ids (list[int]): IDs of bordering cells.
+        oil_value (float): The amount of oil in that cell.
     """
     id_counter = itertools.count()
 
@@ -16,6 +17,7 @@ class Cell:
         self.cell_id = next(self.id_counter)
         self.corner_points = corner_points
         self.neighbor_ids = []
+        self.oil_value = 0.0
 
     def get_id(self):
         return self.cell_id
@@ -26,5 +28,9 @@ class Cell:
     def get_neighbor_id(self):
         return self.neighbor_ids
 
+    def get_oil_value(self):
+        return self.oil_value
+
     def add_neighbor(self, neighbor_id):
         self.neighbor_ids.append(neighbor_id)
+
