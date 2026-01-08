@@ -1,35 +1,6 @@
 import meshio
 from pathlib import Path
 
-from src.resources.mesh_import import Mesh
-from src.model.points.point import Point
-from src.model.cells.triangle import Triangle
-
-mesh_path = Path(__file__).parent.parent/"resources"
-mesh = meshio.read(mesh_path/"bay.msh")
-
-lines = mesh.cells_dict["line"]
-
-
-
-
-'''
-Mål: 
-- Generere slik at alt her blir til en klasse. 
-- Vil hente ut det som er her ved å kalle p_list = FactoryScript.get_point_list() foreks
-
-Factory som lager border elementer
-Factory som skiller om det er border element eller noe midt inni
-
-Alt er i samme factory, dette er bare ulike metoder.
-
-'''
-
-"""
-A factory class with multiple metods. 
-Goal - Achieve to implement, point, triangle and border factories.
-
-"""
 
 class Factory:
     def __init__(self, mesh_name):
