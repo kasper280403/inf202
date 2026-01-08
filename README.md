@@ -131,10 +131,13 @@ def calculate_average(values):
 ## 🧱 Project Structure
 
 ```
+inf202
 ├── README.md
 ├── requirements.in
 ├── requirements.txt
 ├── src/
+│   ├── __init__.py
+│   ├── main.py
 │   ├── model/
 │   │   ├── __init__.py
 │   │   ├── cells/
@@ -142,12 +145,17 @@ def calculate_average(values):
 │   │   │   ├── border.py
 │   │   │   ├── cell.py
 │   │   │   └── triangle.py
-│   │   ├── main.py
+│   │   ├── factory/
+│   │   │   ├── __init__.py
+│   │   │   └── factory.py
 │   │   ├── points/
+│   │   │   ├── __init__.py
 │   │   │   └── point.py
 │   │   └── view/
+│   │       ├── __init__.py
 │   │       └── createImage.py
 │   └── resources/
+│       ├── bay.msh
 │       └── resources.txt
 └── tests/
     └── test.txt
