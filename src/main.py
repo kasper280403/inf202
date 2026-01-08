@@ -5,24 +5,19 @@ from model.point.point import Point
 from model.cells.cell import Cell
 from model.cells.triangle import Triangle
 from model.cells.border import Border
-
-
+from src.model.view import createImage
 
 mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
-
 mesh = meshio.read(mesh_path)
 
-points = mesh.points
+
+point_cells = [] # list with Point
+for point in mesh.points:
+    point_cells.append(Point(point))
 
 factory = Factory()
 
-point_cells = [] # list with Point
-
-for point in points:
-    point_cells.append(Point(point))
-
 triangle_cells = [] # list with instances of Triangle
-
 for m in mesh.cells:
     if m.type == "triangle":
         for t in m.data:
@@ -35,6 +30,8 @@ for m in mesh.cells:
                 ]
             )
             triangle_cells.append(triangle_cell)
+
+
 
 
 
