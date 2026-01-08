@@ -2,3 +2,4 @@ matplotlib
 meshio
 numpy
 abc
+pathlib
