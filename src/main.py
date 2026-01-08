@@ -7,7 +7,7 @@ from model.point.point import Point
 from model.cells.cell import Cell
 from model.cells.triangle import Triangle
 from model.cells.border import Border
-from src.model.view import createImage
+from model.view.createImage import CreateImage
 
 mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
 mesh = meshio.read(mesh_path)
@@ -37,3 +37,17 @@ for m in mesh.cells:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+image = CreateImage(triangle_cells)
+image.plot_Triangles()
+#image.save_img("resources/output/image.png")
