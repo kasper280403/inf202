@@ -1,7 +1,7 @@
 import itertools
+from abc import ABC, abstractmethod
 
-
-class Cell:
+class Cell(ABC):
     """
     Represents a cell of any type, parent class
 
