@@ -22,20 +22,6 @@ for point in points:
     point_list.append(x)
 #-----------------------------
 
-#method----------------------------------
-triangles = mesh.cells_dict["triangle"]
-triangle_list = []
-
-for triangle in triangles:
-    l = []
-    for point_id in triangle:
-        l.append(point_list[point_id])
-    x = Triangle(l)
-    triangle_list.append(x)
-
-#------------------------------------
-triangle20 = triangle_list[19]
-
 
 '''
 Mål: 
@@ -56,15 +42,26 @@ Goal - Achieve to implement, point, triangle and border factories.
 """
 
 class Factory:
-    def __init__(self, points, triangle, lines):
-        self.points = points
-        self.triangles = triangles
-        self.lines = lines
-        
+    def __init__(self, mesh_name):
+        self.mesh = meshio.read(Path(__file__).parent.parent/mesh_name)
+        self.triangle_list = None
 
     def get_point_list(self):
         return self.point_list
 
     def get_triangle_list(self):
         return self.triangle_list
+
+    def create_triangles(self):
+        triangles = self.mesh.cells_dict["triangle"]
+        triangle_list = []
+
+        for triangle in triangles:
+            l = []
+            for point_id in triangle:
+                l.append(point_list[point_id])
+            x = Triangle(l)
+            triangle_list.append(x)
+
+        self.triangle_list = triangle_list
     
