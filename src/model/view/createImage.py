@@ -21,7 +21,7 @@ class CreateImage():
 
         # Create the colormap
         sm = plt.cm.ScalarMappable(cmap='viridis')
-        sm.set_array([self._umin, self._umin])
+        sm.set_array([self._umin, self._umax])
 
         cbar_ax = plt.gca().inset_axes([1, 0, 0.05, 1])  # adjust position and size as needed
         plt.colorbar(sm, cax=cbar_ax, label='Oil level')

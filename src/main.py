@@ -45,9 +45,7 @@ for m in mesh.cells:
 
 
 
-
-
-
+#triangle_cells[1].set_oil_value(1.0)
 image = CreateImage(triangle_cells)
 image.plot_Triangles()
 #image.save_img("resources/output/image.png")
