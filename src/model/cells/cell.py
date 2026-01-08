@@ -18,6 +18,7 @@ class Cell:
         self.corner_points = corner_points
         self.neighbor_ids = []
         self.oil_value = 0.0
+        self.type = None
 
     def get_id(self):
         return self.cell_id
