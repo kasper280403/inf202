@@ -1,7 +1,7 @@
 import itertools
+from abc import ABC, abstractmethod
 
-
-class Cell:
+class Cell(ABC):
     """
     Represents a cell of any type, parent class
 
@@ -18,6 +18,7 @@ class Cell:
         self.corner_points = corner_points
         self.neighbor_ids = []
         self.oil_value = 0.0
+        self.type = None
 
     def get_id(self):
         return self.cell_id
@@ -30,6 +31,9 @@ class Cell:
 
     def get_oil_value(self):
         return self.oil_value
+
+    def get_type(self):
+        return self.type
 
     def add_neighbor(self, neighbor_id):
         self.neighbor_ids.append(neighbor_id)
