@@ -32,6 +32,9 @@ class Cell:
     def get_oil_value(self):
         return self.oil_value
 
+    def get_type(self):
+        return self.type
+
     def add_neighbor(self, neighbor_id):
         self.neighbor_ids.append(neighbor_id)
 

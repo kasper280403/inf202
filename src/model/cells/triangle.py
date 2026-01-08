@@ -20,9 +20,6 @@ class Triangle(Cell):
         self.type = "triangle"
         self.midpoint = None
 
-    def get_type(self):
-        return self.type
-
     def get_midpoint(self):
         """
         Getter for the midpoint of the cell.
