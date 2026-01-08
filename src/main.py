@@ -30,13 +30,24 @@ for m in mesh.cells:
 
 
 
-def set_inital_oil_values(center_point, triangle):
-    center_point = [0.35, 0.45]
-    midpoint = triangle.get_midpoint()
+def set_initial_oil_value(center_point, tri):
 
+    midpoint = tri.get_midpoint()
     distance =  (midpoint[0] - center_point[0])**2 + (midpoint[1] - center_point[1])**2
+    tri.set_oil_value(np.exp(-distance/0.01))
 
-    return np.exp(-distance/0.01)
+
+
+
+for triangle in triangle_cells:
+    set_initial_oil_value([0.35, 0.45],triangle)
+
+
+
+
+
+
+
 
 
 
