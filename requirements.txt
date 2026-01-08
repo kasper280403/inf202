@@ -28,6 +28,8 @@ numpy==2.4.0
     #   meshio
 packaging==25.0
     # via matplotlib
+pathlib==1.0.1
+    # via -r requirements.in
 pillow==12.1.0
     # via matplotlib
 pygments==2.19.2
