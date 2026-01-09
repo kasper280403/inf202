@@ -40,17 +40,6 @@ controller.set_neighbours()
 
 
 
-for triangle in triangle_cells:
-    for n_triangle in triangle_cells:
-        if triangle.check_neighbour(n_triangle.get_corner_points()):
-            triangle.add_neighbor(n_triangle)
-
-
-with open("resources/oil_distribution/oil.bin", "ab") as f:
-    pickle.dump((currenttimestep, timestep), f, protocol=pickle.HIGHEST_PROTOCOL)
-
-
-
 
 
 
