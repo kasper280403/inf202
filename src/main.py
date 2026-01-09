@@ -59,12 +59,17 @@ def set_initial_oil_value(center_point, tri):
 
 for triangle in triangle_cells:
     set_initial_oil_value([0.35, 0.45],triangle)
+max_oil = 0
+for triangle in triangle_cells:
+    if triangle.get_oil_value() > max_oil:
+        max_oil = triangle.get_oil_value()
+        triangle_max = triangle
 
-
-
-
-
+print(max_oil)
+fishing_ground = [[0.0, 0.0, 0.45, 0.45, 0.0],[0.0, 0.2, 0.2, 0.0, 0.0]]
 #triangle_cells[1].set_oil_value(1.0)
 image = CreateImage(triangle_cells)
 image.plot_Triangles()
+image.plot_line(fishing_ground)
+image.show_img()
 #image.save_img("resources/output/image.png")
