@@ -43,4 +43,9 @@ class Controller:
                 elif triangle.check_neighbour(other.get_corner_points()):
                     triangle.add_neighbor(other)
 
+            if triangle.get_n_neighbors() < 3:
+                triangle.finalize_neighbors()
+
+
+
 

@@ -72,3 +72,26 @@ class Triangle(Cell):
             return p1, p2
 
         return None
+
+    def finalize_neighbors(self):
+
+        used_edges = set(
+            frozenset((p1, p2))
+            for _, p1, p2 in self.neighbors
+        )
+
+        for p1, p2 in self.edges():
+            edge_key = frozenset((p1, p2))
+
+            if edge_key not in used_edges:
+                self.neighbors.append((None, p1, p2))
+
+        assert len(self.neighbors) == 3
+
+    def edges(self):
+        p1, p2, p3 = self.corner_points
+        return [
+            (p1, p2),
+            (p2, p3),
+            (p3, p1),
+        ]
