@@ -6,6 +6,8 @@ from model.view.createImage import CreateImage
 import numpy as np
 import pickle
 
+from src.controller import Controller
+
 with open("resources/oil_distribution/oil.bin", "wb"):
     pass
 
@@ -33,26 +35,14 @@ for m in mesh.cells:
             )
             triangle_cells.append(triangle_cell)
 
+controller = Controller(triangle_cells, [0.35, 0.45])
 
-
-def set_initial_oil_value(center_point, tri, timestep):
-
-    midpoint = tri.get_midpoint()
-    distance =  (midpoint[0] - center_point[0])**2 + (midpoint[1] - center_point[1])**2
-    oil_value = np.exp(-distance/0.01)
-    tri.set_oil_value(oil_value)
-    timestep[tri.get_id()] = oil_value
+controller.set_initial_oil_values()
 
 
 
 
 
-
-currenttimestep = 0
-timestep={}
-
-for triangle in triangle_cells:
-    set_initial_oil_value([0.35, 0.45],triangle, timestep)
 
     for n_triangle in triangle_cells:
         if triangle.check_neighbour(n_triangle.get_corner_points()):

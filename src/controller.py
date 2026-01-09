@@ -6,6 +6,7 @@ class Controller:
         self.triangle_list = triangle_list
         self.center_point = center_point
         self.timeline = []
+        self.timestep = 0
 
     def set_initial_oil_values(self):
         value_dict = {}
@@ -18,3 +19,12 @@ class Controller:
             value_dict[triangle.get_id] = oil_value
 
         self.timeline.append(value_dict)
+
+    def update_timestep(self):
+        self.timestep += 1
+
+    def update_oil_values(self):
+        for triangle in self.triangle_list:
+            cell_id = triangle.get_id()
+            oil_value = self.timeline[self.timestep].get(cell_id)
+            triangle.set_oil_value(oil_value)
