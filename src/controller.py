@@ -46,6 +46,11 @@ class Controller:
             if triangle.get_n_neighbors() < 3:
                 triangle.finalize_neighbors()
 
+    def calculate_timestep(self):
+        None
+
+
+
 
 
 
