@@ -3,17 +3,11 @@ import meshio
 from model.factory.factory import Factory
 from model.point.point import Point
 from model.view.createImage import CreateImage
-import numpy as np
-import pickle
-
 from src.controller import Controller
 
-with open("resources/oil_distribution/oil.bin", "wb"):
-    pass
 
 mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
 mesh = meshio.read(mesh_path)
-
 
 point_cells = [] # list with Point
 for point in mesh.points:
@@ -39,18 +33,10 @@ controller = Controller(triangle_cells, [0.35, 0.45])
 
 controller.set_initial_oil_values()
 
+controller.set_neighbours()
 
 
 
-
-for triangle in triangle_cells:
-    for n_triangle in triangle_cells:
-        if triangle.check_neighbour(n_triangle.get_corner_points()):
-            triangle.add_neighbor(n_triangle)
-
-
-with open("resources/oil_distribution/oil.bin", "ab") as f:
-    pickle.dump((currenttimestep, timestep), f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 
