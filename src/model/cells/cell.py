@@ -1,5 +1,6 @@
 import itertools
 from abc import ABC, abstractmethod
+import pickle
 
 class Cell(ABC):
     """
@@ -40,4 +41,6 @@ class Cell(ABC):
 
     def set_oil_value(self, oil_value):
         self.oil_value = oil_value
+
+
 

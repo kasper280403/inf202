@@ -3,3 +3,4 @@ meshio
 numpy
 abc
 pathlib
+pickle
