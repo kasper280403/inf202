@@ -44,7 +44,7 @@ class CreateImage():
 
     def plot_line(self,line):
         self._plot.plot(line[0],line[1], linewidth = 2, color = 'red')
-        self._plot.text(line[1][0],line[1][1]+0.05, 'Fishing grounds', color ='red')
+        self._plot.text(line[1][0],line[1][1]+0.02, 'Fishing grounds', color ='red')
 
     def show_img(self):
         self._plot.show()
