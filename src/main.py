@@ -4,10 +4,8 @@ import pathlib
 import meshio
 from model.factory.factory import Factory
 from model.point.point import Point
-from model.cells.cell import Cell
-from model.cells.triangle import Triangle
-from model.cells.border import Border
 from model.view.createImage import CreateImage
+import numpy as np
 
 mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
 mesh = meshio.read(mesh_path)
@@ -35,11 +33,32 @@ for m in mesh.cells:
 
 
 
+def set_initial_oil_value(center_point, tri):
+
+    midpoint = tri.get_midpoint()
+    distance =  (midpoint[0] - center_point[0])**2 + (midpoint[1] - center_point[1])**2
+    tri.set_oil_value(np.exp(-distance/0.01))
 
 
 
 
+for triangle in triangle_cells:
+    set_initial_oil_value([0.35, 0.45],triangle)
 
+
+
+
+def set_initial_oil_value(center_point, tri):
+
+    midpoint = tri.get_midpoint()
+    distance =  (midpoint[0] - center_point[0])**2 + (midpoint[1] - center_point[1])**2
+    tri.set_oil_value(np.exp(-distance/0.01))
+
+
+
+
+for triangle in triangle_cells:
+    set_initial_oil_value([0.35, 0.45],triangle)
 
 
 
