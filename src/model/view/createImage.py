@@ -39,13 +39,14 @@ class CreateImage():
         plt.xlim(0, 1)  # set the x-axis limits
         plt.ylim(0, 1)  # set the y-axis limits
         plt.gca().set_aspect('equal')
-        plt.gca().set_facecolor('green')
+        #plt.gca().set_facecolor('green')
         # Show plot
         self._plot = plt
 
-    def plot_line(self,line):
+    def plot_line(self,line,print_txt = False):
         self._plot.plot(line[0],line[1], linewidth = 2, color = 'red')
-        self._plot.text(line[1][0],line[1][1]+0.02, 'Fishing grounds', color ='red')
+        if print_txt == True:
+            self._plot.text(line[1][0],line[1][1]+0.02, 'Fishing grounds', color ='red')
 
     def show_img(self):
         self._plot.show()

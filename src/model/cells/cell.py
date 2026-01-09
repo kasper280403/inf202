@@ -19,6 +19,7 @@ class Cell(ABC):
         self.neighbor_ids = []
         self.oil_value = 0.0
         self.type = None
+        self.norm = []
 
     def get_id(self):
         return self.cell_id
@@ -40,4 +41,7 @@ class Cell(ABC):
 
     def set_oil_value(self, oil_value):
         self.oil_value = oil_value
+
+    def get_norm(self):
+        return self.norm
 
