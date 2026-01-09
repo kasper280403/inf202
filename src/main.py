@@ -2,6 +2,7 @@ import pathlib
 import meshio
 from model.factory.factory import Factory
 from model.point.point import Point
+from model.view.createImage import CreateImage
 import numpy as np
 import pickle
 
@@ -68,4 +69,10 @@ with open("resources/oil_distribution/oil.bin", "ab") as f:
 
 
 
-
+fishing_ground = [[0.0, 0.0, 0.45, 0.45, 0.0],[0.0, 0.2, 0.2, 0.0, 0.0]]
+#triangle_cells[1].set_oil_value(1.0)
+image = CreateImage(triangle_cells)
+image.plot_Triangles()
+image.plot_line(fishing_ground)
+image.show_img()
+#image.save_img("resources/output/image.png")
