@@ -29,4 +29,12 @@ class Controller:
             oil_value = self.timeline[self.timestep].get(cell_id)
             triangle.set_oil_value(oil_value)
 
+    def set_neighbours(self):
+        for triangle in self.triangle_list:
+
+            p1, p2, p3 = triangle.get_neighbors()
+
+            n_neighbours = 0
+
+            while n_neighbours < 3:
 

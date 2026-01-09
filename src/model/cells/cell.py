@@ -29,6 +29,12 @@ class Cell(ABC):
     def get_neighbors(self):
         return self.neighbors
 
+    def get_n_neighbors(self):
+        return len(self.neighbors)
+
+    def get_oil_value(self):
+        return self.oil_value
+
     def get_oil_value(self):
         return self.oil_value
 
