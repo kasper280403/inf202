@@ -14,6 +14,7 @@ class Triangle(Cell):
     Attributes(exclusive to Triangle):
         midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
         flow (list[float]): Flow of the water at the midpoint.
+        area (float): Area of the triangle.
     """
 
     def __init__(self, corner_points):
@@ -21,6 +22,7 @@ class Triangle(Cell):
         self.type = "triangle"
         self.midpoint = None
         self.flow = None
+        self.area = None
 
     def get_midpoint(self):
         """
@@ -98,7 +100,6 @@ class Triangle(Cell):
             (p3, p1),
         ]
 
-
     def get_flow(self):
         if self.flow is None:
             self.calculate_flow()
@@ -111,3 +112,20 @@ class Triangle(Cell):
         flow_y = - midpoint[1]
 
         self.flow = [flow_x, flow_y]
+
+    def get_area(self):
+        if self.area is None:
+            self.calculate_area()
+
+        return self.area
+
+    def calculate_area(self):
+
+        x1, y1 = self.corner_points[0].get_x_coordinates()
+        x2, y2 = self.corner_points[1].get_x_coordinates()
+        x3, y3 = self.corner_points[2].get_x_coordinates()
+
+        area = x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y1)
+        area = area / 2
+
+        self.area = area
