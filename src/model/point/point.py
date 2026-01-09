@@ -22,7 +22,7 @@ class Point:
         return self._x
     
     def __hash__(self):
-        hash((self._x, self._y))
+        return hash((self._x, self._y))
 
     def __str__(self):
         return f"Point with coordinates x = {self._x}, y = {self._y}"

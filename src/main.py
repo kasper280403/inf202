@@ -43,11 +43,19 @@ def set_initial_oil_value(center_point, tri, timestep):
     timestep[tri.get_id()] = oil_value
 
 
+
+
+
+
 currenttimestep = 0
 timestep={}
 
 for triangle in triangle_cells:
     set_initial_oil_value([0.35, 0.45],triangle, timestep)
+
+    for n_triangle in triangle_cells:
+        if triangle.check_neighbour(n_triangle.get_corner_points()):
+            triangle.add_neighbor(n_triangle)
 
 
 with open("resources/oil_distribution/oil.bin", "ab") as f:
