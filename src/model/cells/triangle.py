@@ -1,4 +1,4 @@
-from model.cells.cell import Cell
+from src.model.cells.cell import Cell
 
 
 class Triangle(Cell):
@@ -51,17 +51,24 @@ class Triangle(Cell):
 
         self.midpoint = [x_mid, y_mid]
 
-    def check_neighbour(self, test_corner_points):
+    def check_neighbour(self, other_corner_points):
         """
         Cheks if a set of corner points share 2 of the same points as its own.
         Determines if the other cell is bordering itself
 
         Args:
             self.corner_pointd(list[Point]): List with the instances of Point
-            test_corner_points(list[Point]): List with instances of Point for the other cells. .
+            other_corner_points(list[Point]): List with instances of Point for the other cells. .
 
         Returns:
-            bool: True if the cell is bordering itself
+            p1, p2: Instances of the class Point
+            if false return None
         """
 
-        return len(set(self.corner_points) & set(test_corner_points)) == 2
+        shared = set(self.corner_points) & set(other_corner_points)
+
+        if len(shared) == 2:
+            p1, p2 = tuple(shared)
+            return p1, p2
+
+        return None
