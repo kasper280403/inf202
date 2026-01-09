@@ -48,6 +48,16 @@ class CreateImage():
         if print_txt == True:
             self._plot.text(line[1][0],line[1][1]+0.02, 'Fishing grounds', color ='red')
 
+    def plot_normals(self,triangle):
+        norm = triangle.get_norm()
+        for i in range(3):
+            p1 = triangle.corner_points[i].get_coordinates()
+            p2 = triangle.corner_points[(i+1)%3].get_coordinates()
+            midt = [(p1[0]+p2[0])/2.0,(p1[1]+p2[1])/2.0]
+            self._plot.arrow(midt[0], midt[1], norm[i][0], norm[i][1], head_width=0.02, head_length=0.01, fc='red', ec='red')
+            
+            
+
     def show_img(self):
         self._plot.show()
 

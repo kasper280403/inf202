@@ -75,6 +75,7 @@ class Triangle(Cell):
             normal = np.cross(line_vec,[0,0,1])[0:2]
             midt_p1 = [p1[0]-self.get_midpoint()[0], p1[1]-self.get_midpoint()[1]]
             theta = np.arccos(np.inner(normal, midt_p1) / (np.linalg.norm(normal) * np.linalg.norm(midt_p1)))
+            #print(np.arccos(np.inner(normal, line_vec[0:2]) / (np.linalg.norm(line_vec[0:2]) * np.linalg.norm(midt_p1)))/(2*np.pi)*360)
             if theta > np.pi/2:
                 normal = normal *(-1)
             self.norm.append(normal)
