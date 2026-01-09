@@ -28,3 +28,5 @@ class Controller:
             cell_id = triangle.get_id()
             oil_value = self.timeline[self.timestep].get(cell_id)
             triangle.set_oil_value(oil_value)
+
+

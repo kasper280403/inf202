@@ -20,7 +20,12 @@ class Point:
     
     def get_x_coordinate(self) -> float:
         return self._x
-    
+
+    def __eq__(self, other):
+        if not isinstance(other, Point):
+            return NotImplemented
+        return self._x == other._x and self._y == other._y
+
     def __hash__(self):
         return hash((self._x, self._y))
 

@@ -43,7 +43,7 @@ controller.set_initial_oil_values()
 
 
 
-
+for triangle in triangle_cells:
     for n_triangle in triangle_cells:
         if triangle.check_neighbour(n_triangle.get_corner_points()):
             triangle.add_neighbor(n_triangle)
