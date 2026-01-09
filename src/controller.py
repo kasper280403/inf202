@@ -42,5 +42,3 @@ class Controller:
                     break
                 elif triangle.check_neighbour(other.get_corner_points()):
                     triangle.add_neighbor(other)
-
-

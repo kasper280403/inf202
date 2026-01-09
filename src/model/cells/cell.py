@@ -1,6 +1,7 @@
 import itertools
 from abc import ABC
 
+
 class Cell(ABC):
     """
     Represents a cell of any type, parent class
@@ -46,6 +47,3 @@ class Cell(ABC):
 
     def has_point(self, point):
         return point in self.corner_points
-
-
-

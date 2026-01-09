@@ -2,8 +2,8 @@ from model.cells.cell import Cell
 from model.cells.triangle import Triangle
 from model.cells.border import Border
 
-class Factory:
 
+class Factory:
     _registry = {
         "triangle": Triangle,
         "border": Border,
@@ -15,5 +15,3 @@ class Factory:
             return Factory._registry[cell_type](**kwargs)
         except ValueError:
             raise ValueError("Unknown cell type '{}'".format(cell_type))
-
-
