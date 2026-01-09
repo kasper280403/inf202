@@ -9,6 +9,11 @@ Icon
 # Thumbnails
 ._*
 
+# Byte-code files
+*.pyc
+__pycache__/
+*.whl
+
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
