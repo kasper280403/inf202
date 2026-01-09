@@ -3,16 +3,13 @@ import meshio
 from model.factory.factory import Factory
 from model.point.point import Point
 from model.view.createImage import CreateImage
-
 from src.controller import Controller
 
-with open("resources/oil_distribution/oil.bin", "wb"):
-    pass
 
 mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
 mesh = meshio.read(mesh_path)
 
-point_cells = []  # list with Point
+point_cells = [] # list with Point
 for point in mesh.points:
     point_cells.append(Point(point))
 
@@ -37,6 +34,8 @@ controller = Controller(triangle_cells, [0.35, 0.45])
 controller.set_initial_oil_values()
 
 controller.set_neighbours()
+
+
 
 fishing_ground = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
 # triangle_cells[1].set_oil_value(1.0)
