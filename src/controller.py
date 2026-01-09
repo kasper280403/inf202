@@ -30,11 +30,17 @@ class Controller:
             triangle.set_oil_value(oil_value)
 
     def set_neighbours(self):
+
         for triangle in self.triangle_list:
+            for other in self.triangle_list:
 
-            p1, p2, p3 = triangle.get_neighbors()
+                if triangle is other:
+                    continue
+                elif triangle.get_n_neighbors() == 3:
+                    break
+                elif other.get_n_neighbors() == 3:
+                    break
+                elif triangle.check_neighbour(other.get_corner_points()):
+                    triangle.add_neighbor(other)
 
-            n_neighbours = 0
-
-            while n_neighbours < 3:
 
