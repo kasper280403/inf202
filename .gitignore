@@ -42,4 +42,9 @@ Temporary Items
 *.vscode
 .idea/
 
-__pycache__
+
+# pycache folder
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
