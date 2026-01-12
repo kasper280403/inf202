@@ -1,6 +1,5 @@
-from model.cells.cell import Cell
-import numpy as np
-
+from src.model.cells.cell import Cell
+from src.model.border.border import Border
 
 class Triangle(Cell):
     """
@@ -14,12 +13,16 @@ class Triangle(Cell):
 
     Attributes(exclusive to Triangle):
         midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
+        flow (list[float]): Flow of the water at the midpoint.
+        area (float): Area of the triangle.
     """
 
     def __init__(self, corner_points):
         super().__init__(corner_points)
         self.type = "triangle"
         self.midpoint = None
+        self.flow = None
+        self.area = None
 
     def get_midpoint(self):
         """
@@ -52,20 +55,98 @@ class Triangle(Cell):
 
         self.midpoint = [x_mid, y_mid]
 
-    def check_neighbour(self, test_corner_points):
+    def check_neighbour(self, other_corner_points):
         """
         Cheks if a set of corner points share 2 of the same points as its own.
         Determines if the other cell is bordering itself
 
         Args:
             self.corner_pointd(list[Point]): List with the instances of Point
-            test_corner_points(list[Point]): List with instances of Point for the other cells. .
+            other_corner_points(list[Point]): List with instances of Point for the other cells. .
 
         Returns:
-            bool: True if the cell is bordering itself
+            p1, p2: Instances of the class Point
+            if false return None
         """
 
-        return len(set(self.corner_points) & set(test_corner_points)) == 2
+        shared = set(self.corner_points) & set(other_corner_points)
+
+        if len(shared) == 2:
+            p1, p2 = tuple(shared)
+            return p1, p2
+
+        return None
+
+    def finalize_neighbors(self):
+
+        used_edges = set(
+            frozenset((p1, p2))
+            for _, p1, p2 in self.neighbors
+        )
+
+        for p1, p2 in self.edges():
+            edge_key = frozenset((p1, p2))
+
+            if edge_key not in used_edges:
+                self.neighbors.append((None, p1, p2))
+
+        assert len(self.neighbors) == 3
+
+    def finalize_borders(self):
+        used_edges = set(
+            frozenset(border.get_points())
+            for border in self.borders
+        )
+
+        for p1, p2 in self.edges():
+            edge_key = frozenset((p1, p2))
+
+            if edge_key not in used_edges:
+                self.borders.append(Border(p1, p2, None))
+
+        assert len(self.borders) == 3
+
+
+    def edges(self):
+        p1, p2, p3 = self.corner_points
+        return [
+            (p1, p2),
+            (p2, p3),
+            (p3, p1),
+        ]
+
+    def get_flow(self):
+        if self.flow is None:
+            self.calculate_flow()
+
+        return self.flow
+
+    def calculate_flow(self):
+        midpoint = self.get_midpoint()
+        flow_x = midpoint[1] - 0.2 * midpoint[0]
+        flow_y = - midpoint[1]
+
+        self.flow = [flow_x, flow_y]
+
+    def get_area(self):
+        if self.area is None:
+            self.calculate_area()
+
+        return self.area
+
+    def calculate_area(self):
+
+        x1, y1 = self.corner_points[0].get_x_coordinates()
+        x2, y2 = self.corner_points[1].get_x_coordinates()
+        x3, y3 = self.corner_points[2].get_x_coordinates()
+
+        area = x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y1)
+        area = area / 2
+
+        self.area = area
+
+
+
     
     def calc_norm(self):
         for i in range(len(self.corner_points)):
