@@ -147,7 +147,7 @@ class Triangle(Cell):
 
 
 
-    
+
     def calc_norm(self):
         for i in range(len(self.corner_points)):
             p1 = self.corner_points[i].get_coordinates()
