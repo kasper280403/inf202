@@ -42,12 +42,13 @@ class Controller:
                     break
                 elif points := triangle.check_neighbour(other.get_corner_points()):
                     triangle.add_neighbor(other, points[0], points[1])
-
-                    triangle.add_neighbor(other, points[2], points[3])
+                    border = Border(points[0], points[1], other)
+                    triangle.add_border(border)
 
 
             if triangle.get_n_neighbors() < 3:
                 triangle.finalize_neighbors()
+                triangle.finalize_borders()
 
     def calculate_timestep(self):
         None

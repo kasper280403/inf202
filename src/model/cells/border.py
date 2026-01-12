@@ -1,24 +1,11 @@
 from src.model.cells.cell import Cell
-import numpy as np
 
-class Border():
 
-    def __init__(self, p1, p2, neighbour):
+class Border(Cell):
+
+    def __init__(self, corner_points):
+        super().__init__(corner_points)
         self.type = "border"
-        self.p1 = p1
-        self.p2 = p2
-        self.neighbour = neighbour
-        self.length = self.calculate_length()
-        self.normal = self.calculate_normal()
-
-
-    def calculate_length(self):
-        d =  np.sqrt((self.p1.get_x_coordinate - self.p2.get_x_coordinate)**2 + (self.p1.get_y_coordinate - self.p2.get_y_coordinate)**2)
-        return abs(d)
-
-    def calculate_normal(self):
-        return None
-
 
 
 

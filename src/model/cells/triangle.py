@@ -1,5 +1,5 @@
 from src.model.cells.cell import Cell
-
+from src.model.border.border import Border
 
 class Triangle(Cell):
     """
@@ -91,6 +91,21 @@ class Triangle(Cell):
                 self.neighbors.append((None, p1, p2))
 
         assert len(self.neighbors) == 3
+
+    def finalize_borders(self):
+        used_edges = set(
+            frozenset(border.get_points())
+            for border in self.borders
+        )
+
+        for p1, p2 in self.edges():
+            edge_key = frozenset((p1, p2))
+
+            if edge_key not in used_edges:
+                self.borders.append(Border(None, p1, p2))
+
+        assert len(self.borders) == 3
+
 
     def edges(self):
         p1, p2, p3 = self.corner_points
