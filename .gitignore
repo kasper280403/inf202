@@ -41,3 +41,10 @@ Temporary Items
 *.sublime-project
 *.vscode
 .idea/
+
+
+# pycache folder
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
