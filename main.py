@@ -1,14 +1,14 @@
 import pathlib
 import meshio
-from model.factory.factory import Factory
-from model.point.point import Point
-from model.view.createImage import CreateImage
-from model.controller import Controller
+from src.model.factory.factory import Factory
+from src.model.point.point import Point
+from src.model.view.createImage import CreateImage
+from src.controller import Controller
 import time
 
 start_time = time.time()  # Timer
 
-mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
+mesh_path = pathlib.Path(__file__).parent / "src" / "resources" / "bay.msh"
 mesh = meshio.read(mesh_path)
 
 point_cells = [] # list with Point

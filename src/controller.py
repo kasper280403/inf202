@@ -1,5 +1,5 @@
 import numpy as np
-from model.border.border import Border
+from src.model.border.border import Border
 
 class Controller:
     def __init__(self, triangle_list, center_point):
