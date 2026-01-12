@@ -17,10 +17,17 @@ class Border:
         return abs(d)
 
     def calculate_normal(self):
-        return None
+        line_vec = self.p2.get_coordinates() - self.p1.get_coordinates()
+        normal = np.cross(line_vec,[0,0,1])[0:2]
+        midt_p1 = self.neighbour.get_midtpoint() - self.p1.get_coordinates()
+        theta = np.arccos(np.inner(normal, midt_p1) / (np.linalg.norm(normal) * np.linalg.norm(midt_p1)))
+        if theta > np.pi/2:
+                normal = normal *(-1)
+        return normal
 
     def get_points(self):
         return [self.p1, self.p2]
 
     def get_neighbour(self):
         return self.neighbour
+
