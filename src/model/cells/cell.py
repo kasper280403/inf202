@@ -20,6 +20,7 @@ class Cell(ABC):
         self.neighbors = []
         self.oil_value = 0.0
         self.type = None
+        self.borders = []
 
     def get_id(self):
         return self.cell_id
@@ -47,3 +48,9 @@ class Cell(ABC):
 
     def has_point(self, point):
         return point in self.corner_points
+
+    def add_border(self, border):
+        self.borders.append(border)
+
+    def get_borders(self):
+        return self.borders
