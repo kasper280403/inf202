@@ -135,12 +135,16 @@ class Triangle(Cell):
         return self.area
 
     def calculate_area(self):
+        p1, p2, p3 = self.corner_points
 
-        x1, y1 = self.corner_points[0].get_x_coordinates()
-        x2, y2 = self.corner_points[1].get_x_coordinates()
-        x3, y3 = self.corner_points[2].get_x_coordinates()
+        x1, y1 = p1.get_x_coordinates(), p1.get_y_coordinates()
+        x2, y2 = p2.get_x_coordinates(), p2.get_y_coordinates()
+        x3, y3 = p3.get_x_coordinates(), p3.get_y_coordinates()
 
-        area = x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y1)
-        area = area / 2
+        area = abs(
+            x1 * (y2 - y3) + 
+            x2 * (y3 - y1) +
+            x3 * (y1 - y2)
+        ) / 2
 
         self.area = area

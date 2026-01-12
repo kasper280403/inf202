@@ -1,8 +1,8 @@
 import pathlib
 import meshio
-from model.factory.factory import Factory
-from model.point.point import Point
-from model.view.createImage import CreateImage
+from src.model.factory.factory import Factory
+from src.model.point.point import Point
+from src.model.view.createImage import CreateImage
 from src.controller import Controller
 import time
 
