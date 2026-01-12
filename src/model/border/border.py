@@ -22,7 +22,7 @@ class Border:
         if self.neighbour != None:
             midt_p1 = self.neighbour.get_midpoint() - self.p1.get_coordinates()
             theta = np.arccos(np.inner(normal, midt_p1) / (np.linalg.norm(normal) * np.linalg.norm(midt_p1)))
-            if theta < np.pi/2:
+            if theta > np.pi/2:
                 normal = normal *(-1)
         return normal
 
@@ -31,4 +31,7 @@ class Border:
 
     def get_neighbour(self):
         return self.neighbour
+    
+    def get_normal(self):
+        return self.normal
 

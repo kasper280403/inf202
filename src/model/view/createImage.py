@@ -47,12 +47,14 @@ class CreateImage():
             self._plot.text(line[1][0],line[1][1]+0.02, 'Fishing grounds', color ='red')
 
     def plot_normals(self,triangle):
-        norm = triangle.get_norm()
+        tri = self._triangles[triangle]
+        borders = tri.get_borders()
         for i in range(3):
-            p1 = triangle.corner_points[i].get_coordinates()
-            p2 = triangle.corner_points[(i+1)%3].get_coordinates()
+            norm = borders[i].get_normal()
+            p1 = borders[i].get_points()[0].get_coordinates()
+            p2 = borders[i].get_points()[1].get_coordinates()
             midt = [(p1[0]+p2[0])/2.0,(p1[1]+p2[1])/2.0]
-            self._plot.arrow(midt[0], midt[1], norm[i][0], norm[i][1], head_width=0.02, head_length=0.01, fc='red', ec='red')
+            self._plot.arrow(midt[0], midt[1], norm[0], norm[1], head_width=0.02, head_length=0.01, fc='red', ec='red')
             
             
 

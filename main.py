@@ -54,7 +54,7 @@ fishing_ground = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
 # triangle_cells[1].set_oil_value(1.0)
 image = CreateImage(triangle_cells)
 image.plot_Triangles()
-    
+image.plot_normals(2)    
 
 image.plot_line(fishing_ground, print_txt=True)
 image.show_img()
