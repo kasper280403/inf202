@@ -12,8 +12,6 @@ class CreateImage():
         self._umax = 1.0
         self._umin = 0.0
         self._u = 0.0
-        self._ax = 0
-        self._fig = 0
 
 
 
@@ -39,7 +37,7 @@ class CreateImage():
         plt.xlim(0, 1)  # set the x-axis limits
         plt.ylim(0, 1)  # set the y-axis limits
         plt.gca().set_aspect('equal')
-        #plt.gca().set_facecolor('green')
+        plt.gca().set_facecolor('green')
         # Show plot
         self._plot = plt
 
