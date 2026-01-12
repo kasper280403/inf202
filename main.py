@@ -8,7 +8,7 @@ import time
 
 start_time = time.time()  # Timer
 
-mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
+mesh_path = pathlib.Path(__file__).parent / "src" / "resources" / "bay.msh"
 mesh = meshio.read(mesh_path)
 
 point_cells = [] # list with Point
