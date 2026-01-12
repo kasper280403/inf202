@@ -146,6 +146,7 @@ class Triangle(Cell):
         self.area = area
 
 
+
     
     def calc_norm(self):
         for i in range(len(self.corner_points)):
