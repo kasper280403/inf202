@@ -1,5 +1,5 @@
-from src.model.cells.cell import Cell
-from src.model.border.border import Border
+from model.cells.cell import Cell
+from model.border.border import Border
 
 class Triangle(Cell):
     """

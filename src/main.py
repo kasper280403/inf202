@@ -3,7 +3,7 @@ import meshio
 from model.factory.factory import Factory
 from model.point.point import Point
 from model.view.createImage import CreateImage
-from src.controller import Controller
+from model.controller import Controller
 import time
 
 start_time = time.time()  # Timer
