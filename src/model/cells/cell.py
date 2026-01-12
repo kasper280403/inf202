@@ -9,7 +9,7 @@ class Cell(ABC):
     Attributes:
         cell_id (int): The cells id
         corner_points (list[Point]): Instances of the class Point
-        neighbors (list[Cell, p1, p2]): bordering Cells, and the two Points touching
+        borders (list[Border]): list with instances of Border
         oil_value (float): The amount of oil in that cell.
     """
     id_counter = itertools.count()

@@ -68,12 +68,15 @@ class Triangle(Cell):
             p1, p2: Instances of the class Point
             if false return None
         """
+        point_list = []
+        for point in self.corner_points:
+            for other_point in other_corner_points:
+                if point == other_point:
+                    point_list.append(point)
 
-        shared = set(self.corner_points) & set(other_corner_points)
 
-        if len(shared) == 2:
-            p1, p2 = tuple(shared)
-            return p1, p2
+        if len(point_list) == 2:
+            return point_list
 
         return None
 
@@ -102,7 +105,7 @@ class Triangle(Cell):
             edge_key = frozenset((p1, p2))
 
             if edge_key not in used_edges:
-                self.borders.append(Border(None, p1, p2))
+                self.borders.append(Border(p1, p2, None))
 
         assert len(self.borders) == 3
 

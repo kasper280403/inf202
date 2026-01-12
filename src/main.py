@@ -4,7 +4,9 @@ from model.factory.factory import Factory
 from model.point.point import Point
 from model.view.createImage import CreateImage
 from src.controller import Controller
+import time
 
+start_time = time.time()
 
 mesh_path = pathlib.Path(__file__).parent / "resources" / "bay.msh"
 mesh = meshio.read(mesh_path)
@@ -29,11 +31,26 @@ for m in mesh.cells:
             )
             triangle_cells.append(triangle_cell)
 
+stop_time = time.time()
+print("Time:", start_time - stop_time, "seconds")
+
+
+start_time = time.time()
 controller = Controller(triangle_cells, [0.35, 0.45])
+stop_time = time.time()
+print("Time:", start_time - stop_time, "seconds")
 
+
+start_time = time.time()
 controller.set_initial_oil_values()
+stop_time = time.time()
+print("Time:", start_time - stop_time, "seconds")
 
+start_time = time.time()
 controller.set_neighbours()
+stop_time = time.time()
+print("Time:", start_time - stop_time, "seconds")
+
 
 
 
