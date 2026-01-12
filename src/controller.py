@@ -1,5 +1,5 @@
 import numpy as np
-
+from src.model.border.border import Border
 
 class Controller:
     def __init__(self, triangle_list, center_point):
@@ -41,10 +41,12 @@ class Controller:
                 elif other.get_n_neighbors() == 3:
                     break
                 elif points := triangle.check_neighbour(other.get_corner_points()):
-                    triangle.add_neighbor(other, points[0], points[1])
+                    border = Border(points[0], points[1], other)
+                    triangle.add_border(border)
+
 
             if triangle.get_n_neighbors() < 3:
-                triangle.finalize_neighbors()
+                triangle.finalize_borders()
 
     def calculate_timestep(self):
         None

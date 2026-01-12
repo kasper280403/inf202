@@ -1,5 +1,5 @@
 from src.model.cells.cell import Cell
-
+from src.model.border.border import Border
 
 class Triangle(Cell):
     """
@@ -14,6 +14,7 @@ class Triangle(Cell):
     Attributes(exclusive to Triangle):
         midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
         flow (list[float]): Flow of the water at the midpoint.
+        area (float): Area of the triangle.
     """
 
     def __init__(self, corner_points):
@@ -21,6 +22,7 @@ class Triangle(Cell):
         self.type = "triangle"
         self.midpoint = None
         self.flow = None
+        self.area = None
 
     def get_midpoint(self):
         """
@@ -90,6 +92,21 @@ class Triangle(Cell):
 
         assert len(self.neighbors) == 3
 
+    def finalize_borders(self):
+        used_edges = set(
+            frozenset(border.get_points())
+            for border in self.borders
+        )
+
+        for p1, p2 in self.edges():
+            edge_key = frozenset((p1, p2))
+
+            if edge_key not in used_edges:
+                self.borders.append(Border(p1, p2, None))
+
+        assert len(self.borders) == 3
+
+
     def edges(self):
         p1, p2, p3 = self.corner_points
         return [
@@ -97,7 +114,6 @@ class Triangle(Cell):
             (p2, p3),
             (p3, p1),
         ]
-
 
     def get_flow(self):
         if self.flow is None:
@@ -111,3 +127,20 @@ class Triangle(Cell):
         flow_y = - midpoint[1]
 
         self.flow = [flow_x, flow_y]
+
+    def get_area(self):
+        if self.area is None:
+            self.calculate_area()
+
+        return self.area
+
+    def calculate_area(self):
+
+        x1, y1 = self.corner_points[0].get_x_coordinates()
+        x2, y2 = self.corner_points[1].get_x_coordinates()
+        x3, y3 = self.corner_points[2].get_x_coordinates()
+
+        area = x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y1)
+        area = area / 2
+
+        self.area = area

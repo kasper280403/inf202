@@ -1,6 +1,7 @@
 import itertools
 from abc import ABC
 
+
 class Cell(ABC):
     """
     Represents a cell of any type, parent class
@@ -8,7 +9,7 @@ class Cell(ABC):
     Attributes:
         cell_id (int): The cells id
         corner_points (list[Point]): Instances of the class Point
-        neighbors (list[[Cell, p1, p2]]): bordering Cells, and the two Points touching
+        borders (list[Border]): list with instances of Border
         oil_value (float): The amount of oil in that cell.
     """
     id_counter = itertools.count()
@@ -19,6 +20,7 @@ class Cell(ABC):
         self.neighbors = []
         self.oil_value = 0.0
         self.type = None
+        self.borders = []
 
     def get_id(self):
         return self.cell_id
@@ -47,5 +49,8 @@ class Cell(ABC):
     def has_point(self, point):
         return point in self.corner_points
 
+    def add_border(self, border):
+        self.borders.append(border)
 
-
+    def get_borders(self):
+        return self.borders
