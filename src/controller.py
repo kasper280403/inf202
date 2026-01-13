@@ -80,12 +80,15 @@ class Controller:
         flux_list =  []
         for border in triangle.get_borders():
             if border.get_neighbors() is not None:
-                flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
+                flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
                 flux_list.append(flux)
             else:
                 if border.get_border_type() == "ocean":
                     flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
                     flux_list.append(flux)
+                elif border.get_border_type() == "coast":
+                    flux_list.append(0.0)
+
 
         oil_value_new = oil_i
 
@@ -100,3 +103,14 @@ class Controller:
 
         return p_1 * p_2
 
+    def calculate_flux_edge(self, border, area_i, flow_i, oil_i):
+
+        p_1 = - self.timestep_length / area_i
+
+        v_normal = border.get_normal()
+        oil_ngh = 0
+        flow_ngh = [0.0,0.0]
+
+        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh) / 2)
+
+        return p_1 * p_2
