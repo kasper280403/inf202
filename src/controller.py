@@ -84,7 +84,7 @@ class Controller:
 
         flux_list =  []
         for border in triangle.get_borders():
-            if border.get_neighbors() is not None:
+            if border.get_neighbour() is not None:
                 flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
                 flux_list.append(flux)
             else:

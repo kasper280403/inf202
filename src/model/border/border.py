@@ -35,6 +35,5 @@ class Border:
     def get_normal(self):
         return self.normal
 
-
     def get_border_type(self):
         return self.border_type
