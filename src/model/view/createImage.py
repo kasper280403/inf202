@@ -9,7 +9,7 @@ class CreateImage():
 
     def __init__(self, TriangleList):
         self._triangles = TriangleList  # get a list of triangles can be done multiple ways
-        self._umax = 1.0
+        self._umax = 5.0
         self._umin = 0.0
         self._u = 0.0
 

@@ -80,11 +80,11 @@ class Controller:
             if border.get_neighbour() is not None:
                 flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
                 flux_list.append(flux)
-            elif border.get_border_type() == "ocean":
+            """elif border.get_border_type() == "ocean":
                 flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
                 flux_list.append(flux)
             elif border.get_border_type() == "coast":
-                continue
+                continue"""
 
         oil_value_new = oil_i
         for flux in flux_list:

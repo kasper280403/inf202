@@ -5,6 +5,14 @@ from src.model.point.point import Point
 from src.model.view.createImage import CreateImage
 from src.controller import Controller
 import time
+import os
+
+folder = "src/resources/output"
+
+for filename in os.listdir(folder):
+    path = os.path.join(folder, filename)
+    if os.path.isfile(path):
+        os.remove(path)
 
 start_time = time.time()  # Timer
 
