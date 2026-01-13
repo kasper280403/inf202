@@ -79,7 +79,7 @@ class Controller:
 
 
         area_i = triangle.get_area()
-        flow_i = triangle.get_flow()
+        flow_i = np.array(triangle.get_flow())
         oil_i = triangle.get_oil_value()
 
         flux_list =  []
@@ -106,7 +106,7 @@ class Controller:
 
         v_normal = border.get_normal()
         oil_ngh = border.get_neighbour().get_oil_value()
-        flow_ngh = border.get_neighbour().get_flow()
+        flow_ngh = np.array(border.get_neighbour().get_flow())
 
         p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh)/2)
 
