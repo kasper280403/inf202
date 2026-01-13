@@ -54,7 +54,7 @@ class CreateImage():
             p1 = borders[i].get_points()[0].get_coordinates()
             p2 = borders[i].get_points()[1].get_coordinates()
             midt = [(p1[0]+p2[0])/2.0,(p1[1]+p2[1])/2.0]
-            self._plot.arrow(midt[0], midt[1], norm[0], norm[1], head_width=0.02, head_length=0.01, fc='red', ec='red')
+            self._plot.arrow(midt[0], midt[1], norm[0], norm[1], head_width=0.006, head_length=0.002, fc=['red','green','blue'][i], ec=['red','green','blue'][i])
             
             
 
