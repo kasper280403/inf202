@@ -1,6 +1,7 @@
 from src.model.cells.cell import Cell
 from src.model.border.border import Border
 
+
 class Triangle(Cell):
     """
     Represents a cell of the type triangle.
@@ -106,7 +107,6 @@ class Triangle(Cell):
 
         assert len(self.borders) == 3
 
-
     def edges(self):
         p1, p2, p3 = self.corner_points
         return [
@@ -137,17 +137,14 @@ class Triangle(Cell):
         )
 
         area = abs(
-            x1 * (y2 - y3) + 
+            x1 * (y2 - y3) +
             x2 * (y3 - y1) +
             x3 * (y1 - y2)
         ) / 2
 
         self.area = area
 
-
-
-
-    #def calc_norm(self):
+    # def calc_norm(self):
     #    for i in range(len(self.corner_points)):
     #        p1 = self.corner_points[i].get_coordinates()
     #        p2 = self.corner_points[(i+1)%3].get_coordinates()
@@ -158,5 +155,3 @@ class Triangle(Cell):
     #        #print(np.arccos(np.inner(normal, line_vec[0:2]) / (np.linalg.norm(line_vec[0:2]) * np.linalg.norm(midt_p1)))/(2*np.pi)*360)
     #        if theta > np.pi/2:
     #        self.norm.append(normal)
-
-
