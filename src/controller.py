@@ -1,12 +1,23 @@
 import numpy as np
 from src.model.border.border import Border
 
+
+def g_function(oil_i, oil_ngh, v_normal, u):
+    dot = np.dot(v_normal, u)
+
+    if dot > 0:
+        return oil_i * dot
+    else:
+        return oil_ngh * dot
+
+
 class Controller:
     def __init__(self, triangle_list, center_point):
         self.triangle_list = triangle_list
         self.center_point = center_point
         self.timeline = []
         self.timestep = 0
+        self.timestep_length = 1
 
     def set_initial_oil_values(self):
         value_dict = {}
@@ -21,7 +32,7 @@ class Controller:
         self.timeline.append(value_dict)
 
     def update_timestep(self):
-        self.timestep += 1
+        self.timestep += self.timestep_length
 
     def update_oil_values(self):
         for triangle in self.triangle_list:
@@ -49,4 +60,43 @@ class Controller:
                 triangle.finalize_borders()
 
     def calculate_timestep(self):
-        None
+
+        self.update_timestep()
+
+        for triangle in self.triangle_list:
+            self.calculate_flux_triangle(triangle)
+
+
+
+
+
+    def calculate_oil_triangle(self, triangle):
+
+
+        area_i = triangle.get_area()
+        flow_i = triangle.get_flow()
+        oil_i = triangle.get_oil_value()
+
+        flux_list =  []
+        for border in triangle.get_borders():
+            if border.get_neighbors() is not None:
+                flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
+                flux_list.append(flux)
+            else:
+                if border.get_border_type() == "ocean":
+                    flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
+                    flux_list.append(flux)
+
+        oil_value_new = oil_i
+
+    def calculate_flux_triangle_edge(self, border, area_i, flow_i, oil_i):
+        p_1 = - self.timestep_length / area_i
+
+        v_normal = border.get_normal()
+        oil_ngh = border.get_neighbor().get_oil_value()
+        flow_ngh = border.get_neighbor().get_flow()
+
+        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh)/2)
+
+        return p_1 * p_2
+
