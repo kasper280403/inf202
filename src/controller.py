@@ -18,7 +18,7 @@ class Controller:
         self.timeline = []
         self.next_oil_value = {}
         self.timestep = 0
-        self.timestep_length = 1
+        self.timestep_length = 0.1
 
     def set_initial_oil_values(self):
         value_dict = {}
@@ -87,12 +87,11 @@ class Controller:
             if border.get_neighbour() is not None:
                 flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
                 flux_list.append(flux)
-            else:
-                if border.get_border_type() == "ocean":
-                    flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
-                    flux_list.append(flux)
-                elif border.get_border_type() == "coast":
-                    continue
+            elif border.get_border_type() == "ocean":
+                flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
+                flux_list.append(flux)
+            elif border.get_border_type() == "coast":
+                continue
 
 
         oil_value_new = oil_i

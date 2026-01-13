@@ -80,3 +80,13 @@ image.plot_Triangles()
 
 image.plot_line(fishing_ground, print_txt=True)
 image.save_img("src/resources/output/image2.png")
+
+
+i = 3
+while i < 10:
+    controller.calculate_timestep()
+    image = CreateImage(triangle_cells)
+    image.plot_Triangles()
+    image.plot_line(fishing_ground, print_txt=True)
+    image.save_img(f"src/resources/output/image{i}.png")
+    i = i + 1
