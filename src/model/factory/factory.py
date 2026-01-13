@@ -1,6 +1,6 @@
 from src.model.cells.cell import Cell
 from src.model.cells.triangle import Triangle
-from src.model.cells.border import Border
+from src.model.cells.edge import Border
 
 
 class Factory:
