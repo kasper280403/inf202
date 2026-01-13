@@ -105,8 +105,8 @@ class Controller:
         p_1 = - self.timestep_length / area_i
 
         v_normal = border.get_normal()
-        oil_ngh = border.get_neighbor().get_oil_value()
-        flow_ngh = border.get_neighbor().get_flow()
+        oil_ngh = border.get_neighbour().get_oil_value()
+        flow_ngh = border.get_neighbour().get_flow()
 
         p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh)/2)
 
