@@ -5,17 +5,17 @@ import numpy as np
 class CreateImage():
     """
     Class to print out triangles in a mesh
+
+    Attributes:
+        triangles (list[Triangles]): A list containing all the instances of triangle class.
+        umax (float): maximum value for oil plotting
+        umin (float): minimum value for oil plotting
     """
 
     def __init__(self, TriangleList):
-        self._triangles = TriangleList  # get a list of triangles can be done multiple ways
+        self._triangles = TriangleList
         self._umax = 1.0
         self._umin = 0.0
-        self._u = 0.0
-        self._ax = 0
-        self._fig = 0
-
-
 
 
     def plot_Triangles(self):  # Plot the mesh by adding all triangles with their value
