@@ -31,22 +31,22 @@ for m in mesh.cells:
             )
             triangle_cells.append(triangle_cell)
 
-stop_time = time.time();
+stop_time = time.time()
 print("Time:", stop_time - start_time, "seconds")  # Time: 0.010102987289428711 seconds
 
 start_time = time.time()  # Timer
 controller = Controller(triangle_cells, [0.35, 0.45])
-stop_time = time.time();
+stop_time = time.time()
 print("Time:", stop_time - start_time, "seconds")  # Time: 1.1920928955078125e-06 seconds
 
 start_time = time.time()  # Timer
 controller.set_initial_oil_values()
-stop_time = time.time();
+stop_time = time.time()
 print("Time:", stop_time - start_time, "seconds")  # Time: 0.0043277740478515625 seconds
 
 start_time = time.time()  # Timer
 controller.set_neighbours()
-stop_time = time.time();
+stop_time = time.time()
 print("Time:", stop_time - start_time, "seconds")  # Time: 9.529622077941895 seconds
 
 start_time = time.time()
