@@ -18,7 +18,7 @@ class Controller:
         self.timeline = []
         self.next_oil_value = {}
         self.timestep = 0
-        self.timestep_length = 0.1
+        self.timestep_length = 0.01
 
     def set_initial_oil_values(self):
         value_dict = {}

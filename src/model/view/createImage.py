@@ -61,3 +61,4 @@ class CreateImage():
     def save_img(self, file_loc):
         # Show plot
         self._plot.savefig(file_loc)
+        self._plot.close()
