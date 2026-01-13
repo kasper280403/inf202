@@ -48,7 +48,7 @@ controller.set_neighbours()
 stop_time = time.time(); print("Time:", stop_time - start_time, "seconds") # Time: 9.529622077941895 seconds
 
 
-
+'''
 start_time = time.time()
 fishing_ground = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
 # triangle_cells[1].set_oil_value(1.0)
@@ -61,4 +61,15 @@ image.plot_line(fishing_ground, print_txt=True)
 image.show_img()
 # image.save_img("resources/output/image.png")
 stop_time = time.time()
-print("Time:", stop_time - start_time, "seconds")
+print("Time:", stop_time - start_time, "seconds")'''
+
+
+for triangle in triangle_cells[:10]:
+    print(f"Triangle: {triangle.get_id()}, oilvalue: {triangle.get_oil_value()}")
+
+print("\n\n Calculating timestep \n\n")
+
+controller.calculate_timestep()
+
+for triangle in triangle_cells[:10]:
+    print(f"Triangle: {triangle.get_id()}, oilvalue: {triangle.get_oil_value()}")

@@ -21,7 +21,7 @@ class Triangle(Cell):
         super().__init__(corner_points)
         self.type = "triangle"
         self.midpoint = None
-        self.flow = None
+        self.flow = self.calculate_flow()
         self.area = None
 
     def get_midpoint(self):
@@ -116,9 +116,6 @@ class Triangle(Cell):
         ]
 
     def get_flow(self):
-        if self.flow is None:
-            self.calculate_flow()
-
         return self.flow
 
     def calculate_flow(self):
@@ -126,7 +123,7 @@ class Triangle(Cell):
         flow_x = midpoint[1] - 0.2 * midpoint[0]
         flow_y = - midpoint[1]
 
-        self.flow = [flow_x, flow_y]
+        return [flow_x, flow_y]
 
     def get_area(self):
         if self.area is None:
