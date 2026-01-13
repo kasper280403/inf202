@@ -108,7 +108,7 @@ class Controller:
         oil_ngh = border.get_neighbour().get_oil_value()
         flow_ngh = np.array(border.get_neighbour().get_flow())
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh)/2)
+        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh)/2)
 
         return p_1 * p_2
 
@@ -120,6 +120,6 @@ class Controller:
         oil_ngh = 0
         flow_ngh = [0.0,0.0]
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh) / 2)
+        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
