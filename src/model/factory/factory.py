@@ -1,12 +1,12 @@
 from src.model.cells.cell import Cell
 from src.model.cells.triangle import Triangle
-from src.model.cells.edge import Border
+from src.model.cells.edge import Edge
 
 
 class Factory:
     _registry = {
         "triangle": Triangle,
-        "border": Border,
+        "border": Edge,
     }
 
     @staticmethod

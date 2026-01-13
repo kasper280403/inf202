@@ -62,3 +62,12 @@ image.show_img()
 # image.save_img("resources/output/image.png")
 stop_time = time.time()
 print("Time:", stop_time - start_time, "seconds")
+
+controller.calculate_timestep()
+
+image = CreateImage(triangle_cells)
+image.plot_Triangles()
+#image.plot_normals(5)
+
+image.plot_line(fishing_ground, print_txt=True)
+image.show_img()

@@ -16,6 +16,7 @@ class Controller:
         self.triangle_list = triangle_list
         self.center_point = center_point
         self.timeline = []
+        self.next_oil_value = {}
         self.timestep = 0
         self.timestep_length = 1
 
@@ -63,8 +64,12 @@ class Controller:
 
         self.update_timestep()
 
+
         for triangle in self.triangle_list:
-            self.calculate_flux_triangle(triangle)
+            self.calculate_oil_triangle(triangle)
+
+        for triangle in self.triangle_list:
+            triangle.set_oil_value(self.next_oil_value.get(triangle.get_id()))
 
 
 
@@ -87,10 +92,14 @@ class Controller:
                     flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
                     flux_list.append(flux)
                 elif border.get_border_type() == "coast":
-                    flux_list.append(0.0)
+                    continue
 
 
         oil_value_new = oil_i
+        for flux in flux_list:
+            oil_value_new = oil_value_new + flux
+
+        self.next_oil_value[triangle.get_id()] = oil_value_new
 
     def calculate_flux_triangle_edge(self, border, area_i, flow_i, oil_i):
         p_1 = - self.timestep_length / area_i
