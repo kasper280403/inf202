@@ -46,21 +46,6 @@ class Triangle(Cell):
 
         return None
 
-    def finalize_neighbors(self):
-
-        used_edges = set(
-            frozenset((p1, p2))
-            for _, p1, p2 in self.neighbors
-        )
-
-        for p1, p2 in self.edges():
-            edge_key = frozenset((p1, p2))
-
-            if edge_key not in used_edges:
-                self.neighbors.append((None, p1, p2))
-
-        assert len(self.neighbors) == 3
-
     def finalize_borders(self):
         used_edges = set(
             frozenset(border.get_points())
@@ -102,15 +87,3 @@ class Triangle(Cell):
         ) / 2
 
         self.area = area
-
-    # def calc_norm(self):
-    #    for i in range(len(self.corner_points)):
-    #        p1 = self.corner_points[i].get_coordinates()
-    #        p2 = self.corner_points[(i+1)%3].get_coordinates()
-    #        line_vec = [p2[0]-p1[0], p2[1]-p1[1],0]
-    #        normal = np.cross(line_vec,[0,0,1])[0:2]
-    #        midt_p1 = [p1[0]-self.get_midpoint()[0], p1[1]-self.get_midpoint()[1]]
-    #        theta = np.arccos(np.inner(normal, midt_p1) / (np.linalg.norm(normal) * np.linalg.norm(midt_p1)))
-    #        #print(np.arccos(np.inner(normal, line_vec[0:2]) / (np.linalg.norm(line_vec[0:2]) * np.linalg.norm(midt_p1)))/(2*np.pi)*360)
-    #        if theta > np.pi/2:
-    #        self.norm.append(normal)

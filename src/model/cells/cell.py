@@ -19,8 +19,6 @@ class Cell(ABC):
         self.corner_points = corner_points
         self.neighbors = []
         self.oil_value = 0.0
-        self.flux = None
-        self.type = None
         self.midpoint = self.calculate_midpoint()
         self.flow = self.calculate_flow()
         self.borders = []
@@ -40,9 +38,6 @@ class Cell(ABC):
     def get_oil_value(self):
         return self.oil_value
 
-    def get_type(self):
-        return self.type
-
     def add_neighbor(self, neighbor, p1, p2):
         self.neighbors.append([neighbor, p1, p2])
 
@@ -57,15 +52,6 @@ class Cell(ABC):
 
     def get_borders(self):
         return self.borders
-
-    def clear_flux(self):
-        self.flux = None
-
-    def get_flux(self):
-        return self.flux
-
-    def set_flux(self, flux):
-        self.flux = flux
 
     def get_midpoint(self):
         return self.midpoint

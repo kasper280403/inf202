@@ -88,7 +88,7 @@ image.save_img("src/resources/output/image2.png")
 
 start_time = time.time()
 i = 3
-while i < 40:
+while i < 5:
     for j in range(5):
         controller.calculate_timestep()
     image = CreateImage(triangle_cells)
