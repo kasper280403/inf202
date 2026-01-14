@@ -19,4 +19,14 @@ class Edge(Cell):
         super().__init__(corner_points)
 
     def set_oil_value(self, oil_value):
+        """
+        Overides the get_oil_value method in parent class.
+        Task descriptions says oil that excites the map should just disapear.
+
+        Args:
+            oil_value (float): The amount of oil in that cell.
+
+        Returns:
+             float == 0.0
+        """
         self.oil_value = 0.0
