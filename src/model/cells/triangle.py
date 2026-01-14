@@ -21,40 +21,8 @@ class Triangle(Cell):
     def __init__(self, corner_points):
         super().__init__(corner_points)
         self.type = "triangle"
-        self.midpoint = None
-        self.flow = self.calculate_flow()
         self.area = None
 
-    def get_midpoint(self):
-        """
-        Getter for the midpoint of the cell.
-        If the midpoint == -1 is not yet calculateted, the calculate_midpoint is called.
-
-        Returns:
-             list[int]: Midpoint of the cell, x, y coordinates.
-        """
-        if self.midpoint is None:
-            self.calculate_midpoint()
-
-        return self.midpoint
-
-    def calculate_midpoint(self):
-        """
-        Calculates the midpoint of the cell.
-        Exctracts the x, y coordinates, from the instances Point class
-        Sets the self.midpoint
-        """
-        x_coordinates = []
-        y_coordinates = []
-
-        for point in self.corner_points:
-            x_coordinates.append(point.get_x_coordinate())
-            y_coordinates.append(point.get_y_coordinate())
-
-        x_mid = sum(x_coordinates) / 3
-        y_mid = sum(y_coordinates) / 3
-
-        self.midpoint = [x_mid, y_mid]
 
     def check_neighbour(self, other_corner_points):
         """
@@ -115,15 +83,6 @@ class Triangle(Cell):
             (p3, p1),
         ]
 
-    def get_flow(self):
-        return self.flow
-
-    def calculate_flow(self):
-        midpoint = self.get_midpoint()
-        flow_x = midpoint[1] - 0.2 * midpoint[0]
-        flow_y = - midpoint[0]
-
-        return [flow_x, flow_y]
 
     def get_area(self):
         if self.area is None:

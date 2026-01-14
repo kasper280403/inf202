@@ -1,4 +1,5 @@
 import numpy as np
+from src.model.cells.edge import Edge
 
 
 class Border:
@@ -10,6 +11,8 @@ class Border:
         self.length = self.calculate_length()
         self.normal = self.calculate_normal()
         self.border_type = "ocean"
+        if self.neighbour is None:
+            self.create_edge()
 
     def calculate_length(self):
         d = np.sqrt((self.p1.get_x_coordinate() - self.p2.get_x_coordinate()) ** 2 +
@@ -37,3 +40,7 @@ class Border:
 
     def get_border_type(self):
         return self.border_type
+
+    def create_edge(self):
+        self.neighbour = Edge([self.p1, self.p2])
+
