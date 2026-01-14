@@ -88,8 +88,9 @@ image.save_img("src/resources/output/image2.png")
 
 start_time = time.time()
 i = 3
-while i < 100:
-    controller.calculate_timestep()
+while i < 20:
+    for j in range(5):
+        controller.calculate_timestep()
     image = CreateImage(triangle_cells)
     image.plot_Triangles()
     image.plot_line(fishing_ground, print_txt=True)
