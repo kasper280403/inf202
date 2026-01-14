@@ -6,7 +6,7 @@ from src.model.cells.edge import Edge
 class Factory:
     _registry = {
         "triangle": Triangle,
-        "border": Edge,
+        "edge": Edge,
     }
 
     @staticmethod
