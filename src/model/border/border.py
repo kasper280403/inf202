@@ -4,9 +4,10 @@ from src.model.cells.edge import Edge
 
 class Border:
 
-    def __init__(self, p1, p2, neighbour):
+    def __init__(self, p1, p2, neighbour,tri = None):
         self.p1 = p1
         self.p2 = p2
+        self.triangle = tri
         self.neighbour = neighbour
         self.length = self.calculate_length()
         self.normal = self.calculate_normal()

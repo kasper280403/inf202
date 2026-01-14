@@ -53,7 +53,7 @@ class Controller:
                 elif other.get_n_neighbors() == 3:
                     break
                 elif points := triangle.check_neighbour(other.get_corner_points()):
-                    border = Border(points[0], points[1], other)
+                    border = Border(points[0], points[1], other, triangle)
                     triangle.add_border(border)
 
             if triangle.get_n_neighbors() < 3:
