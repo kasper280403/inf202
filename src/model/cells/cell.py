@@ -83,8 +83,8 @@ class Cell(ABC):
             x_coordinates.append(point.get_x_coordinate())
             y_coordinates.append(point.get_y_coordinate())
 
-        x_mid = sum(x_coordinates) / 3
-        y_mid = sum(y_coordinates) / 3
+        x_mid = sum(x_coordinates) / len(x_coordinates)
+        y_mid = sum(y_coordinates) / len(y_coordinates)
 
         return [x_mid, y_mid]
 

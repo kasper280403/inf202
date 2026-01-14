@@ -4,3 +4,6 @@ numpy
 abc
 pathlib
 pickle
+itertools
+random
+hypothesis
