@@ -18,7 +18,7 @@ class Controller:
         self.timeline = []
         self.next_oil_value = {}
         self.timestep = 0
-        self.timestep_length = 1
+        self.timestep_length = 0.01
 
     def set_initial_oil_values(self):
         value_dict = {}
@@ -56,7 +56,6 @@ class Controller:
                     border = Border(points[0], points[1], other)
                     triangle.add_border(border)
 
-
             if triangle.get_n_neighbors() < 3:
                 triangle.finalize_borders()
 
@@ -64,36 +63,28 @@ class Controller:
 
         self.update_timestep()
 
-
         for triangle in self.triangle_list:
             self.calculate_oil_triangle(triangle)
 
         for triangle in self.triangle_list:
             triangle.set_oil_value(self.next_oil_value.get(triangle.get_id()))
 
-
-
-
-
     def calculate_oil_triangle(self, triangle):
-
 
         area_i = triangle.get_area()
         flow_i = np.array(triangle.get_flow())
         oil_i = triangle.get_oil_value()
 
-        flux_list =  []
+        flux_list = []
         for border in triangle.get_borders():
             if border.get_neighbour() is not None:
                 flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
                 flux_list.append(flux)
-            else:
-                if border.get_border_type() == "ocean":
-                    flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
-                    flux_list.append(flux)
-                elif border.get_border_type() == "coast":
-                    continue
-
+            """elif border.get_border_type() == "ocean":
+                flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
+                flux_list.append(flux)
+            elif border.get_border_type() == "coast":
+                continue"""
 
         oil_value_new = oil_i
         for flux in flux_list:
@@ -108,7 +99,7 @@ class Controller:
         oil_ngh = border.get_neighbour().get_oil_value()
         flow_ngh = np.array(border.get_neighbour().get_flow())
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh)/2)
+        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
 
@@ -118,8 +109,8 @@ class Controller:
 
         v_normal = border.get_normal()
         oil_ngh = 0
-        flow_ngh = [0.0,0.0]
+        flow_ngh = [0.0, 0.0]
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i - flow_ngh) / 2)
+        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2

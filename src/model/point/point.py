@@ -1,4 +1,6 @@
 import numpy as np
+
+
 class Point:
     """
     Represents a point in the mesh
