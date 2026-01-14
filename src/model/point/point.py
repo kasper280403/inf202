@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Point:
     """
     Represents a point in the mesh
@@ -11,8 +14,8 @@ class Point:
         self._x = cord[0]
         self._y = cord[1]
 
-    def get_coordinates(self) -> list[float]:
-        return [self._x, self._y]
+    def get_coordinates(self):
+        return np.array([self._x, self._y])
 
     def get_y_coordinate(self) -> float:
         return self._y

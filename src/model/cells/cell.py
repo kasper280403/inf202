@@ -19,6 +19,7 @@ class Cell(ABC):
         self.corner_points = corner_points
         self.neighbors = []
         self.oil_value = 0.0
+        self.flux = None
         self.type = None
         self.borders = []
 
@@ -54,3 +55,12 @@ class Cell(ABC):
 
     def get_borders(self):
         return self.borders
+
+    def clear_flux(self):
+        self.flux = None
+
+    def get_flux(self):
+        return self.flux
+
+    def set_flux(self, flux):
+        self.flux = flux

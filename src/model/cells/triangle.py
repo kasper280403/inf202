@@ -1,6 +1,7 @@
 from src.model.cells.cell import Cell
 from src.model.border.border import Border
 
+
 class Triangle(Cell):
     """
     Represents a cell of the type triangle.
@@ -21,7 +22,7 @@ class Triangle(Cell):
         super().__init__(corner_points)
         self.type = "triangle"
         self.midpoint = None
-        self.flow = None
+        self.flow = self.calculate_flow()
         self.area = None
 
     def get_midpoint(self):
@@ -106,7 +107,6 @@ class Triangle(Cell):
 
         assert len(self.borders) == 3
 
-
     def edges(self):
         p1, p2, p3 = self.corner_points
         return [
@@ -116,17 +116,14 @@ class Triangle(Cell):
         ]
 
     def get_flow(self):
-        if self.flow is None:
-            self.calculate_flow()
-
         return self.flow
 
     def calculate_flow(self):
         midpoint = self.get_midpoint()
         flow_x = midpoint[1] - 0.2 * midpoint[0]
-        flow_y = - midpoint[1]
+        flow_y = - midpoint[0]
 
-        self.flow = [flow_x, flow_y]
+        return [flow_x, flow_y]
 
     def get_area(self):
         if self.area is None:
@@ -140,9 +137,21 @@ class Triangle(Cell):
         )
 
         area = abs(
-            x1 * (y2 - y3) + 
+            x1 * (y2 - y3) +
             x2 * (y3 - y1) +
             x3 * (y1 - y2)
         ) / 2
 
         self.area = area
+
+    # def calc_norm(self):
+    #    for i in range(len(self.corner_points)):
+    #        p1 = self.corner_points[i].get_coordinates()
+    #        p2 = self.corner_points[(i+1)%3].get_coordinates()
+    #        line_vec = [p2[0]-p1[0], p2[1]-p1[1],0]
+    #        normal = np.cross(line_vec,[0,0,1])[0:2]
+    #        midt_p1 = [p1[0]-self.get_midpoint()[0], p1[1]-self.get_midpoint()[1]]
+    #        theta = np.arccos(np.inner(normal, midt_p1) / (np.linalg.norm(normal) * np.linalg.norm(midt_p1)))
+    #        #print(np.arccos(np.inner(normal, line_vec[0:2]) / (np.linalg.norm(line_vec[0:2]) * np.linalg.norm(midt_p1)))/(2*np.pi)*360)
+    #        if theta > np.pi/2:
+    #        self.norm.append(normal)
