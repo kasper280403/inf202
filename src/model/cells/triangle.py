@@ -61,7 +61,7 @@ class Triangle(Cell):
     def finalize_borders(self):
         """
         Method to add the edges of the triangle to the border list.
-        Checks which side is without a border, and creates a instance of Border.
+        Checks which side is without a border, and creates an instance of Border.
         """
         used_edges = set(
             frozenset(border.get_points())
