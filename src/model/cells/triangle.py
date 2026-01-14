@@ -121,7 +121,7 @@ class Triangle(Cell):
     def calculate_flow(self):
         midpoint = self.get_midpoint()
         flow_x = midpoint[1] - 0.2 * midpoint[0]
-        flow_y = - midpoint[1]
+        flow_y = - midpoint[0]
 
         return [flow_x, flow_y]
 
