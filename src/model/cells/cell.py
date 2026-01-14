@@ -64,3 +64,34 @@ class Cell(ABC):
 
     def set_flux(self, flux):
         self.flux = flux
+
+    def get_midpoint(self):
+        """
+        Getter for the midpoint of the cell.
+        If the midpoint == -1 is not yet calculateted, the calculate_midpoint is called.
+
+        Returns:
+             list[int]: Midpoint of the cell, x, y coordinates.
+        """
+        if self.midpoint is None:
+            self.calculate_midpoint()
+
+        return self.midpoint
+
+    def calculate_midpoint(self):
+        """
+        Calculates the midpoint of the cell.
+        Exctracts the x, y coordinates, from the instances Point class
+        Sets the self.midpoint
+        """
+        x_coordinates = []
+        y_coordinates = []
+
+        for point in self.corner_points:
+            x_coordinates.append(point.get_x_coordinate())
+            y_coordinates.append(point.get_y_coordinate())
+
+        x_mid = sum(x_coordinates) / 3
+        y_mid = sum(y_coordinates) / 3
+
+        self.midpoint = [x_mid, y_mid]
