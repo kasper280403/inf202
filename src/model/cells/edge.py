@@ -6,17 +6,17 @@ class Edge(Cell):
     Represents a cell of the type border
 
     Attributes(inherited from Cell):
-        id (int): Unique identifier of the cell.
+        cell_id (int): The cells id
         corner_points (list[Point]): Instances of the class Point
-        neighbor_ids (list[int]): IDs of bordering cells.
         oil_value (float): The amount of oil in that cell.
+        midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
+        flow (list[float]): Flow of the water at the midpoint, x, y vector.
         borders (list[Border]): list with instances of Border
-        oil_value (float): The amount of oil in that cell.
 
     """
+
     def __init__(self, corner_points):
         super().__init__(corner_points)
-
 
     def set_oil_value(self, oil_value):
         self.oil_value = 0.0

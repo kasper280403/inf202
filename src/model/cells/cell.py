@@ -9,8 +9,10 @@ class Cell(ABC):
     Attributes:
         cell_id (int): The cells id
         corner_points (list[Point]): Instances of the class Point
-        borders (list[Border]): list with instances of Border
         oil_value (float): The amount of oil in that cell.
+        midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
+        flow (list[float]): Flow of the water at the midpoint, x, y vector.
+        borders (list[Border]): list with instances of Border
     """
     id_counter = itertools.count()
 
