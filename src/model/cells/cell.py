@@ -21,6 +21,8 @@ class Cell(ABC):
         self.oil_value = 0.0
         self.flux = None
         self.type = None
+        self.midpoint = self.calculate_midpoint()
+        self.flow = self.calculate_flow()
         self.borders = []
 
     def get_id(self):
@@ -64,3 +66,34 @@ class Cell(ABC):
 
     def set_flux(self, flux):
         self.flux = flux
+
+    def get_midpoint(self):
+        return self.midpoint
+
+    def calculate_midpoint(self):
+        """
+        Calculates the midpoint of the cell.
+        Exctracts the x, y coordinates, from the instances Point class
+        Sets the self.midpoint
+        """
+        x_coordinates = []
+        y_coordinates = []
+
+        for point in self.corner_points:
+            x_coordinates.append(point.get_x_coordinate())
+            y_coordinates.append(point.get_y_coordinate())
+
+        x_mid = sum(x_coordinates) / 3
+        y_mid = sum(y_coordinates) / 3
+
+        return [x_mid, y_mid]
+
+    def get_flow(self):
+        return self.flow
+
+    def calculate_flow(self):
+        midpoint = self.midpoint
+        flow_x = midpoint[1] - 0.2 * midpoint[0]
+        flow_y = - midpoint[0]
+
+        return [flow_x, flow_y]
