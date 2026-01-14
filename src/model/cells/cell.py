@@ -30,17 +30,11 @@ class Cell(ABC):
     def get_corner_points(self):
         return self.corner_points
 
-    def get_n_borders(self):
-        return len(self.borders)
-
     def get_oil_value(self):
         return self.oil_value
 
     def set_oil_value(self, oil_value):
         self.oil_value = oil_value
-
-    def has_point(self, point):
-        return point in self.corner_points
 
     def add_border(self, border):
         self.borders.append(border)
@@ -51,11 +45,26 @@ class Cell(ABC):
     def get_midpoint(self):
         return self.midpoint
 
+    def get_flow(self):
+        return self.flow
+
+    def get_n_borders(self):
+        """
+        Returns the number of borders in the cell.
+
+        Returns:
+            int: The number of borders in the cell.
+        """
+        return len(self.borders)
+
     def calculate_midpoint(self):
         """
         Calculates the midpoint of the cell.
         Exctracts the x, y coordinates, from the instances Point class
         Sets the self.midpoint
+
+        Returns:
+            list[float]: The midpoint of the cell, x, y coordinates.
         """
         x_coordinates = []
         y_coordinates = []
@@ -69,10 +78,13 @@ class Cell(ABC):
 
         return [x_mid, y_mid]
 
-    def get_flow(self):
-        return self.flow
-
     def calculate_flow(self):
+        """
+        Calculates the flow of the cell.
+
+        Returns:
+            list[float]: The flow of the cell, x, y vector.
+        """
         midpoint = self.midpoint
         flow_x = midpoint[1] - 0.2 * midpoint[0]
         flow_y = - midpoint[0]
