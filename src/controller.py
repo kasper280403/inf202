@@ -169,5 +169,5 @@ class Controller:
     def create_image(self, img_id):
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
-        image.plot_line(self.fishing_ground, print_txt=True)
+        image.plot_line(self.fishing_ground, 'Fishing grounds')
         image.save_img(f"src/resources/output/image{img_id}.png")
