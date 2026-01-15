@@ -1,9 +1,13 @@
 matplotlib
 meshio
 numpy
-abc
 pathlib
-pickle
-itertools
-random
 hypothesis
+
+
+# Built in python tools
+# random
+# itertools
+# itertools
+# pickle
+# abc
