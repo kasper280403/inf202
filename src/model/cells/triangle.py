@@ -68,14 +68,14 @@ class Triangle(Cell):
             for border in self.borders
         )
 
-        for p1, p2 in self.edges():
+        for p1, p2 in self.get_edges():
             edge_key = frozenset((p1, p2))
 
             if edge_key not in used_edges:
                 self.borders.append(Border(p1, p2, None))
 
 
-    def edges(self):
+    def get_edges(self):
         """
         Used in finalize_borders() to creat a list to iterate over.
 

@@ -40,7 +40,7 @@ def test_check_neighbour():
     p2_shared = Point((9, 5))
     triangle = Triangle([p1_shared, p2_shared, Point((17, 3))])
     triangle1 = Triangle([p1_shared, p2_shared, Point((1, 1))])
-    triangle2 = Triangle([p1_shared, Point((9,9)), Point((2, 2))])
+    triangle2 = Triangle([p1_shared, Point((9, 9)), Point((2, 2))])
 
     assert set(triangle.check_neighbour(triangle1.get_corner_points())) == {p1_shared, p2_shared}
     assert triangle.check_neighbour(triangle2.get_corner_points()) is None
@@ -68,3 +68,30 @@ def test_finalize_borders():
     assert triangle1.get_n_borders() == 3
     assert triangle2.get_n_borders() == 3
     assert triangle3.get_n_borders() == 3
+
+
+def test_get_edges():
+    triangle = Triangle([
+        Point((0, 0)),
+        Point((10, 0)),
+        Point((5, 5)),
+    ])
+
+    edge1 = (Point((0, 0)), Point((10, 0)))
+    edge2 = (Point((0, 0)), Point((5, 5)))
+    edge3 = (Point((5, 5)), Point((10, 0)))
+
+    expected = {normalize_edge(edge1), normalize_edge(edge2), normalize_edge(edge3)}
+
+    result = {
+        normalize_edge(edge)
+        for edge in triangle.get_edges()
+    }
+
+    assert result == expected
+
+
+def normalize_edge(edge):
+    return tuple(
+        sorted(edge, key=lambda p: (p.get_coordinates()[0], p.get_coordinates()[1]))
+    )
