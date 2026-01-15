@@ -8,7 +8,7 @@ import time
 import os
 
 folder = "src/resources/output"
-
+pathlib.Path(folder).mkdir(parents=True, exist_ok=True)
 for filename in os.listdir(folder):
     path = os.path.join(folder, filename)
     if os.path.isfile(path):
