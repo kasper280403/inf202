@@ -72,7 +72,7 @@ class Triangle(Cell):
             edge_key = frozenset((p1, p2))
 
             if edge_key not in used_edges:
-                self.borders.append(Border(p1, p2, None))
+                self.borders.append(Border(p1, p2, None, self))
 
 
     def get_edges(self):
