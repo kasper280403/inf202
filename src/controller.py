@@ -2,6 +2,7 @@ import numpy as np
 from src.model.border.border import Border
 from src.model.factory.factory import Factory
 from src.model.point.point import Point
+from src.model.view.createImage import CreateImage
 import pathlib
 import meshio
 
@@ -16,13 +17,17 @@ def g_function(oil_i, oil_ngh, v_normal, u):
 
 
 class Controller:
-    def __init__(self, center_point, timestep_length=0.01):
+    def __init__(self):
         self.triangle_list = None
-        self.center_point = center_point
+        self.center_point = [0.35, 0.45]
         self.timeline = []
         self.next_oil_value = {}
         self.timestep = 0
-        self.timestep_length = timestep_length
+        self.timestep_length = 0.01
+        self.fishing_ground = None
+
+    def set_center_point(self, center_point):
+        self.center_point = center_point
 
     def set_initial_oil_values(self):
         value_dict = {}
@@ -35,6 +40,9 @@ class Controller:
             value_dict[triangle.get_id] = oil_value
 
         self.timeline.append(value_dict)
+
+    def set_fishing_ground(self, fishing_ground):
+        self.fishing_ground = fishing_ground
 
     def update_timestep(self):
         self.timestep += self.timestep_length
@@ -150,3 +158,16 @@ class Controller:
                     triangle_cells.append(triangle_cell)
 
         self.triangle_list = triangle_cells
+
+    def run_simulation(self, simulation_length = 10, timestep = 0.01):
+        self.timestep_length = timestep
+        n_simulations = int(simulation_length / self.timestep_length)
+        for i in range(n_simulations):
+            self.calculate_timestep()
+            self.create_image(i)
+
+    def create_image(self, img_id):
+        image = CreateImage(self.triangle_list)
+        image.plot_Triangles()
+        image.plot_line(self.fishing_ground, print_txt=True)
+        image.save_img(f"src/resources/output/image{img_id}.png")
