@@ -21,11 +21,11 @@ controller.set_neighbours()
 controller.set_fishing_ground([[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]])
 
 stop_time = time.time()
-print(f"Setup took:", stop_time - start_time, "seconds")
+print(f"Setup took:", stop_time - start_time, "seconds.")
 
 start_time = time.time()
 
 controller.run_simulation(0.1, 0.01)
 
 stop_time = time.time()
-print(f"Time to run simulation:", stop_time - start_time, "seconds")
+print(f"Time to run simulation:", stop_time - start_time, "seconds.")
