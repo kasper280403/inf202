@@ -2,6 +2,7 @@ matplotlib
 meshio
 numpy<2.0
 hypothesis
+pytest
 
 
 # Built in python tools
