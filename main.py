@@ -65,7 +65,7 @@ image = CreateImage(triangle_cells)
 image.plot_Triangles()
 # image.plot_normals(5)
 
-image.plot_line(fishing_ground, print_txt=True)
+image.plot_line(fishing_ground, 'Fishing grounds')
 image.save_img("src/resources/output/image1.png")
 stop_time = time.time()
 print("Time:", stop_time - start_time, "seconds")
@@ -83,7 +83,7 @@ for triangle in triangle_cells[:10]:
 image = CreateImage(triangle_cells)
 image.plot_Triangles()
 
-image.plot_line(fishing_ground, print_txt=True)
+image.plot_line(fishing_ground, 'Fishing grounds')
 image.save_img("src/resources/output/image2.png")
 
 start_time = time.time()
@@ -93,7 +93,7 @@ while i < 20:
         controller.calculate_timestep()
     image = CreateImage(triangle_cells)
     image.plot_Triangles()
-    image.plot_line(fishing_ground, print_txt=True)
+    image.plot_line(fishing_ground, 'Fishing grounds')
     image.save_img(f"src/resources/output/image{i}.png")
     i = i + 1
 
