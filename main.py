@@ -2,6 +2,8 @@ import pathlib
 import time
 from src.controller import Controller
 
+start_time = time.time()
+
 controller = Controller()
 
 controller.set_up_folder()
@@ -17,6 +19,9 @@ controller.set_initial_oil_values()
 controller.set_neighbours()
 
 controller.set_fishing_ground([[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]])
+
+stop_time = time.time()
+print(f"Setup took:", stop_time - start_time, "seconds")
 
 start_time = time.time()
 
