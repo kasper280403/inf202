@@ -76,7 +76,16 @@ class CreateImage():
         Function to save the plotted image to file location
 
         Attributes:
-            file_loc (str): string or path to where to save current image
+            file_loc (str): String or path to where to save current image
         """
         self._plot.savefig(file_loc)
         self._plot.close()
+
+    def set_title(self, title):
+        """
+        Function to set a title in the plotted image
+
+        Attributes:
+            title (str): String of the title
+        """
+        self._plot.title(title)
