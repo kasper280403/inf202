@@ -1,7 +1,6 @@
 matplotlib
 meshio
-numpy
-pathlib
+numpy<2.0
 hypothesis
 
 
@@ -11,3 +10,4 @@ hypothesis
 # itertools
 # pickle
 # abc
+# pathlib
