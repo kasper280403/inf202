@@ -48,11 +48,11 @@ class Controller:
 
                 if triangle is other:
                     continue
-                elif triangle.get_n_borders() >= 3:
+                if triangle.get_n_borders() >= 3:
                     break
-                elif other.get_n_borders() == 3:
-                    break
-                elif points := triangle.check_neighbour(other.get_corner_points()):
+                if other.get_n_borders() >= 3:
+                    continue
+                if points := triangle.check_neighbour(other.get_corner_points()):
                     border = Border(points[0], points[1], other)
                     triangle.add_border(border)
 
