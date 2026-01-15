@@ -1,5 +1,9 @@
 import numpy as np
 from src.model.border.border import Border
+from src.model.factory.factory import Factory
+from src.model.point.point import Point
+import pathlib
+import meshio
 
 
 def g_function(oil_i, oil_ngh, v_normal, u):
@@ -12,13 +16,13 @@ def g_function(oil_i, oil_ngh, v_normal, u):
 
 
 class Controller:
-    def __init__(self, triangle_list, center_point):
-        self.triangle_list = triangle_list
+    def __init__(self, center_point, timestep_length=0.01):
+        self.triangle_list = None
         self.center_point = center_point
         self.timeline = []
         self.next_oil_value = {}
         self.timestep = 0
-        self.timestep_length = 0.01
+        self.timestep_length = timestep_length
 
     def set_initial_oil_values(self):
         value_dict = {}
@@ -112,3 +116,37 @@ class Controller:
         p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
+
+    def set_up_folder(self):
+        folder = pathlib.Path("src/resources/output")
+
+        folder.mkdir(parents=True, exist_ok=True)
+
+        for item in folder.iterdir():
+            if item.is_file():
+                item.unlink()
+
+    def create_cells(self, mesh_path):
+        mesh = meshio.read(mesh_path)
+
+        point_cells = []
+        for point in mesh.points:
+            point_cells.append(Point(point))
+
+        factory = Factory()
+
+        triangle_cells = []
+        for m in mesh.cells:
+            if m.type == "triangle":
+                for t in m.data:
+                    triangle_cell = factory.create_cell(
+                        "triangle",
+                        corner_points=[
+                            point_cells[t[0]],
+                            point_cells[t[1]],
+                            point_cells[t[2]],
+                        ]
+                    )
+                    triangle_cells.append(triangle_cell)
+
+        self.triangle_list = triangle_cells
