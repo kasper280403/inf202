@@ -1,4 +1,6 @@
 from pytest import approx
+
+from src.model.border.border import Border
 from src.model.cells.triangle import Triangle
 from src.model.point.point import Point
 from hypothesis import given
@@ -43,3 +45,26 @@ def test_check_neighbour():
     assert set(triangle.check_neighbour(triangle1.get_corner_points())) == {p1_shared, p2_shared}
     assert triangle.check_neighbour(triangle2.get_corner_points()) is None
     assert triangle.check_neighbour(triangle.get_corner_points()) is None
+
+
+def test_finalize_borders():
+    triangle1 = Triangle([Point((0, 0)), Point((10, 0)), Point((5, 5))])
+    triangle2 = Triangle([Point((0, 0)), Point((10, 0)), Point((5, 5))])
+    triangle3 = Triangle([Point((0, 0)), Point((10, 0)), Point((5, 5))])
+    border1 = Border(Point((0, 0)), Point((10, 0)), None)
+    border2 = Border(Point((0, 0)), Point((5, 5)), None)
+    border3 = Border(Point((5, 5)), Point((10, 0)), None)
+    triangle1.add_border(border1)
+    triangle2.add_border(border1)
+    triangle2.add_border(border2)
+    triangle3.add_border(border1)
+    triangle3.add_border(border2)
+    triangle3.add_border(border3)
+
+    triangle1.finalize_borders()
+    triangle2.finalize_borders()
+    triangle3.finalize_borders()
+
+    assert triangle1.get_n_borders() == 3
+    assert triangle2.get_n_borders() == 3
+    assert triangle3.get_n_borders() == 3

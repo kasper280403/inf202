@@ -74,7 +74,6 @@ class Triangle(Cell):
             if edge_key not in used_edges:
                 self.borders.append(Border(p1, p2, None))
 
-        assert len(self.borders) == 3
 
     def edges(self):
         """
