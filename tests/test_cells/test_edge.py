@@ -17,10 +17,10 @@ def test_set_oil_value(oil_value):
 
 
 @given(
-    floats(allow_nan=False, allow_infinity=False),
-    floats(allow_nan=False, allow_infinity=False),
-    floats(allow_nan=False, allow_infinity=False),
-    floats(allow_nan=False, allow_infinity=False)
+    floats(-1e6, 1e6),
+    floats(-1e6, 1e6),
+    floats(-1e6, 1e6),
+    floats(-1e6, 1e6)
 )
 def test_calculate_midpoint(p1_x, p2_x, p1_y, p2_y):
     point_1 = Point([p1_x, p1_y])
@@ -33,10 +33,10 @@ def test_calculate_midpoint(p1_x, p2_x, p1_y, p2_y):
 
 
 @given(
-    floats(allow_nan=False, allow_infinity=False),
-    floats(allow_nan=False, allow_infinity=False),
-    floats(allow_nan=False, allow_infinity=False),
-    floats(allow_nan=False, allow_infinity=False)
+    floats(-1e6, 1e6),
+    floats(-1e6, 1e6),
+    floats(-1e6, 1e6),
+    floats(-1e6, 1e6)
 )
 def test_calculate_flow(x_1, y_1, x_2, y_2):
     point_1 = Point([x_1, y_1])

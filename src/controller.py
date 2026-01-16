@@ -5,6 +5,7 @@ from src.model.point.point import Point
 from src.model.view.createImage import CreateImage
 import pathlib
 import meshio
+import cv2
 
 
 def g_function(oil_i, oil_ngh, v_normal, u):
@@ -45,7 +46,7 @@ class Controller:
         self.fishing_ground = fishing_ground
 
     def update_timestep(self):
-        self.timestep += self.timestep_length
+        self.timestep += 1
 
     def update_oil_values(self):
         for triangle in self.triangle_list:
@@ -159,7 +160,7 @@ class Controller:
 
         self.triangle_list = triangle_cells
 
-    def run_simulation(self, simulation_length = 10, timestep = 0.01):
+    def run_simulation(self, simulation_length=10, timestep=0.01):
         self.timestep_length = timestep
         n_simulations = int(simulation_length / self.timestep_length)
         for i in range(n_simulations):
@@ -171,3 +172,43 @@ class Controller:
         image.plot_Triangles()
         image.plot_line(self.fishing_ground, print_txt=True)
         image.save_img(f"src/resources/output/image{img_id}.png")
+
+    def make_video(self, name="oil_simulation"):
+        if self.timestep_length <= 0:
+            raise ValueError("timestep_length must be > 0")
+
+        fps = 1.0 / self.timestep_length
+
+        project_root = pathlib.Path(__file__).resolve().parents[1]
+
+        image_dir = project_root / "src" / "resources" / "output"
+        video_dir = project_root / "videos"
+        video_dir.mkdir(parents=True, exist_ok=True)
+
+        images = sorted(image_dir.glob("image*.png"))
+
+        if not images:
+            raise FileNotFoundError(f"No images found in {image_dir}")
+
+        frame = cv2.imread(str(images[0]))
+        if frame is None:
+            raise FileNotFoundError(f"Could not read {images[0]}")
+
+        height, width, _ = frame.shape
+
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        video_path = video_dir / f"{name}.mp4"
+
+        video = cv2.VideoWriter(
+            str(video_path),
+            fourcc,
+            fps,
+            (width, height),
+        )
+
+        for image in images:
+            img = cv2.imread(str(image))
+            if img is not None:
+                video.write(img)
+
+        video.release()
