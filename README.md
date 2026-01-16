@@ -9,6 +9,10 @@ Software to simulate an oil spill in the ocean at the coast of a fictional town.
 
 ## 📥 Download & Run
 
+### Requirements
+
+Python 3.11.14
+
 ###  Download
 
 Download the latest release from [GitHub](https://github.com/kasper280403/inf202)  
@@ -48,12 +52,12 @@ already done it skip ahead to the run part.
 
 macOS / Linux (bash)
 ```bash
-    python3 src/model/main.py
+    python3 main.py
 ```
 
 Windows (PowerShell)
 ```powershell
-  python src/model/main.py
+  python main.py
 ```
 
 ---
@@ -132,33 +136,38 @@ def calculate_average(values):
 
 ```
 inf202
+├── main.py
 ├── README.md
 ├── requirements.in
 ├── requirements.txt
 ├── src/
-│   ├── __init__.py
-│   ├── main.py
+│   ├── controller.py
 │   ├── model/
-│   │   ├── __init__.py
+│   │   ├── border/
+│   │   │   └── border.py
 │   │   ├── cells/
 │   │   │   ├── __init__.py
-│   │   │   ├── border.py
 │   │   │   ├── cell.py
+│   │   │   ├── edge.py
 │   │   │   └── triangle.py
 │   │   ├── factory/
-│   │   │   ├── __init__.py
 │   │   │   └── factory.py
-│   │   ├── points/
-│   │   │   ├── __init__.py
+│   │   ├── point/
 │   │   │   └── point.py
 │   │   └── view/
-│   │       ├── __init__.py
 │   │       └── createImage.py
 │   └── resources/
 │       ├── bay.msh
-│       └── resources.txt
-└── tests/
-    └── test.txt
+│       └── output/
+│           ├── image0.png
+├── tests/
+│   ├── test_border.py
+│   ├── test_cells/
+│   │   ├── test_edge.py
+│   │   └── test_triangle.py
+│   └── test_point.py
+└── videos/
+    └── oil_simulation.mp4
 ```
 
 ---
