@@ -7,22 +7,37 @@ class Triangle(Cell):
     Represents a cell of the type triangle.
 
     Attributes(inherited from Cell):
-        id (int): Unique identifier of the cell.
+        cell_id (int): The cells id
         corner_points (list[Point]): Instances of the class Point
-        neighbor_ids (list[int]): IDs of bordering cells.
         oil_value (float): The amount of oil in that cell.
+        midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
+        flow (list[float]): Flow of the water at the midpoint, x, y vector.
+        borders (list[Border]): list with instances of Border
 
     Attributes(exclusive to Triangle):
-        midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
-        flow (list[float]): Flow of the water at the midpoint.
         area (float): Area of the triangle.
     """
 
     def __init__(self, corner_points):
         super().__init__(corner_points)
         self.type = "triangle"
-        self.area = None
+        self.area = self.calculate_area()
 
+    def get_area(self):
+        return self.area
+
+    def calculate_area(self):
+        """
+        Calculates the area of the triangle.
+
+        Returns:
+            float: The area of the triangle.
+        """
+        (x1, y1), (x2, y2), (x3, y3) = (
+            p.get_coordinates() for p in self.corner_points
+        )
+
+        return abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2
 
     def check_neighbour(self, other_corner_points):
         """
@@ -30,87 +45,46 @@ class Triangle(Cell):
         Determines if the other cell is bordering itself
 
         Args:
-            self.corner_pointd(list[Point]): List with the instances of Point
             other_corner_points(list[Point]): List with instances of Point for the other cells. .
 
         Returns:
             p1, p2: Instances of the class Point
-            if false return None
+            if false returns None
         """
-
         shared = set(self.corner_points) & set(other_corner_points)
 
         if len(shared) == 2:
             p1, p2 = tuple(shared)
             return p1, p2
-
         return None
 
-    def finalize_neighbors(self):
-
-        used_edges = set(
-            frozenset((p1, p2))
-            for _, p1, p2 in self.neighbors
-        )
-
-        for p1, p2 in self.edges():
-            edge_key = frozenset((p1, p2))
-
-            if edge_key not in used_edges:
-                self.neighbors.append((None, p1, p2))
-
-        assert len(self.neighbors) == 3
-
     def finalize_borders(self):
+        """
+        Method to add the edges of the triangle to the border list.
+        Checks which side is without a border, and creates an instance of Border.
+        """
         used_edges = set(
             frozenset(border.get_points())
             for border in self.borders
         )
 
-        for p1, p2 in self.edges():
+        for p1, p2 in self.get_edges():
             edge_key = frozenset((p1, p2))
 
             if edge_key not in used_edges:
-                self.borders.append(Border(p1, p2, None))
+                self.borders.append(Border(p1, p2, None, self))
 
-        assert len(self.borders) == 3
 
-    def edges(self):
+    def get_edges(self):
+        """
+        Used in finalize_borders() to creat a list to iterate over.
+
+        Returns:
+            list[Tuples]: Each tuple is the Points for one edge of the triangle.
+        """
         p1, p2, p3 = self.corner_points
         return [
             (p1, p2),
             (p2, p3),
             (p3, p1),
         ]
-
-
-    def get_area(self):
-        if self.area is None:
-            self.calculate_area()
-
-        return self.area
-
-    def calculate_area(self):
-        (x1, y1), (x2, y2), (x3, y3) = (
-            p.get_coordinates() for p in self.corner_points
-        )
-
-        area = abs(
-            x1 * (y2 - y3) +
-            x2 * (y3 - y1) +
-            x3 * (y1 - y2)
-        ) / 2
-
-        self.area = area
-
-    # def calc_norm(self):
-    #    for i in range(len(self.corner_points)):
-    #        p1 = self.corner_points[i].get_coordinates()
-    #        p2 = self.corner_points[(i+1)%3].get_coordinates()
-    #        line_vec = [p2[0]-p1[0], p2[1]-p1[1],0]
-    #        normal = np.cross(line_vec,[0,0,1])[0:2]
-    #        midt_p1 = [p1[0]-self.get_midpoint()[0], p1[1]-self.get_midpoint()[1]]
-    #        theta = np.arccos(np.inner(normal, midt_p1) / (np.linalg.norm(normal) * np.linalg.norm(midt_p1)))
-    #        #print(np.arccos(np.inner(normal, line_vec[0:2]) / (np.linalg.norm(line_vec[0:2]) * np.linalg.norm(midt_p1)))/(2*np.pi)*360)
-    #        if theta > np.pi/2:
-    #        self.norm.append(normal)

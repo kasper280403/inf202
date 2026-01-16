@@ -1,5 +1,11 @@
 import numpy as np
 from src.model.border.border import Border
+from src.model.factory.factory import Factory
+from src.model.point.point import Point
+from src.model.view.createImage import CreateImage
+import pathlib
+import meshio
+import cv2
 
 
 def g_function(oil_i, oil_ngh, v_normal, u):
@@ -12,13 +18,17 @@ def g_function(oil_i, oil_ngh, v_normal, u):
 
 
 class Controller:
-    def __init__(self, triangle_list, center_point):
-        self.triangle_list = triangle_list
-        self.center_point = center_point
+    def __init__(self):
+        self.triangle_list = None
+        self.center_point = [0.35, 0.45]
         self.timeline = []
         self.next_oil_value = {}
         self.timestep = 0
         self.timestep_length = 0.01
+        self.fishing_ground = None
+
+    def set_center_point(self, center_point):
+        self.center_point = center_point
 
     def set_initial_oil_values(self):
         value_dict = {}
@@ -32,8 +42,11 @@ class Controller:
 
         self.timeline.append(value_dict)
 
+    def set_fishing_ground(self, fishing_ground):
+        self.fishing_ground = fishing_ground
+
     def update_timestep(self):
-        self.timestep += self.timestep_length
+        self.timestep += 1
 
     def update_oil_values(self):
         for triangle in self.triangle_list:
@@ -48,15 +61,13 @@ class Controller:
 
                 if triangle is other:
                     continue
-                elif triangle.get_n_neighbors() == 3:
-                    break
-                elif other.get_n_neighbors() == 3:
-                    break
+                elif triangle.get_n_borders() == 3:
+                    continue
                 elif points := triangle.check_neighbour(other.get_corner_points()):
-                    border = Border(points[0], points[1], other)
+                    border = Border(points[0], points[1], other, triangle)
                     triangle.add_border(border)
 
-            if triangle.get_n_neighbors() < 3:
+            if triangle.get_n_borders() < 3:
                 triangle.finalize_borders()
 
     def calculate_timestep(self):
@@ -114,3 +125,90 @@ class Controller:
         p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
+
+    def set_up_folder(self):
+        folder = pathlib.Path("src/resources/output")
+
+        folder.mkdir(parents=True, exist_ok=True)
+
+        for item in folder.iterdir():
+            if item.is_file():
+                item.unlink()
+
+    def create_cells(self, mesh_path):
+        mesh = meshio.read(mesh_path)
+
+        point_cells = []
+        for point in mesh.points:
+            point_cells.append(Point(point))
+
+        factory = Factory()
+
+        triangle_cells = []
+        for m in mesh.cells:
+            if m.type == "triangle":
+                for t in m.data:
+                    triangle_cell = factory.create_cell(
+                        "triangle",
+                        corner_points=[
+                            point_cells[t[0]],
+                            point_cells[t[1]],
+                            point_cells[t[2]],
+                        ]
+                    )
+                    triangle_cells.append(triangle_cell)
+
+        self.triangle_list = triangle_cells
+
+    def run_simulation(self, simulation_length=10, timestep=0.01):
+        self.timestep_length = timestep
+        n_simulations = int(simulation_length / self.timestep_length)
+        for i in range(n_simulations):
+            self.calculate_timestep()
+            self.create_image(i)
+
+    def create_image(self, img_id):
+        image = CreateImage(self.triangle_list)
+        image.plot_Triangles()
+        image.plot_line(self.fishing_ground, 'Fishing grounds')
+        image.save_img(f"src/resources/output/image{img_id}.png")
+
+    def make_video(self, name="oil_simulation"):
+        if self.timestep_length <= 0:
+            raise ValueError("timestep_length must be > 0")
+
+        fps = 1.0 / self.timestep_length
+
+        project_root = pathlib.Path(__file__).resolve().parents[1]
+
+        image_dir = project_root / "src" / "resources" / "output"
+        video_dir = project_root / "videos"
+        video_dir.mkdir(parents=True, exist_ok=True)
+
+        images = sorted(image_dir.glob("image*.png"))
+
+        if not images:
+            raise FileNotFoundError(f"No images found in {image_dir}")
+
+        frame = cv2.imread(str(images[0]))
+        if frame is None:
+            raise FileNotFoundError(f"Could not read {images[0]}")
+
+        height, width, _ = frame.shape
+
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        video_path = video_dir / f"{name}.mp4"
+
+        video = cv2.VideoWriter(
+            str(video_path),
+            fourcc,
+            fps,
+            (width, height),
+        )
+
+        for image in images:
+            img = cv2.imread(str(image))
+            if img is not None:
+                video.write(img)
+
+        video.release()

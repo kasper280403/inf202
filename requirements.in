@@ -1,6 +1,15 @@
 matplotlib
 meshio
-numpy
-abc
-pathlib
-pickle
+numpy<2.0
+hypothesis
+pytest
+opencv-python
+
+
+# Built in python tools
+# random
+# itertools
+# itertools
+# pickle
+# abc
+# pathlib
