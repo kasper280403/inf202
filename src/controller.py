@@ -166,12 +166,15 @@ class Controller:
         n_simulations = int(simulation_length / self.timestep_length)
         for i in range(n_simulations):
             self.calculate_timestep()
-            self.create_image(i)
+            if type(n_images) is int and i % n_images == 0:
+                self.create_image(int(i/n_images),f"time = {self.timestep_length*(i+1):.2f}")
 
-    def create_image(self, img_id):
+    def create_image(self, img_id,title = None):
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
         image.plot_line(self.fishing_ground, 'Fishing grounds')
+        if title is not None:
+            image.set_title(f'{title}')
         image.save_img(f"src/resources/output/image{img_id}.png")
 
     def make_video(self, name="oil_simulation"):
