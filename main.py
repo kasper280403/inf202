@@ -26,7 +26,7 @@ print("Setup took:", stop_time - start_time, "seconds.")
 
 start_time = time.time()
 
-controller.run_simulation(0.1, 0.01)
+controller.run_simulation(0.5, 50, 2)
 
 stop_time = time.time()
 print("Time to run simulation:", stop_time - start_time, "seconds.")

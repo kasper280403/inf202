@@ -4,6 +4,7 @@ numpy<2.0
 hypothesis
 pytest
 opencv-python
+natsort
 
 
 # Built in python tools
