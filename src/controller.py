@@ -6,6 +6,7 @@ from src.model.view.createImage import CreateImage
 import pathlib
 import meshio
 import cv2
+from natsort import natsorted
 
 
 def g_function(oil_i, oil_ngh, v_normal, u):
@@ -185,7 +186,7 @@ class Controller:
         video_dir = project_root / "videos"
         video_dir.mkdir(parents=True, exist_ok=True)
 
-        images = sorted(image_dir.glob("image*.png"))
+        images = natsorted(image_dir.glob("image*.png"))
 
         if not images:
             raise FileNotFoundError(f"No images found in {image_dir}")
