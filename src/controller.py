@@ -161,9 +161,9 @@ class Controller:
 
         self.triangle_list = triangle_cells
 
-    def run_simulation(self, simulation_length=10, timestep=0.01):
-        self.timestep_length = timestep
-        n_simulations = int(simulation_length / self.timestep_length)
+    def run_simulation(self, simulation_length=10, n_simulations = 100, n_images = None):
+        self.timestep_length = float(simulation_length)/n_simulations
+        n_simulations = int(n_simulations)
         for i in range(n_simulations):
             self.calculate_timestep()
             if type(n_images) is int and i % n_images == 0:
