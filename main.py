@@ -29,3 +29,5 @@ controller.run_simulation(0.1, 0.01)
 
 stop_time = time.time()
 print(f"Time to run simulation:", stop_time - start_time, "seconds.")
+
+controller.make_video()
