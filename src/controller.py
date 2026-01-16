@@ -177,11 +177,9 @@ class Controller:
             image.set_title(f'{title}')
         image.save_img(f"src/resources/output/image{img_id}.png")
 
-    def make_video(self, name="oil_simulation"):
+    def make_video(self, name="oil_simulation", vid_length = 5.0):
         if self.timestep_length <= 0:
             raise ValueError("timestep_length must be > 0")
-
-        fps = 1.0 / self.timestep_length
 
         project_root = pathlib.Path(__file__).resolve().parents[1]
 
@@ -197,6 +195,8 @@ class Controller:
         frame = cv2.imread(str(images[0]))
         if frame is None:
             raise FileNotFoundError(f"Could not read {images[0]}")
+        
+        fps = len(images)/vid_length
 
         height, width, _ = frame.shape
 
