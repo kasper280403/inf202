@@ -39,11 +39,12 @@ def run_simulation(n_steps, time_end, mesh_name, borders, log_name = "logfile", 
     controller.set_initial_oil_values()
     controller.set_neighbours()
     controller.set_fishing_ground(borders)
+    controller.create_image(0, "time: 0.00")
     stop_time = time.time()
     print("Setup took:", stop_time - start_time, "seconds.")
     start_time = time.time()
     controller.run_simulation(time_end, n_steps, 2)
     stop_time = time.time()
     print("Time to run simulation:", stop_time - start_time, "seconds.")
-    controller.make_video()
+    controller.make_video(log_folder_path, time_end)
 

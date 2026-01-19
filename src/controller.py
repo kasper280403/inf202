@@ -161,15 +161,21 @@ class Controller:
 
         self.triangle_list = triangle_cells
 
-    def run_simulation(self, simulation_length=10, n_simulations = 100, n_images = None):
-        self.timestep_length = float(simulation_length)/n_simulations
+    def run_simulation(self, simulation_length=10, n_simulations=100, write_frequency=None):
+        self.timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
+        frequency_counter = 0
+        if write_frequency is not None:
+            write_frequency = int(np.ceil(write_frequency))
+
         for i in range(n_simulations):
             self.calculate_timestep()
-            if type(n_images) is int and i % n_images == 0:
-                self.create_image(int(i/n_images),f"time = {self.timestep_length*(i+1):.2f}")
+            frequency_counter += 1
+            if frequency_counter == write_frequency:
+                self.create_image(int(i), f"time = {self.timestep_length * (i + 1):.2f}")
+                frequency_counter = 0
 
-    def create_image(self, img_id,title = None):
+    def create_image(self, img_id, title=None):
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
         image.plot_line(self.fishing_ground, 'Fishing grounds')
@@ -177,15 +183,14 @@ class Controller:
             image.set_title(f'{title}')
         image.save_img(f"src/resources/output/image{img_id}.png")
 
-    def make_video(self, name="oil_simulation", vid_length = 5.0):
+    def make_video(self, log_folder_path, vid_length=5.0, name="oil_simulation"):
+
         if self.timestep_length <= 0:
             raise ValueError("timestep_length must be > 0")
 
         project_root = pathlib.Path(__file__).resolve().parents[1]
 
         image_dir = project_root / "src" / "resources" / "output"
-        video_dir = project_root / "videos"
-        video_dir.mkdir(parents=True, exist_ok=True)
 
         images = natsorted(image_dir.glob("image*.png"))
 
@@ -195,13 +200,13 @@ class Controller:
         frame = cv2.imread(str(images[0]))
         if frame is None:
             raise FileNotFoundError(f"Could not read {images[0]}")
-        
-        fps = len(images)/vid_length
+
+        fps = len(images) / vid_length
 
         height, width, _ = frame.shape
 
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        video_path = video_dir / f"{name}.mp4"
+        video_path = log_folder_path / f"{name}.mp4"
 
         video = cv2.VideoWriter(
             str(video_path),
