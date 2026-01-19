@@ -4,7 +4,7 @@ from src.controller import Controller
 
 
 border_default = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
-run_simulation(50, 0.5, "bay.msh", border_default)
+run_simulation(50, 0.5, "bay.msh", border_default, None, 5)
 
 
 
@@ -26,7 +26,9 @@ def create_folder(base_name):
     return folder_path
 
 
-def run_simulation(n_steps, time_end, mesh_name, borders, log_name = "logfile", write_frequency = None, center_point=None):
+def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None, log_name = None, center_point=None):
+    if log_name is None:
+        log_name = "logfile"
     log_folder_path = create_folder(log_name)
     if center_point is None:
         center_point = [0.35, 0.45]
@@ -43,8 +45,9 @@ def run_simulation(n_steps, time_end, mesh_name, borders, log_name = "logfile", 
     stop_time = time.time()
     print("Setup took:", stop_time - start_time, "seconds.")
     start_time = time.time()
-    controller.run_simulation(time_end, n_steps, 2)
+    controller.run_simulation(time_end, n_steps, write_frequency)
     stop_time = time.time()
     print("Time to run simulation:", stop_time - start_time, "seconds.")
-    controller.make_video(log_folder_path, time_end)
+    if write_frequency is not None:
+        controller.make_video(log_folder_path, time_end)
 
