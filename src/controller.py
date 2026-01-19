@@ -46,6 +46,10 @@ class Controller:
         self.oil_null_point = center_point
 
     def set_initial_oil_values(self):
+        """
+        Calculates the initial oil values, according to the formula provided.
+        Adds the inital oil value to the timeline.
+        """
         value_dict = {}
 
         for triangle in self.triangle_list:
@@ -64,13 +68,18 @@ class Controller:
         self.timestep += 1
 
     def update_oil_values(self):
+        """
+        Loops through the triangle_list and updates the oil values from the latest timestep.
+        """
         for triangle in self.triangle_list:
             cell_id = triangle.get_id()
             oil_value = self.timeline[self.timestep].get(cell_id)
             triangle.set_oil_value(oil_value)
 
     def set_neighbours(self):
-
+        """
+        Loops through the triangle_list and finds the neighbours of each triangle.
+        """
         for triangle in self.triangle_list:
             for other in self.triangle_list:
 
@@ -86,7 +95,11 @@ class Controller:
                 triangle.finalize_borders()
 
     def calculate_timestep(self):
-
+        """
+        Excecutive function to calculate the next timestep for all the triangles.
+        Loops through the triangle_list and calls the calculate_oil_triangle() function.
+        Loops through the triangle_list and updates each Triangle with new value.
+        """
         self.update_timestep()
 
         for triangle in self.triangle_list:
@@ -96,7 +109,13 @@ class Controller:
             triangle.set_oil_value(self.next_oil_value.get(triangle.get_id()))
 
     def calculate_oil_triangle(self, triangle):
+        """
+        Takes a single Triangle and calls the calculate_flux_triangle_edge on all sides.
+        Calculates the next oil value in the Triangle based on the 3 fluxes and adds to the next_oil_value
 
+        Args:
+            triangle (Triangle): The triangle to calculate the oil value for.
+        """
         area_i = triangle.get_area()
         flow_i = np.array(triangle.get_flow())
         oil_i = triangle.get_oil_value()
@@ -119,6 +138,17 @@ class Controller:
         self.next_oil_value[triangle.get_id()] = oil_value_new
 
     def calculate_flux_triangle_edge(self, border, area_i, flow_i, oil_i):
+        """
+        Calculates flux over an edge of the triangle.
+
+        Args:
+            border (Border): A instance of the class Border belonging to the Triangle.
+            area_i (float): The area of Triangle.
+            flow_i (float): The flow of the Triangle.
+            oil_i (float): The oil value of the Triangle.
+        Returns:
+            float: The flux over the edge of the Triangle.
+        """
         p_1 = - self.timestep_length / area_i
 
         v_normal = border.get_normal()
@@ -142,6 +172,9 @@ class Controller:
         return p_1 * p_2
 
     def set_up_folder(self):
+        """
+        Empties if exists or creates the folder to store the images for the simulation
+        """
         folder = pathlib.Path("src/resources/output")
 
         folder.mkdir(parents=True, exist_ok=True)
