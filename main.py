@@ -2,21 +2,13 @@ import pathlib
 import time
 from src.controller import Controller
 
-
-border_default = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
-run_simulation(50, 0.5, "bay.msh", border_default, None, 5)
-
-
-
-
 def create_folder(base_name):
     result_path = pathlib.Path(__file__).parent / "results"
 
     i = 0
-    folder_path = None
     while True:
         folder_name = base_name if i == 0 else f"{base_name}{i}"
-        folder_path = result_path / folder_name
+        folder_path = result_path / str(folder_name)
         if not folder_path.exists():
             break
         i += 1
@@ -50,4 +42,8 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
     print("Time to run simulation:", stop_time - start_time, "seconds.")
     if write_frequency is not None:
         controller.make_video(log_folder_path, time_end)
+
+
+border_default = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
+run_simulation(50, 0.5, "bay.msh", border_default, 5, None)
 
