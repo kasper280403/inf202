@@ -28,7 +28,7 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
     start_time = time.time()
     controller = Controller()
     controller.set_up_folder()
-    controller.set_center_point(center_point)
+    controller.set_oil_null_point(center_point)
     mesh_path = pathlib.Path(__file__).parent / "src" / "resources" / mesh_name
     controller.create_cells(mesh_path)
     controller.set_initial_oil_values()
