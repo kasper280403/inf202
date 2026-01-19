@@ -46,5 +46,5 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
 
 
 border_default = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
-run_simulation(20, 0.5, "bay.msh", border_default, 5, None)
+run_simulation(50, 0.5, "bay.msh", border_default, 5, None)
 
