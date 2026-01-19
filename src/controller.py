@@ -227,7 +227,7 @@ class Controller:
         Attributes:
             simulation_length (float): The length of the simulation in seconds.
             n_simulations (int): The number of simulation steps to run.
-            n_images (int): The number of simulations to calculate per image.
+            write_frequency (int): The number of simulations to calculate per image.
         """
         self.timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
@@ -249,6 +249,7 @@ class Controller:
         Attributes:
             img_id (float): Added to the end of the image as a way to order them.
             title (string): Optional title added to the image
+            save_path (pathlib.Path): Path to the folder the image is saved in, optional.
         """
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
@@ -266,8 +267,9 @@ class Controller:
         Optional to add name and length to the video, else default is used.
 
         Attributes:
-            name (string): The name of the video file.
+            log_folder_path (pathlib.Path): The path to the folder the video is saved in.
             vid_length (float): The length of the video in seconds.
+            name (string): The name of the video file, optional.
         """
         if self.timestep_length <= 0:
             raise ValueError("timestep_length must be > 0")
