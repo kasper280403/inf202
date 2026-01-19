@@ -1,5 +1,5 @@
-import numpy as np
 import pytest
+import numpy as np
 
 from src.model.border.border import Border
 from src.model.point.point import Point
@@ -24,5 +24,3 @@ def test_border_vector():
 
     dot = np.dot(v, n)
     assert dot == pytest.approx(0.0)
-
-
