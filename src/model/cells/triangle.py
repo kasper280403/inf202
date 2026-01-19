@@ -21,10 +21,10 @@ class Triangle(Cell):
     def __init__(self, corner_points):
         super().__init__(corner_points)
         self._type = "triangle"
-        self.area = self.calculate_area()
+        self._area = self.calculate_area()
 
     def get_area(self):
-        return self.area
+        return self._area
 
     def calculate_area(self):
         """
