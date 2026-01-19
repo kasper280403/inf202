@@ -42,8 +42,9 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
     print("Time to run simulation:", stop_time - start_time, "seconds.")
     if write_frequency is not None:
         controller.make_video(log_folder_path, time_end)
+    controller.create_image("final_image", f"time: {time_end:.2f}", log_folder_path)
 
 
 border_default = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
-run_simulation(50, 0.5, "bay.msh", border_default, 5, None)
+run_simulation(20, 0.5, "bay.msh", border_default, 5, None)
 

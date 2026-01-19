@@ -175,13 +175,16 @@ class Controller:
                 self.create_image(int(i), f"time = {self.timestep_length * (i + 1):.2f}")
                 frequency_counter = 0
 
-    def create_image(self, img_id, title=None):
+    def create_image(self, img_id, title=None, save_path=None):
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
         image.plot_line(self.fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
-        image.save_img(f"src/resources/output/image{img_id}.png")
+        if save_path is not None:
+            image.save_img(save_path/f'{img_id}.png')
+        else:
+            image.save_img(f"src/resources/output/image{img_id}.png")
 
     def make_video(self, log_folder_path, vid_length=5.0, name="oil_simulation"):
 
