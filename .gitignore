@@ -54,3 +54,4 @@ __pycache__/
 *.png
 .hypothesis/
 *.mp4
+results/
