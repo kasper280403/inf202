@@ -24,6 +24,8 @@ mdurl==0.1.2
     # via markdown-it-py
 meshio==5.3.5
     # via -r requirements.in
+natsort==8.4.0
+    # via -r requirements.in
 numpy==1.26.4
     # via
     #   -r requirements.in

@@ -5,7 +5,6 @@ hypothesis
 pytest
 opencv-python
 natsort
-tomllib
 
 # Built in python tools
 # random
@@ -14,3 +13,4 @@ tomllib
 # pickle
 # abc
 # pathlib
+# tomllib
