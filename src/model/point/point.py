@@ -36,7 +36,3 @@ class Point:
     def __hash__(self):
         """Hash based on x and y coordinates are equal"""
         return hash((self._x, self._y))
-
-    def __str__(self):
-        """Returns a readable string representation of the Point"""
-        return f"Point with coordinates x = {self._x}, y = {self._y}"
