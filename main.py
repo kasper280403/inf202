@@ -1,5 +1,6 @@
 import pathlib
 import time
+import tomllib
 from src.controller import Controller
 
 def create_folder(base_name):
@@ -35,16 +36,34 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
     controller.set_fishing_ground(borders)
     controller.create_image(0, "time: 0.00")
     stop_time = time.time()
-    print("Setup took:", stop_time - start_time, "seconds.")
+    print(f"Setup took: {(stop_time - start_time):.2f} seconds.")
     start_time = time.time()
     controller.run_simulation(time_end, n_steps, write_frequency)
     stop_time = time.time()
-    print("Time to run simulation:", stop_time - start_time, "seconds.")
+    print(f"Time to run simulation: {(stop_time - start_time):.2f} seconds.")
     if write_frequency is not None:
         controller.make_video(log_folder_path, time_end)
     controller.create_image("final_image", f"time: {time_end:.2f}", log_folder_path)
 
 
-border_default = [[0.0, 0.0, 0.45, 0.45, 0.0], [0.0, 0.2, 0.2, 0.0, 0.0]]
-run_simulation(50, 0.5, "bay.msh", border_default, 5, "SlipSlop")
+toml_dir = pathlib.Path(__file__).parent / "toml_files"
+
+for toml_file in toml_dir.glob("*.toml"):
+    with toml_file.open("rb") as f:
+        config = tomllib.load(f)
+
+        print("")
+        print("Running simulation with toml file:", toml_file.name)
+
+        n_steps = config["settings"]["nSteps"]
+        time_end = config["settings"]["tEnd"]
+
+        mesh_name = config["geometry"]["meshName"]
+        borders = config["geometry"]["borders"]
+
+        log_name = config["IO"].get("logName")
+        write_frequency = config["IO"].get("writeFrequency")
+
+        run_simulation(n_steps, time_end, mesh_name, borders, write_frequency, log_name)
+
 
