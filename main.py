@@ -8,7 +8,7 @@ controller = Controller()
 
 controller.set_up_folder()
 
-controller.set_center_point([0.35, 0.45])
+controller.set_oil_null_point([0.35, 0.45])
 
 mesh_path = pathlib.Path(__file__).parent / "src" / "resources" / "bay.msh"
 
