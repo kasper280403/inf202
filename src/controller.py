@@ -219,7 +219,7 @@ class Controller:
 
         self.triangle_list = triangle_cells
 
-    def run_simulation(self, simulation_length=10, n_simulations=100, n_images=None):
+    def run_simulation(self, simulation_length=10, n_simulations=100, write_frequency=None):
         """
         Runs the simulation until it reaches the desired length, with the specified number of simulations.
         Creates images, with the specified number of simulation per image.
@@ -231,12 +231,18 @@ class Controller:
         """
         self.timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
+        frequency_counter = 0
+        if write_frequency is not None:
+            write_frequency = int(np.ceil(write_frequency))
+
         for i in range(n_simulations):
             self.calculate_timestep()
-            if type(n_images) is int and i % n_images == 0:
-                self.create_image(int(i / n_images), f"time = {self.timestep_length * (i + 1):.2f}")
+            frequency_counter += 1
+            if frequency_counter == write_frequency:
+                self.create_image(int(i), f"time = {self.timestep_length * (i + 1):.2f}")
+                frequency_counter = 0
 
-    def create_image(self, img_id, title=None):
+    def create_image(self, img_id, title=None, save_path=None):
         """
         Creates an image of the current oil distribution.
 
@@ -249,9 +255,12 @@ class Controller:
         image.plot_line(self.fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
-        image.save_img(f"src/resources/output/image{img_id}.png")
+        if save_path is not None:
+            image.save_img(save_path/f'{img_id}.png')
+        else:
+            image.save_img(f"src/resources/output/image{img_id}.png")
 
-    def make_video(self, name="oil_simulation", vid_length=5.0):
+    def make_video(self, log_folder_path, vid_length=5.0, name="oil_simulation"):
         """
         Creates a video using all the images added to the output folder.
         Optional to add name and length to the video, else default is used.
@@ -266,8 +275,6 @@ class Controller:
         project_root = pathlib.Path(__file__).resolve().parents[1]
 
         image_dir = project_root / "src" / "resources" / "output"
-        video_dir = project_root / "videos"
-        video_dir.mkdir(parents=True, exist_ok=True)
 
         images = natsorted(image_dir.glob("image*.png"))
 
@@ -283,7 +290,7 @@ class Controller:
         height, width, _ = frame.shape
 
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        video_path = video_dir / f"{name}.mp4"
+        video_path = log_folder_path / f"{name}.mp4"
 
         video = cv2.VideoWriter(
             str(video_path),
