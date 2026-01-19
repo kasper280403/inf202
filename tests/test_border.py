@@ -6,10 +6,15 @@ from src.model.point.point import Point
 from src.model.cells.triangle import Triangle
 
 
+@pytest.mark.parametrize("point1, point2, point3",
+                         [([0, 0], [1, 0], [0, 1]),
+                          ([0.2, 0.4], [1, 1], [0, 0]),
+                          ([1, 1], [0, 1], [0.5, 0.5]),
+                          ([0.4, .3], [0.1, 0.8], [0.2, 0.5])])
 def test_border_vector():
-    p1 = Point((0, 0))
-    p2 = Point((1, 0))
-    p3 = Point((0, 1))
+    p1 = Point(point1)
+    p2 = Point(point2)
+    p3 = Point(point3)
     tri = Triangle([p1, p2, p3])
 
     border = Border(p1, p2, None, tri)

@@ -3,6 +3,7 @@ import numpy as np
 
 from src.model.point.point import Point
 
+
 def test_point_equality():
     p1 = Point((1, 2))
     p2 = Point((1, 2))
@@ -18,10 +19,9 @@ def test_point_hashing():
 
     assert len(s) == 1
 
+
 def test_point_get_coordinates():
     p = Point((3, 4))
-    coord = p.get_coordinates()
-        
+    coord = p.get_coordinates()      
 
     assert np.array_equal(coord, np.array([3, 4]))
-
