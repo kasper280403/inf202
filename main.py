@@ -18,8 +18,8 @@ controller.set_initial_oil_values()
 
 controller.set_neighbours()
 
-controller.set_fishing_ground([[0.0, 0.0, 0.45, 0.45, 0.0],
-                               [0.0, 0.2, 0.2, 0.0, 0.0]])
+controller.set_fishing_ground([[0.0, 0.45],
+                               [0.0, 0.2]])
 
 stop_time = time.time()
 print("Setup took:", stop_time - start_time, "seconds.")

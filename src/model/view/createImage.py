@@ -55,18 +55,20 @@ class CreateImage():
 
         self._plot = plt    # save plot to be accessed later
 
-    def plot_line(self, line, print_txt=''):
+    def plot_fishing_ground(self, fg, print_txt=''):
         """
         Function to plot given line
 
         Attributes:
-            line (list[list[float]]): A list containing lists of the different
+            fish_ground (list[list[float]]): A list containing lists of the different
                                       axis coordinates for the line
             print_txt (Bool): String of text to plot beside the line
         """
-        self._plot.plot(line[0], line[1], linewidth=2, color='red')
+        x_values = [fg[0][0], fg[0][0], fg[0][1], fg[0][1], fg[0][0]]
+        y_values = [fg[1][0], fg[1][1], fg[1][1], fg[1][0], fg[1][0]]
+        self._plot.plot(x_values, y_values, linewidth=2, color='red')
         if len(print_txt) != 0:
-            self._plot.text(line[1][0]+0.01, line[1][1] + 0.02,
+            self._plot.text(x_values[1] + 0.01, y_values[1] + 0.02,
                             print_txt,
                             color='red'
                             )

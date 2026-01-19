@@ -172,7 +172,7 @@ class Controller:
     def create_image(self, img_id,title = None):
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
-        image.plot_line(self.fishing_ground, 'Fishing grounds')
+        image.plot_fishing_ground(self.fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
         image.save_img(f"src/resources/output/image{img_id}.png")
