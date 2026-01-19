@@ -9,14 +9,6 @@ import cv2
 from natsort import natsorted
 
 
-def g_function(oil_i, oil_ngh, v_normal, u):
-    dot = np.dot(v_normal, u)
-
-    if dot > 0:
-        return oil_i * dot
-    else:
-        return oil_ngh * dot
-
 
 class Controller:
     """
@@ -144,8 +136,9 @@ class Controller:
         Args:
             border (Border): A instance of the class Border belonging to the Triangle.
             area_i (float): The area of Triangle.
-            flow_i (float): The flow of the Triangle.
+            flow_i (np.array[float]): The flow of the Triangle.
             oil_i (float): The oil value of the Triangle.
+
         Returns:
             float: The flux over the edge of the Triangle.
         """
@@ -155,7 +148,7 @@ class Controller:
         oil_ngh = border.get_neighbour().get_oil_value()
         flow_ngh = np.array(border.get_neighbour().get_flow())
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
+        p_2 = self.g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
 
@@ -167,9 +160,20 @@ class Controller:
         oil_ngh = 0
         flow_ngh = [0.0, 0.0]
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
+        p_2 = self.g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
+
+    def g_function(self, oil_i, oil_ngh, v_normal, u):
+        """
+        Simplifies the calculate_flux_triangle_edge function, by doing some of the math operations.
+        """
+        dot = np.dot(v_normal, u)
+
+        if dot > 0:
+            return oil_i * dot
+        else:
+            return oil_ngh * dot
 
     def set_up_folder(self):
         """
@@ -184,6 +188,13 @@ class Controller:
                 item.unlink()
 
     def create_cells(self, mesh_path):
+        """
+        Reads the mesh file and creates the instances of the Triangles.
+        Adds the Triangles to the triangle_list.
+
+        Args:
+            mesh_path (pathlib.Path): The path to the mesh file.
+        """
         mesh = meshio.read(mesh_path)
 
         point_cells = []
@@ -209,6 +220,15 @@ class Controller:
         self.triangle_list = triangle_cells
 
     def run_simulation(self, simulation_length=10, n_simulations=100, n_images=None):
+        """
+        Runs the simulation until it reaches the desired length, with the specified number of simulations.
+        Creates images, with the specified number of simulation per image.
+
+        Attributes:
+            simulation_length (float): The length of the simulation in seconds.
+            n_simulations (int): The number of simulation steps to run.
+            n_images (int): The number of simulations to calculate per image.
+        """
         self.timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
         for i in range(n_simulations):
@@ -217,6 +237,13 @@ class Controller:
                 self.create_image(int(i / n_images), f"time = {self.timestep_length * (i + 1):.2f}")
 
     def create_image(self, img_id, title=None):
+        """
+        Creates an image of the current oil distribution.
+
+        Attributes:
+            img_id (float): Added to the end of the image as a way to order them.
+            title (string): Optional title added to the image
+        """
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
         image.plot_line(self.fishing_ground, 'Fishing grounds')
@@ -225,6 +252,14 @@ class Controller:
         image.save_img(f"src/resources/output/image{img_id}.png")
 
     def make_video(self, name="oil_simulation", vid_length=5.0):
+        """
+        Creates a video using all the images added to the output folder.
+        Optional to add name and length to the video, else default is used.
+
+        Attributes:
+            name (string): The name of the video file.
+            vid_length (float): The length of the video in seconds.
+        """
         if self.timestep_length <= 0:
             raise ValueError("timestep_length must be > 0")
 
