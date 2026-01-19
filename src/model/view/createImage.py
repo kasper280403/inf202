@@ -37,7 +37,14 @@ class CreateImage():
         plt.colorbar(sm, cax=cbar_ax, label='Oil level')
 
         for triangle in self._triangles:  # add all the triangles into the plot
-            plt.gca().add_patch(
+            if triangle.get_in_fg() == True and triangle.get_oil_value() <0.01:
+                plt.gca().add_patch(
+                    plt.Polygon([point.get_coordinates()
+                                for point in triangle.get_corner_points()],
+                                color='green',
+                                alpha=0.9))
+            else:
+                 plt.gca().add_patch(
                 plt.Polygon([point.get_coordinates()
                              for point in triangle.get_corner_points()],
                             color=plt.cm.coolwarm((triangle.get_oil_value()
@@ -51,7 +58,7 @@ class CreateImage():
         plt.xlim(0, 1)  # set the x-axis limits
         plt.ylim(0, 1)  # set the y-axis limits
         plt.gca().set_aspect('equal')
-        plt.gca().set_facecolor('green')    # set land to green
+        plt.gca().set_facecolor('gray')    # set land to gray
 
         self._plot = plt    # save plot to be accessed later
 
