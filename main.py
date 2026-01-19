@@ -21,6 +21,14 @@ controller.set_neighbours()
 controller.set_fishing_ground([[0.0, 0.45],
                                [0.0, 0.2]])
 
+
+
+controller.calculate_triangles_fg()
+controller.config_logger("output.log")
+controller.log_oil_level(0)
+
+
+
 stop_time = time.time()
 print("Setup took:", stop_time - start_time, "seconds.")
 

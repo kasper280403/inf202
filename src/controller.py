@@ -7,6 +7,7 @@ import pathlib
 import meshio
 import cv2
 from natsort import natsorted
+import logging
 
 
 def g_function(oil_i, oil_ngh, v_normal, u):
@@ -27,6 +28,7 @@ class Controller:
         self.timestep = 0
         self.timestep_length = 0.01
         self.fishing_ground = None
+        self._logger = None
 
     def set_center_point(self, center_point):
         self.center_point = center_point
@@ -80,6 +82,8 @@ class Controller:
 
         for triangle in self.triangle_list:
             triangle.set_oil_value(self.next_oil_value.get(triangle.get_id()))
+
+        self.calculate_triangles_fg()
 
     def calculate_oil_triangle(self, triangle):
 
@@ -166,8 +170,10 @@ class Controller:
         n_simulations = int(n_simulations)
         for i in range(n_simulations):
             self.calculate_timestep()
+            time = self.timestep_length*(i+1)
+            self.log_oil_level(time)
             if type(n_images) is int and i % n_images == 0:
-                self.create_image(int(i/n_images),f"time = {self.timestep_length*(i+1):.2f}")
+                self.create_image(int(i/n_images),f"time = {time:.2f}")
 
     def create_image(self, img_id,title = None):
         image = CreateImage(self.triangle_list)
@@ -216,3 +222,33 @@ class Controller:
                 video.write(img)
 
         video.release()
+
+
+    def config_logger(self,filename):
+        self._logger = logging.getLogger('Oil in fishing grounds')
+        self._logger.setLevel(logging.INFO)
+
+        file_handler = logging.FileHandler(filename)
+        file_handler.setLevel(logging.INFO)
+
+        file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(file_formatter)
+
+        self._logger.addHandler(file_handler)
+
+
+    def calculate_triangles_fg(self):
+        for triangle in self.triangle_list:
+            triangle.calculate_in_fg(self.fishing_ground)
+
+    def log_oil_level(self,time):
+        sum_oil = 0
+        sum_area = 0
+        for triangle in self.triangle_list:
+            if triangle.get_in_fg() == True:
+                sum_area = sum_area + triangle.get_area()
+                if triangle.get_oil_value() > 0.01:
+                    sum_oil = sum_oil + triangle.get_area()
+        percentage = sum_oil/sum_area*100
+        self._logger.info(f"t:{time:.2f} Area in fishing grounds covered in oil {sum_oil:.3f} / {sum_area:.3f} ({percentage:.0f}%)")
+        
