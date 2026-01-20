@@ -24,9 +24,6 @@ class Border:
         if self._neighbour is None:
             self.create_edge()
 
-    def create_edge(self):
-        self._neighbour = Edge([self._p1, self._p2])
-
     def calculate_normal(self):
         """
         Calculates the normal for the current border
@@ -56,3 +53,6 @@ class Border:
 
     def get_normal(self):
         return self._normal
+
+    def create_edge(self):
+        self._neighbour = Edge([self._p1, self._p2])
