@@ -78,6 +78,7 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
         controller.run_simulation(time_end, n_steps, write_frequency)
     stop_time = time.time()
     print(f"Simulation finished. Time to run simulation: {(stop_time - start_time):.2f} seconds.")
+    print(f"Simulation saved under {log_folder_path.resolve()}")
 
     if write_frequency is not None:
         controller.make_video(log_folder_path, time_end)
@@ -97,7 +98,6 @@ def create_folder(base_name):
 
 
     folder_path = result_path / folder_name
-    print(f"Simulation saved under {folder_path.resolve()}")
 
     return folder_path
 
