@@ -159,15 +159,12 @@ inf202
 │   └── resources/
 │       ├── bay.msh
 │       └── output/
-│           ├── image0.png
+│             └──  image0.png
 ├── tests/
-│   ├── test_border.py
-│   ├── test_cells/
-│   │   ├── test_edge.py
-│   │   └── test_triangle.py
-│   └── test_point.py
-└── videos/
-    └── oil_simulation.mp4
+├── toml_files/
+│   └── input.toml
+└── results/
+
 ```
 
 ---

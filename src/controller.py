@@ -227,14 +227,14 @@ class Controller:
             n_simulations (int): The number of simulation steps to run.
             write_frequency (int): The number of simulations to calculate per image.
         """
-        self.timestep_length = float(simulation_length)/n_simulations
+        self.timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
         for i in range(n_simulations):
             self.calculate_timestep()
-            time = self.timestep_length*(i+1)
+            time = self.timestep_length * (i + 1)
             self.log_oil_level(time)
             if type(sim_per_img) is int and i % sim_per_img == 0:
-                self.create_image(int(i/sim_per_img), f"time = {time:.2f}")
+                self.create_image(int(i / sim_per_img), f"time = {time:.2f}")
 
     def create_image(self, img_id, title=None, save_path=None):
         """
@@ -251,7 +251,7 @@ class Controller:
         if title is not None:
             image.set_title(f'{title}')
         if save_path is not None:
-            image.save_img(save_path/f'{img_id}.png')
+            image.save_img(save_path / f'{img_id}.png')
         else:
             image.save_img(f"src/resources/output/image{img_id}.png")
 
@@ -346,5 +346,6 @@ class Controller:
                 sum_area = sum_area + triangle.get_area()
                 if triangle.get_oil_value() > 0.01:
                     sum_oil = sum_oil + triangle.get_area()
-        percentage = sum_oil/sum_area*100
-        self._logger.info(f"t:{time:.3f} Area of oil in fishing grounds {sum_oil:.3f} / {sum_area:.3f} ({percentage:.0f}%)")
+        percentage = sum_oil / sum_area * 100
+        self._logger.info(
+            f"t:{time:.3f} Area of oil in fishing grounds {sum_oil:.3f} / {sum_area:.3f} ({percentage:.0f}%)")
