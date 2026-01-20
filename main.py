@@ -14,12 +14,17 @@ def main():
         search_directory = pathlib.Path(__file__).parent / "toml_files"
 
     if args.find_all:
+        print(f"Running simulations on all files in: {search_directory}")
         for config_file in search_directory.glob("*.toml"):
             run_file(config_file)
     elif args.config_file:
         run_file(pathlib.Path(args.config_file))
     else:
-        run_file(pathlib.Path("input.toml"))
+        default_config = search_directory / "input.toml"
+        if default_config.exists():
+            run_file(default_config)
+        else:
+            print("No toml file found")
 
 
 
@@ -81,7 +86,10 @@ def create_folder(base_name):
             break
         i += 1
     folder_path.mkdir(parents=True, exist_ok=False)
-    print(f"Simulation saved under results/{folder_name}")
+
+
+    folder_path = result_path / folder_name
+    print(f"Simulation saved under {folder_path.resolve()}")
 
     return folder_path
 
@@ -112,5 +120,7 @@ def parse_args():
     return parser.parse_args()
 
 
+if __name__ == "__main__":
+    main()
 
 
