@@ -13,6 +13,7 @@ def main():
         search_directory = pathlib.Path(args.folder)
     else:
         search_directory = pathlib.Path(__file__).parent / "toml_files"
+    print("")
 
     if args.find_all:
         print(f"Running simulations on all files in: {search_directory}")
@@ -26,8 +27,6 @@ def main():
             run_file(default_config)
         else:
             print("No toml file found")
-
-
 
 
 def run_file(toml_file):
@@ -49,8 +48,7 @@ def run_file(toml_file):
         run_simulation(n_steps, time_end, mesh_name, borders, write_frequency, log_name)
 
 
-
-def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None, log_name = None, center_point=None):
+def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency=None, log_name=None, center_point=None):
     if log_name is None:
         log_name = "logfile"
     log_folder_path = create_folder(log_name)
@@ -68,6 +66,10 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
         controller.set_initial_oil_values()
         controller.set_neighbours()
         controller.set_fishing_ground(borders)
+        controller.calculate_triangles_fg()
+        controller.config_logger(log_folder_path / f"{log_name}.log")
+        controller.log_variables(n_steps, time_end, mesh_name, borders, log_name, write_frequency)
+        controller.log_oil_level(0)
         controller.create_image(0, "time: 0.00")
     stop_time = time.time()
     print(f"Setup took: {(stop_time - start_time):.2f} seconds.")
@@ -84,6 +86,7 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
         controller.make_video(log_folder_path, time_end)
     controller.create_image("final_image", f"time: {time_end:.2f}", log_folder_path)
 
+
 def create_folder(base_name):
     result_path = pathlib.Path(__file__).parent / "results"
 
@@ -95,7 +98,6 @@ def create_folder(base_name):
             break
         i += 1
     folder_path.mkdir(parents=True, exist_ok=False)
-
 
     folder_path = result_path / folder_name
 
@@ -130,5 +132,3 @@ def parse_args():
 
 if __name__ == "__main__":
     main()
-
-

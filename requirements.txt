@@ -56,7 +56,9 @@ pytest==9.0.2
 python-dateutil==2.9.0.post0
     # via matplotlib
 rich==14.2.0
-    # via meshio
+    # via
+    #   -r requirements.in
+    #   meshio
 six==1.17.0
     # via python-dateutil
 sortedcontainers==2.4.0
