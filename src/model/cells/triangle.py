@@ -75,7 +75,6 @@ class Triangle(Cell):
             if edge_key not in used_edges:
                 self._borders.append(Border(p1, p2, None, self))
 
-
     def get_edges(self):
         """
         Used in finalize_borders() to creat a list to iterate over.
@@ -89,13 +88,13 @@ class Triangle(Cell):
             (p2, p3),
             (p3, p1),
         ]
-    
+
     def get_in_fg(self):
         """
         Check if this triangle is in the fishing grounds
         """
         return self._in_fg
-    
+
     def calculate_in_fg(self, fg):
         x_mid, y_mid = self.get_midpoint()
         if fg[0][0] < x_mid < fg[0][1] and fg[1][0] < y_mid < fg[1][1]:

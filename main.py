@@ -36,6 +36,7 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
     controller.set_fishing_ground(borders)
     controller.calculate_triangles_fg()
     controller.config_logger(log_folder_path / f"{log_name}.log")
+    controller.log_variables(n_steps, time_end, mesh_name, borders, log_name, write_frequency)
     controller.log_oil_level(0)
     controller.create_image(0, "time: 0.00")
     stop_time = time.time()
@@ -45,7 +46,7 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
     stop_time = time.time()
     print(f"Time to run simulation: {(stop_time - start_time):.2f} seconds.")
     if write_frequency is not None:
-        controller.make_video(log_folder_path, time_end)
+        controller.make_video(log_folder_path, 5.0)
     controller.create_image("final_image", f"time: {time_end:.2f}", log_folder_path)
 
 

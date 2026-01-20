@@ -31,7 +31,6 @@ class Edge(Cell):
         """
         self._oil_value = 0.0
 
-
     @property
     def oil_value(self):
         return self._oil_value
