@@ -34,7 +34,7 @@ class CreateImage():
 
         # adjust position and size as needed
         cbar_ax = plt.gca().inset_axes([1, 0, 0.05, 1])
-        plt.colorbar(sm, cax=cbar_ax, label='Oil level')
+        plt.colorbar(sm, cax=cbar_ax, label='Oil value')
 
         for triangle in self._triangles:  # add all the triangles into the plot
             plt.gca().add_patch(
@@ -44,7 +44,7 @@ class CreateImage():
                                     (triangle.get_oil_value() - self._umin) /
                                     (self._umax - self._umin)),
                                 alpha=0.9))
-            if triangle.get_in_fg() is True and triangle.get_oil_value() < 0.01:
+            if triangle.get_in_fg() is True and triangle.get_oil_value() < 0.001:
                 plt.gca().add_patch(
                     plt.Polygon([point.get_coordinates()
                                 for point in triangle.get_corner_points()],
@@ -52,8 +52,8 @@ class CreateImage():
                                 alpha=0.5))
 
         # Add labels to axes
-        plt.xlabel('x-coord')
-        plt.ylabel('y-coord')
+        plt.xlabel('x-coordinate')
+        plt.ylabel('y-coordinate')
 
         plt.xlim(0, 1)  # set the x-axis limits
         plt.ylim(0, 1)  # set the y-axis limits

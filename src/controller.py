@@ -233,8 +233,8 @@ class Controller:
             self.calculate_timestep()
             time = self.timestep_length*(i+1)
             self.log_oil_level(time)
-            if type(sim_per_img) is int and i % sim_per_img == 0:
-                self.create_image(int(i/sim_per_img), f"time = {time:.2f}")
+            if type(sim_per_img) is int and (i+1) % sim_per_img == 0:
+                self.create_image(int((i+1.0)/sim_per_img), f"time = {time:.2f}")
 
     def create_image(self, img_id, title=None, save_path=None):
         """
