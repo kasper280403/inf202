@@ -20,11 +20,12 @@ class Triangle(Cell):
 
     def __init__(self, corner_points):
         super().__init__(corner_points)
-        self.type = "triangle"
-        self.area = self.calculate_area()
+        self._type = "triangle"
+        self._area = self.calculate_area()
+        self._in_fg = False
 
     def get_area(self):
-        return self.area
+        return self._area
 
     def calculate_area(self):
         """
@@ -34,7 +35,7 @@ class Triangle(Cell):
             float: The area of the triangle.
         """
         (x1, y1), (x2, y2), (x3, y3) = (
-            p.get_coordinates() for p in self.corner_points
+            p.get_coordinates() for p in self._corner_points
         )
 
         return abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2
@@ -51,7 +52,7 @@ class Triangle(Cell):
             p1, p2: Instances of the class Point
             if false returns None
         """
-        shared = set(self.corner_points) & set(other_corner_points)
+        shared = set(self._corner_points) & set(other_corner_points)
 
         if len(shared) == 2:
             p1, p2 = tuple(shared)
@@ -65,15 +66,14 @@ class Triangle(Cell):
         """
         used_edges = set(
             frozenset(border.get_points())
-            for border in self.borders
+            for border in self._borders
         )
 
         for p1, p2 in self.get_edges():
             edge_key = frozenset((p1, p2))
 
             if edge_key not in used_edges:
-                self.borders.append(Border(p1, p2, None, self))
-
+                self._borders.append(Border(p1, p2, None, self))
 
     def get_edges(self):
         """
@@ -82,9 +82,20 @@ class Triangle(Cell):
         Returns:
             list[Tuples]: Each tuple is the Points for one edge of the triangle.
         """
-        p1, p2, p3 = self.corner_points
+        p1, p2, p3 = self._corner_points
         return [
             (p1, p2),
             (p2, p3),
             (p3, p1),
         ]
+
+    def get_in_fg(self):
+        """
+        Check if this triangle is in the fishing grounds
+        """
+        return self._in_fg
+
+    def calculate_in_fg(self, fg):
+        x_mid, y_mid = self.get_midpoint()
+        if fg[0][0] < x_mid < fg[0][1] and fg[1][0] < y_mid < fg[1][1]:
+            self._in_fg = True

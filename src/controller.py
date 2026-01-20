@@ -7,7 +7,7 @@ import pathlib
 import meshio
 import cv2
 from natsort import natsorted
-
+import logging
 
 
 class Controller:
@@ -23,6 +23,7 @@ class Controller:
         timestep (int): The current number of timesteps used.
         timestep_length (float): The length of the timestep used.
         fishing_ground (list[]): The borders of the fishing ground.
+        logger (logger): logger used to log the result of the simulation over time
     """
 
     def __init__(self):
@@ -33,6 +34,7 @@ class Controller:
         self.timestep = 0
         self.timestep_length = 0.01
         self.fishing_ground = None
+        self._logger = None
 
     def set_oil_null_point(self, center_point):
         self.oil_null_point = center_point
@@ -100,6 +102,8 @@ class Controller:
         for triangle in self.triangle_list:
             triangle.set_oil_value(self.next_oil_value.get(triangle.get_id()))
 
+        self.calculate_triangles_fg()
+
     def calculate_oil_triangle(self, triangle):
         """
         Takes a single Triangle and calls the calculate_flux_triangle_edge on all sides.
@@ -114,14 +118,8 @@ class Controller:
 
         flux_list = []
         for border in triangle.get_borders():
-            if border.get_neighbour() is not None:
-                flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
-                flux_list.append(flux)
-            """elif border.get_border_type() == "ocean":
-                flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
-                flux_list.append(flux)
-            elif border.get_border_type() == "coast":
-                continue"""
+            flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
+            flux_list.append(flux)
 
         oil_value_new = oil_i
         for flux in flux_list:
@@ -219,7 +217,7 @@ class Controller:
 
         self.triangle_list = triangle_cells
 
-    def run_simulation(self, simulation_length=10, n_simulations=100, write_frequency=None):
+    def run_simulation(self, simulation_length=10, n_simulations=100, sim_per_img=None):
         """
         Runs the simulation until it reaches the desired length, with the specified number of simulations.
         Creates images, with the specified number of simulation per image.
@@ -229,18 +227,14 @@ class Controller:
             n_simulations (int): The number of simulation steps to run.
             write_frequency (int): The number of simulations to calculate per image.
         """
-        self.timestep_length = float(simulation_length) / n_simulations
+        self.timestep_length = float(simulation_length)/n_simulations
         n_simulations = int(n_simulations)
-        frequency_counter = 0
-        if write_frequency is not None:
-            write_frequency = int(np.ceil(write_frequency))
-
         for i in range(n_simulations):
             self.calculate_timestep()
-            frequency_counter += 1
-            if frequency_counter == write_frequency:
-                self.create_image(int(i), f"time = {self.timestep_length * (i + 1):.2f}")
-                frequency_counter = 0
+            time = self.timestep_length*(i+1)
+            self.log_oil_level(time)
+            if type(sim_per_img) is int and i % sim_per_img == 0:
+                self.create_image(int(i/sim_per_img), f"time = {time:.2f}")
 
     def create_image(self, img_id, title=None, save_path=None):
         """
@@ -253,7 +247,7 @@ class Controller:
         """
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
-        image.plot_line(self.fishing_ground, 'Fishing grounds')
+        image.plot_fishing_ground(self.fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
         if save_path is not None:
@@ -307,3 +301,50 @@ class Controller:
                 video.write(img)
 
         video.release()
+
+    def config_logger(self, filename):
+        """
+        Configure the logger to log info in given filename
+
+        Attributes:
+            filename (str): filename of log to write to
+        """
+        self._logger = logging.getLogger('Oil simulation')
+        self._logger.setLevel(logging.INFO)
+
+        file_handler = logging.FileHandler(filename)
+        file_handler.setLevel(logging.INFO)
+
+        file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(file_formatter)
+
+        self._logger.addHandler(file_handler)
+
+    def log_variables(self, nSteps, tEnd, meshName, borders, logName, writeFrequency):
+        self._logger.info(f"settings: nSteps={nSteps}, tEnd={tEnd}")
+        self._logger.info(f"geometry: meshName={meshName}, borders={borders}")
+        self._logger.info(f"IO: logName={logName}, writeFrequency={writeFrequency}")
+
+    def calculate_triangles_fg(self):
+        """
+        Loops through all triangles and calculates if it is in the fishing grounds.
+        """
+        for triangle in self.triangle_list:
+            triangle.calculate_in_fg(self.fishing_ground)
+
+    def log_oil_level(self, time):
+        """
+        logs the current oil values to logging file
+
+        Attributes:
+            time (float): current time in the simulation
+        """
+        sum_oil = 0
+        sum_area = 0
+        for triangle in self.triangle_list:
+            if triangle.get_in_fg() is True:
+                sum_area = sum_area + triangle.get_area()
+                if triangle.get_oil_value() > 0.01:
+                    sum_oil = sum_oil + triangle.get_area()
+        percentage = sum_oil/sum_area*100
+        self._logger.info(f"t:{time:.3f} Area of oil in fishing grounds {sum_oil:.3f} / {sum_area:.3f} ({percentage:.0f}%)")

@@ -46,7 +46,7 @@ def test_factory_passes_arguments_correctly():
 
     cell = Factory.create_cell("triangle", corner_points=points)
 
-    assert cell.corner_points is points
+    assert cell.get_corner_points() is points
     
 
 def test_uknown_cell_type_raises_key_error():
