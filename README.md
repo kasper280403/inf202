@@ -64,12 +64,12 @@ Windows (PowerShell)
 
 The project has 3 built in commands to choose which folders and files are used in simulation.  
 To accsess the help sheet in the terminal type: --h or --help  
-To look for config filesin  a specific folder use the command --f or --folder  
+To look for config filesin  a specific folder use the command -f or --folder  
 Example: --folder example_folder
 To run all config files in a folder use the command --find_all  
-Example: --f example_folder --find_all, runs all config files in example_folder
-To run a single config file use --c or --config_file  
-Example: --c config file.toml
+Example: -f example_folder --find_all, runs all config files in example_folder
+To run a single config file use -c or --config_file  
+Example: -c config file.toml
 ---
 ## 🛠️ Development
 

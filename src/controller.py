@@ -227,6 +227,8 @@ class Controller:
             n_simulations (int): The number of simulation steps to run.
             write_frequency (int): The number of simulations to calculate per image.
         """
+        if sim_per_img == 0:
+            sim_per_img = None
         self.timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
         for i in range(n_simulations):
@@ -302,14 +304,14 @@ class Controller:
 
         video.release()
 
-    def config_logger(self, filename):
+    def config_logger(self, filename, logname):
         """
         Configure the logger to log info in given filename
 
         Attributes:
             filename (str): filename of log to write to
         """
-        self._logger = logging.getLogger('Oil simulation')
+        self._logger = logging.getLogger(logname)
         self._logger.setLevel(logging.INFO)
 
         file_handler = logging.FileHandler(filename)
