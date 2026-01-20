@@ -55,4 +55,7 @@ class Border:
         return self._normal
 
     def create_edge(self):
+        """
+        Create edge neigbour if no triangle neighbour
+        """
         self._neighbour = Edge([self._p1, self._p2])
