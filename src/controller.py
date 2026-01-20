@@ -218,7 +218,7 @@ class Controller:
 
         self.triangle_list = triangle_cells
 
-    def run_simulation(self, simulation_length=10, n_simulations=100, write_frequency=None):
+    def run_simulation(self, simulation_length=10, n_simulations=100, sim_per_img=None):
         """
         Runs the simulation until it reaches the desired length, with the specified number of simulations.
         Creates images, with the specified number of simulation per image.
@@ -228,17 +228,14 @@ class Controller:
             n_simulations (int): The number of simulation steps to run.
             write_frequency (int): The number of simulations to calculate per image.
         """
-        self.timestep_length = float(simulation_length) / n_simulations
+        self.timestep_length = float(simulation_length)/n_simulations
         n_simulations = int(n_simulations)
-        if write_frequency is not None:
-            write_frequency = int(np.ceil(write_frequency))
-
         for i in range(n_simulations):
             self.calculate_timestep()
-            frequency_counter += 1
-            if frequency_counter == write_frequency:
-                self.create_image(int(i/write_frequency), f"time = {self.timestep_length * (i + 1):.2f}")
-                frequency_counter = 0
+            time = self.timestep_length*(i+1)
+            self.log_oil_level(time)
+            if type(sim_per_img) is int and i % sim_per_img == 0:
+                self.create_image(int(i/sim_per_img),f"time = {time:.2f}")
 
     def create_image(self, img_id, title=None, save_path=None):
         """
@@ -333,5 +330,5 @@ class Controller:
                 if triangle.get_oil_value() > 0.01:
                     sum_oil = sum_oil + triangle.get_area()
         percentage = sum_oil/sum_area*100
-        self._logger.info(f"t:{time:.2f} Area in fishing grounds covered in oil {sum_oil:.3f} / {sum_area:.3f} ({percentage:.0f}%)")
+        self._logger.info(f"t:{time:.3f} Area in fishing grounds covered in oil {sum_oil:.3f} / {sum_area:.3f} ({percentage:.0f}%)")
         
