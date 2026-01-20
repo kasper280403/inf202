@@ -17,36 +17,36 @@ class Cell(ABC):
     id_counter = itertools.count()
 
     def __init__(self, corner_points):
-        self.cell_id = next(self.id_counter)
-        self.corner_points = corner_points
-        self.oil_value = 0.0
-        self.midpoint = self.calculate_midpoint()
-        self.flow = self.calculate_flow()
-        self.borders = []
+        self._cell_id = next(self.id_counter)
+        self._corner_points = corner_points
+        self._oil_value = 0.0
+        self._midpoint = self.calculate_midpoint()
+        self._flow = self.calculate_flow()
+        self._borders = []
 
     def get_id(self):
-        return self.cell_id
+        return self._cell_id
 
     def get_corner_points(self):
-        return self.corner_points
+        return self._corner_points
 
     def get_oil_value(self):
-        return self.oil_value
+        return self._oil_value
 
     def set_oil_value(self, oil_value):
-        self.oil_value = oil_value
+        self._oil_value = oil_value
 
     def add_border(self, border):
-        self.borders.append(border)
+        self._borders.append(border)
 
     def get_borders(self):
-        return self.borders
+        return self._borders
 
     def get_midpoint(self):
-        return self.midpoint
+        return self._midpoint
 
     def get_flow(self):
-        return self.flow
+        return self._flow
 
     def get_n_borders(self):
         """
@@ -55,7 +55,7 @@ class Cell(ABC):
         Returns:
             int: The number of borders in the cell.
         """
-        return len(self.borders)
+        return len(self._borders)
 
     def calculate_midpoint(self):
         """
@@ -69,7 +69,7 @@ class Cell(ABC):
         x_coordinates = []
         y_coordinates = []
 
-        for point in self.corner_points:
+        for point in self._corner_points:
             x_coordinates.append(point.get_x_coordinate())
             y_coordinates.append(point.get_y_coordinate())
 
@@ -85,7 +85,7 @@ class Cell(ABC):
         Returns:
             list[float]: The flow of the cell, x, y vector.
         """
-        midpoint = self.midpoint
+        midpoint = self._midpoint
         flow_x = midpoint[1] - 0.2 * midpoint[0]
         flow_y = - midpoint[0]
 

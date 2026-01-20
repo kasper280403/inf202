@@ -55,3 +55,4 @@ __pycache__/
 .hypothesis/
 *.mp4
 results/
+*.log

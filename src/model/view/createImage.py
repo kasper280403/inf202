@@ -38,12 +38,19 @@ class CreateImage():
 
         for triangle in self._triangles:  # add all the triangles into the plot
             plt.gca().add_patch(
-                plt.Polygon([point.get_coordinates()
-                             for point in triangle.get_corner_points()],
-                            color=plt.cm.coolwarm((triangle.get_oil_value()
-                                                   - self._umin) /
-                                                  (self._umax - self._umin)),
-                            alpha=0.9))
+                    plt.Polygon([point.get_coordinates()
+                                for point in triangle.get_corner_points()],
+                                color=plt.cm.coolwarm(
+                                    (triangle.get_oil_value() - self._umin) /
+                                    (self._umax - self._umin)),
+                                alpha=0.9))
+            if triangle.get_in_fg() is True and triangle.get_oil_value() < 0.01:
+                plt.gca().add_patch(
+                    plt.Polygon([point.get_coordinates()
+                                for point in triangle.get_corner_points()],
+                                color='green',
+                                alpha=0.5))
+
         # Add labels to axes
         plt.xlabel('x-coord')
         plt.ylabel('y-coord')
@@ -51,22 +58,24 @@ class CreateImage():
         plt.xlim(0, 1)  # set the x-axis limits
         plt.ylim(0, 1)  # set the y-axis limits
         plt.gca().set_aspect('equal')
-        plt.gca().set_facecolor('green')    # set land to green
+        plt.gca().set_facecolor('gray')    # set land to gray
 
         self._plot = plt    # save plot to be accessed later
 
-    def plot_line(self, line, print_txt=''):
+    def plot_fishing_ground(self, fg, print_txt=''):
         """
         Function to plot given line
 
         Attributes:
-            line (list[list[float]]): A list containing lists of the different
+            fish_ground (list[list[float]]): A list containing lists of the different
                                       axis coordinates for the line
             print_txt (Bool): String of text to plot beside the line
         """
-        self._plot.plot(line[0], line[1], linewidth=2, color='red')
+        x_values = [fg[0][0], fg[0][0], fg[0][1], fg[0][1], fg[0][0]]
+        y_values = [fg[1][0], fg[1][1], fg[1][1], fg[1][0], fg[1][0]]
+        self._plot.plot(x_values, y_values, linewidth=2, color='red')
         if len(print_txt) != 0:
-            self._plot.text(line[1][0]+0.01, line[1][1] + 0.02,
+            self._plot.text(x_values[1] + 0.01, y_values[1] + 0.02,
                             print_txt,
                             color='red'
                             )
