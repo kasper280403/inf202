@@ -6,7 +6,6 @@ pytest
 opencv-python
 natsort
 
-
 # Built in python tools
 # random
 # itertools
@@ -14,3 +13,4 @@ natsort
 # pickle
 # abc
 # pathlib
+# tomllib

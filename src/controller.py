@@ -10,19 +10,24 @@ from natsort import natsorted
 import logging
 
 
-def g_function(oil_i, oil_ngh, v_normal, u):
-    dot = np.dot(v_normal, u)
-
-    if dot > 0:
-        return oil_i * dot
-    else:
-        return oil_ngh * dot
-
-
 class Controller:
+    """
+    A bridge beetween the classes used in the simulation and the main.
+    This class aims to simplify the main and make it a readable and clear script.
+
+    Attributes:
+        triangle_list (list[Triangle]): A list with instances of the class triangles.
+        oil_null_point (list[float]): The center point of the oil spill.
+        timeline (list[Dict{}]): The timeline of the oil spill. Each timestep represented by index in list, each triangel with ID in dict.
+        next_oil_value (dict{}): The oil values waiting to be added when all the triangles have bben calculated in current timestep.
+        timestep (int): The current number of timesteps used.
+        timestep_length (float): The length of the timestep used.
+        fishing_ground (list[]): The borders of the fishing ground.
+    """
+
     def __init__(self):
         self.triangle_list = None
-        self.center_point = [0.35, 0.45]
+        self.oil_null_point = [0.35, 0.45]
         self.timeline = []
         self.next_oil_value = {}
         self.timestep = 0
@@ -30,15 +35,19 @@ class Controller:
         self.fishing_ground = None
         self._logger = None
 
-    def set_center_point(self, center_point):
-        self.center_point = center_point
+    def set_oil_null_point(self, center_point):
+        self.oil_null_point = center_point
 
     def set_initial_oil_values(self):
+        """
+        Calculates the initial oil values, according to the formula provided.
+        Adds the inital oil value to the timeline.
+        """
         value_dict = {}
 
         for triangle in self.triangle_list:
             midpoint = triangle.get_midpoint()
-            distance = (midpoint[0] - self.center_point[0]) ** 2 + (midpoint[1] - self.center_point[1]) ** 2
+            distance = (midpoint[0] - self.oil_null_point[0]) ** 2 + (midpoint[1] - self.oil_null_point[1]) ** 2
             oil_value = np.exp(-distance / 0.01)
             triangle.set_oil_value(oil_value)
             value_dict[triangle.get_id] = oil_value
@@ -52,13 +61,18 @@ class Controller:
         self.timestep += 1
 
     def update_oil_values(self):
+        """
+        Loops through the triangle_list and updates the oil values from the latest timestep.
+        """
         for triangle in self.triangle_list:
             cell_id = triangle.get_id()
             oil_value = self.timeline[self.timestep].get(cell_id)
             triangle.set_oil_value(oil_value)
 
     def set_neighbours(self):
-
+        """
+        Loops through the triangle_list and finds the neighbours of each triangle.
+        """
         for triangle in self.triangle_list:
             for other in self.triangle_list:
 
@@ -74,7 +88,11 @@ class Controller:
                 triangle.finalize_borders()
 
     def calculate_timestep(self):
-
+        """
+        Excecutive function to calculate the next timestep for all the triangles.
+        Loops through the triangle_list and calls the calculate_oil_triangle() function.
+        Loops through the triangle_list and updates each Triangle with new value.
+        """
         self.update_timestep()
 
         for triangle in self.triangle_list:
@@ -86,7 +104,13 @@ class Controller:
         self.calculate_triangles_fg()
 
     def calculate_oil_triangle(self, triangle):
+        """
+        Takes a single Triangle and calls the calculate_flux_triangle_edge on all sides.
+        Calculates the next oil value in the Triangle based on the 3 fluxes and adds to the next_oil_value
 
+        Args:
+            triangle (Triangle): The triangle to calculate the oil value for.
+        """
         area_i = triangle.get_area()
         flow_i = np.array(triangle.get_flow())
         oil_i = triangle.get_oil_value()
@@ -96,11 +120,7 @@ class Controller:
             if border.get_neighbour() is not None:
                 flux = self.calculate_flux_triangle_edge(border, area_i, flow_i, oil_i)
                 flux_list.append(flux)
-            """elif border.get_border_type() == "ocean":
-                flux = self.calculate_flux_edge(border, area_i, flow_i, oil_i)
-                flux_list.append(flux)
-            elif border.get_border_type() == "coast":
-                continue"""
+
 
         oil_value_new = oil_i
         for flux in flux_list:
@@ -109,13 +129,25 @@ class Controller:
         self.next_oil_value[triangle.get_id()] = oil_value_new
 
     def calculate_flux_triangle_edge(self, border, area_i, flow_i, oil_i):
+        """
+        Calculates flux over an edge of the triangle.
+
+        Args:
+            border (Border): A instance of the class Border belonging to the Triangle.
+            area_i (float): The area of Triangle.
+            flow_i (np.array[float]): The flow of the Triangle.
+            oil_i (float): The oil value of the Triangle.
+
+        Returns:
+            float: The flux over the edge of the Triangle.
+        """
         p_1 = - self.timestep_length / area_i
 
         v_normal = border.get_normal()
         oil_ngh = border.get_neighbour().get_oil_value()
         flow_ngh = np.array(border.get_neighbour().get_flow())
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
+        p_2 = self.g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
 
@@ -127,11 +159,25 @@ class Controller:
         oil_ngh = 0
         flow_ngh = [0.0, 0.0]
 
-        p_2 = g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
+        p_2 = self.g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
 
         return p_1 * p_2
 
+    def g_function(self, oil_i, oil_ngh, v_normal, u):
+        """
+        Simplifies the calculate_flux_triangle_edge function, by doing some of the math operations.
+        """
+        dot = np.dot(v_normal, u)
+
+        if dot > 0:
+            return oil_i * dot
+        else:
+            return oil_ngh * dot
+
     def set_up_folder(self):
+        """
+        Empties if exists or creates the folder to store the images for the simulation
+        """
         folder = pathlib.Path("src/resources/output")
 
         folder.mkdir(parents=True, exist_ok=True)
@@ -141,6 +187,13 @@ class Controller:
                 item.unlink()
 
     def create_cells(self, mesh_path):
+        """
+        Reads the mesh file and creates the instances of the Triangles.
+        Adds the Triangles to the triangle_list.
+
+        Args:
+            mesh_path (pathlib.Path): The path to the mesh file.
+        """
         mesh = meshio.read(mesh_path)
 
         point_cells = []
@@ -165,33 +218,63 @@ class Controller:
 
         self.triangle_list = triangle_cells
 
-    def run_simulation(self, simulation_length=10, n_simulations = 100, n_images = None):
-        self.timestep_length = float(simulation_length)/n_simulations
+    def run_simulation(self, simulation_length=10, n_simulations=100, write_frequency=None):
+        """
+        Runs the simulation until it reaches the desired length, with the specified number of simulations.
+        Creates images, with the specified number of simulation per image.
+
+        Attributes:
+            simulation_length (float): The length of the simulation in seconds.
+            n_simulations (int): The number of simulation steps to run.
+            write_frequency (int): The number of simulations to calculate per image.
+        """
+        self.timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
+        if write_frequency is not None:
+            write_frequency = int(np.ceil(write_frequency))
+
         for i in range(n_simulations):
             self.calculate_timestep()
-            time = self.timestep_length*(i+1)
-            self.log_oil_level(time)
-            if type(n_images) is int and i % n_images == 0:
-                self.create_image(int(i/n_images),f"time = {time:.2f}")
+            frequency_counter += 1
+            if frequency_counter == write_frequency:
+                self.create_image(int(i/write_frequency), f"time = {self.timestep_length * (i + 1):.2f}")
+                frequency_counter = 0
 
-    def create_image(self, img_id,title = None):
+    def create_image(self, img_id, title=None, save_path=None):
+        """
+        Creates an image of the current oil distribution.
+
+        Attributes:
+            img_id (float): Added to the end of the image as a way to order them.
+            title (string): Optional title added to the image
+            save_path (pathlib.Path): Path to the folder the image is saved in, optional.
+        """
         image = CreateImage(self.triangle_list)
         image.plot_Triangles()
         image.plot_fishing_ground(self.fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
-        image.save_img(f"src/resources/output/image{img_id}.png")
+        if save_path is not None:
+            image.save_img(save_path/f'{img_id}.png')
+        else:
+            image.save_img(f"src/resources/output/image{img_id}.png")
 
-    def make_video(self, name="oil_simulation", vid_length = 5.0):
+    def make_video(self, log_folder_path, vid_length=5.0, name="oil_simulation"):
+        """
+        Creates a video using all the images added to the output folder.
+        Optional to add name and length to the video, else default is used.
+
+        Attributes:
+            log_folder_path (pathlib.Path): The path to the folder the video is saved in.
+            vid_length (float): The length of the video in seconds.
+            name (string): The name of the video file, optional.
+        """
         if self.timestep_length <= 0:
             raise ValueError("timestep_length must be > 0")
 
         project_root = pathlib.Path(__file__).resolve().parents[1]
 
         image_dir = project_root / "src" / "resources" / "output"
-        video_dir = project_root / "videos"
-        video_dir.mkdir(parents=True, exist_ok=True)
 
         images = natsorted(image_dir.glob("image*.png"))
 
@@ -201,13 +284,13 @@ class Controller:
         frame = cv2.imread(str(images[0]))
         if frame is None:
             raise FileNotFoundError(f"Could not read {images[0]}")
-        
-        fps = len(images)/vid_length
+
+        fps = len(images) / vid_length
 
         height, width, _ = frame.shape
 
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        video_path = video_dir / f"{name}.mp4"
+        video_path = log_folder_path / f"{name}.mp4"
 
         video = cv2.VideoWriter(
             str(video_path),
