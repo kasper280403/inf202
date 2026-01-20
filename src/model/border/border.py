@@ -1,4 +1,5 @@
 import numpy as np
+from src.model.cells.edge import Edge
 
 
 class Border:
@@ -20,6 +21,11 @@ class Border:
         self._triangle = tri
         self._neighbour = neighbour
         self._normal = self.calculate_normal()
+        if self._neighbour is None:
+            self.create_edge()
+
+    def create_edge(self):
+        self._neighbour = Edge([self._p1, self._p2])
 
     def calculate_normal(self):
         """
