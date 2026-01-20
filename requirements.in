@@ -6,6 +6,7 @@ pytest
 opencv-python
 natsort
 argparse
+rich
 
 # Built in python tools
 # random

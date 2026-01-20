@@ -3,6 +3,7 @@ import argparse
 import time
 import tomllib
 from src.controller import Controller
+from rich.console import Console
 
 
 def main():
@@ -55,22 +56,29 @@ def run_simulation(n_steps, time_end, mesh_name, borders, write_frequency = None
     log_folder_path = create_folder(log_name)
     if center_point is None:
         center_point = [0.35, 0.45]
+    console = Console()
+
     start_time = time.time()
-    controller = Controller()
-    controller.set_up_folder()
-    controller.set_oil_null_point(center_point)
-    mesh_path = pathlib.Path(__file__).parent / "src" / "resources" / mesh_name
-    controller.create_cells(mesh_path)
-    controller.set_initial_oil_values()
-    controller.set_neighbours()
-    controller.set_fishing_ground(borders)
-    controller.create_image(0, "time: 0.00")
+    with console.status("[bold cyan]Setting up simulation parameters..."):
+        controller = Controller()
+        controller.set_up_folder()
+        controller.set_oil_null_point(center_point)
+        mesh_path = pathlib.Path(__file__).parent / "src" / "resources" / mesh_name
+        controller.create_cells(mesh_path)
+        controller.set_initial_oil_values()
+        controller.set_neighbours()
+        controller.set_fishing_ground(borders)
+        controller.create_image(0, "time: 0.00")
     stop_time = time.time()
     print(f"Setup took: {(stop_time - start_time):.2f} seconds.")
+
     start_time = time.time()
-    controller.run_simulation(time_end, n_steps, write_frequency)
+    console = Console()
+    with console.status("[bold cyan]Running simulation..."):
+        controller.run_simulation(time_end, n_steps, write_frequency)
     stop_time = time.time()
-    print(f"Time to run simulation: {(stop_time - start_time):.2f} seconds.")
+    print(f"Simulation finished. Time to run simulation: {(stop_time - start_time):.2f} seconds.")
+
     if write_frequency is not None:
         controller.make_video(log_folder_path, time_end)
     controller.create_image("final_image", f"time: {time_end:.2f}", log_folder_path)
