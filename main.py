@@ -15,7 +15,11 @@ def main():
         search_directory = pathlib.Path(__file__).parent / "toml_files"
     print("")
 
-    if args.find_all:
+    if args.folder and not args.find_all and not args.config_file:
+        print("The following config files were found in this folder:")
+        for config_file in search_directory.glob("*.toml"):
+            print(config_file.name)
+    elif args.find_all:
         print(f"Running simulations on all files in: {search_directory}")
         for config_file in search_directory.glob("*.toml"):
             run_file(config_file)
@@ -105,7 +109,7 @@ def create_folder(base_name):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(allow_abbrev=False)
 
     parser.add_argument(
         "--find_all",
