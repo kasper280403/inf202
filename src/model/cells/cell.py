@@ -7,12 +7,12 @@ class Cell(ABC):
     Represents a cell of any type, parent class
 
     Attributes:
-        cell_id (int): The cells id
-        corner_points (list[Point]): Instances of the class Point
-        oil_value (float): The amount of oil in that cell.
-        midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
-        flow (list[float]): Flow of the water at the midpoint, x, y vector.
-        borders (list[Border]): list with instances of Border
+        _cell_id (int): The cells id
+        _corner_points (list[Point]): Instances of the class Point
+        _oil_value (float): The amount of oil in that cell.
+        _midpoint (list[float]): Midpoint of the triangle. x and y coordinates.
+        _flow (list[float]): Flow of the water at the midpoint, x, y vector.
+        _borders (list[Border]): list with instances of Border
     """
     id_counter = itertools.count()
 
@@ -50,7 +50,7 @@ class Cell(ABC):
 
     def get_n_borders(self):
         """
-        Returns the number of borders in the cell.
+        Counts the number of borders belonging to the cell.
 
         Returns:
             int: The number of borders in the cell.
