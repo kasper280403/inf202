@@ -92,7 +92,7 @@ class Triangle(Cell):
     def is_in_fg(self):
         return self._in_fg
 
-    def calculate_in_fg(self, fg):
+    def calculate_if_in_fg(self, fg):
         """
         Calculate if triangle is in the fishing grounds.
         And sets the in_fg to True or False.

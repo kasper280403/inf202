@@ -271,7 +271,7 @@ class Controller:
         if frame is None:
             raise FileNotFoundError(f"Could not read {images[0]}")
 
-        fps = len(images) / (vid_length * 10.0)
+        fps = len(images) / vid_length
 
         height, width, _ = frame.shape
 
@@ -317,14 +317,14 @@ class Controller:
 
     def calculate_triangles_fg(self):
         """
-        Loops through all triangles and calculates if it is in the fishing grounds.
+        Loops through all triangles and runs the calculate_if_in_fg
         """
         for triangle in self._triangle_list:
-            triangle.calculate_in_fg(self._fishing_ground)
+            triangle.calculate_if_in_fg(self._fishing_ground)
 
     def log_oil_level(self, time):
         """
-        logs the current oil values to logging file
+        Logs the current oil values to logging file
 
         Attributes:
             time (float): current time in the simulation
