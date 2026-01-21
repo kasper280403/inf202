@@ -1,0 +1,10 @@
+[settings]
+nSteps = 100
+tEnd = 0.7
+
+[geometry]
+meshName = "bay.msh"
+borders = [[0.0, 0.45],[0.0, 0.2]]
+
+[IO]
+logName = "Sim3"
