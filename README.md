@@ -60,7 +60,7 @@ Windows (PowerShell)
   python main.py
 ```
 
-### How to use command tools
+### How to use command tools  
 
 
 The project has 3 built in commands to choose which folders and files are used in simulation.  
@@ -71,6 +71,8 @@ To run all config files in a folder use the command --find_all
 Example: -f example_folder --find_all, runs all config files in example_folder
 To run a single config file use -c or --config_file  
 Example: -c config file.toml
+
+
 ---
 ## 🛠️ Development
 
