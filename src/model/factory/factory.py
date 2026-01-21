@@ -4,6 +4,9 @@ from src.model.cells.edge import Edge
 
 
 class Factory:
+    """
+    Factory class responsible for making Cell instances.
+    """
     _registry = {
         "triangle": Triangle,
         "edge": Edge,
@@ -11,6 +14,16 @@ class Factory:
 
     @staticmethod
     def create_cell(cell_type: str, **kwargs) -> Cell:
+        """
+        Method that creates either a Triangle or Edge depending on attributes
+
+        Attributes:
+            cell_type (str): The name of the cell type, from the registry
+            kwargs (dict): Keyword arguments, passed along to the Cell
+
+        Returns:
+            Cell: The created cell
+        """
         try:
             return Factory._registry[cell_type](**kwargs)
         except ValueError:

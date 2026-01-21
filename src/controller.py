@@ -2,7 +2,7 @@ import numpy as np
 from src.model.border.border import Border
 from src.model.factory.factory import Factory
 from src.model.point.point import Point
-from src.model.view.createImage import CreateImage
+from src.model.view.view import View
 import pathlib
 import meshio
 import cv2
@@ -16,14 +16,14 @@ class Controller:
     This class aims to simplify the main and make it a readable and clear script.
 
     Attributes:
-        triangle_list (list[Triangle]): A list with instances of the class triangles.
-        oil_null_point (list[float]): The center point of the oil spill.
-        timeline (list[Dict{}]): The timeline of the oil spill. Each timestep represented by index in list, each triangel with ID in dict.
-        next_oil_value (dict{}): The oil values waiting to be added when all the triangles have bben calculated in current timestep.
-        timestep (int): The current number of timesteps used.
-        timestep_length (float): The length of the timestep used.
-        fishing_ground (list[]): The borders of the fishing ground.
-        logger (logger): logger used to log the result of the simulation over time
+        _triangle_list (list[Triangle]): A list with instances of the class triangles.
+        _oil_null_point (list[float]): The center point of the oil spill.
+        _timeline (list[Dict{}]): The timeline of the oil spill. Each timestep represented by index in list, each triangel with ID in dict.
+        _next_oil_value (dict{}): The oil values waiting to be added when all the triangles have bben calculated in current timestep.
+        _timestep (int): The current number of timesteps used.
+        _timestep_length (float): The length of the timestep used.
+        _fishing_ground (list[]): The borders of the fishing ground.
+        _logger (logger): logger used to log the result of the simulation over time
     """
 
     def __init__(self):
@@ -150,18 +150,6 @@ class Controller:
 
         return p_1 * p_2
 
-    def calculate_flux_edge(self, border, area_i, flow_i, oil_i):
-
-        p_1 = - self._timestep_length / area_i
-
-        v_normal = border.get_normal()
-        oil_ngh = 0
-        flow_ngh = [0.0, 0.0]
-
-        p_2 = self.g_function(oil_i, oil_ngh, v_normal, (flow_i + flow_ngh) / 2)
-
-        return p_1 * p_2
-
     def g_function(self, oil_i, oil_ngh, v_normal, u):
         """
         Simplifies the calculate_flux_triangle_edge function, by doing some of the math operations.
@@ -225,7 +213,7 @@ class Controller:
         Attributes:
             simulation_length (float): The length of the simulation in seconds.
             n_simulations (int): The number of simulation steps to run.
-            write_frequency (int): The number of simulations to calculate per image.
+            sim_per_img (int): The number of simulations to calculate per image.
         """
         if sim_per_img == 0:
             sim_per_img = None
@@ -235,8 +223,8 @@ class Controller:
             self.calculate_timestep()
             time = self._timestep_length * (i + 1)
             self.log_oil_level(time)
-            if type(sim_per_img) is int and (i+1) % sim_per_img == 0:
-                self.create_image(int((i+1.0)/sim_per_img), f"time = {time:.2f}")
+            if type(sim_per_img) is int and (i + 1) % sim_per_img == 0:
+                self.create_image(int((i + 1.0) / sim_per_img), f"time = {time:.2f}")
 
     def create_image(self, img_id, title=None, save_path=None):
         """
@@ -247,8 +235,8 @@ class Controller:
             title (string): Optional title added to the image
             save_path (pathlib.Path): Path to the folder the image is saved in, optional.
         """
-        image = CreateImage(self._triangle_list)
-        image.plot_Triangles()
+        image = View(self._triangle_list)
+        image.plot_triangles()
         image.plot_fishing_ground(self._fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
@@ -283,7 +271,7 @@ class Controller:
         if frame is None:
             raise FileNotFoundError(f"Could not read {images[0]}")
 
-        fps = len(images) / (vid_length*10.0)
+        fps = len(images) / vid_length
 
         height, width, _ = frame.shape
 
@@ -322,21 +310,21 @@ class Controller:
 
         self._logger.addHandler(file_handler)
 
-    def log_variables(self, nSteps, tEnd, meshName, borders, logName, writeFrequency):
-        self._logger.info(f"settings: nSteps={nSteps}, tEnd={tEnd}")
-        self._logger.info(f"geometry: meshName={meshName}, borders={borders}")
-        self._logger.info(f"IO: logName={logName}, writeFrequency={writeFrequency}")
+    def log_variables(self, n_steps, t_end, mesh_name, borders, log_name, write_frequency):
+        self._logger.info(f"settings: nSteps={n_steps}, tEnd={t_end}")
+        self._logger.info(f"geometry: meshName={mesh_name}, borders={borders}")
+        self._logger.info(f"IO: logName={log_name}, writeFrequency={write_frequency}")
 
     def calculate_triangles_fg(self):
         """
-        Loops through all triangles and calculates if it is in the fishing grounds.
+        Loops through all triangles and runs the calculate_if_in_fg
         """
         for triangle in self._triangle_list:
-            triangle.calculate_in_fg(self._fishing_ground)
+            triangle.calculate_if_in_fg(self._fishing_ground)
 
     def log_oil_level(self, time):
         """
-        logs the current oil values to logging file
+        Logs the current oil values to logging file
 
         Attributes:
             time (float): current time in the simulation

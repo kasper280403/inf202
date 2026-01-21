@@ -60,7 +60,8 @@ Windows (PowerShell)
   python main.py
 ```
 
-### How to use command tools
+### How to use command tools  
+
 
 The project has 3 built in commands to choose which folders and files are used in simulation.  
 To accsess the help sheet in the terminal type: --h or --help  
@@ -70,6 +71,8 @@ To run all config files in a folder use the command --find_all
 Example: -f example_folder --find_all, runs all config files in example_folder
 To run a single config file use -c or --config_file  
 Example: -c config file.toml
+
+
 ---
 ## 🛠️ Development
 
@@ -150,13 +153,17 @@ inf202
 ├── README.md
 ├── requirements.in
 ├── requirements.txt
+├── results/
+│   └── simulation1/
+│       ├── final_image.png
+│       ├── oil_simulation.mp4
+│       └── simulation1.log
 ├── src/
 │   ├── controller.py
 │   ├── model/
 │   │   ├── border/
 │   │   │   └── border.py
 │   │   ├── cells/
-│   │   │   ├── __init__.py
 │   │   │   ├── cell.py
 │   │   │   ├── edge.py
 │   │   │   └── triangle.py
@@ -165,15 +172,28 @@ inf202
 │   │   ├── point/
 │   │   │   └── point.py
 │   │   └── view/
-│   │       └── createImage.py
+│   │       └── view.py
 │   └── resources/
 │       ├── bay.msh
 │       └── output/
-│             └──  image0.png
+│           ├── image0.png
+│           ├── image1.png
+│           └── image2.png
 ├── tests/
-├── toml_files/
-│   └── input.toml
-└── results/
+│   ├── test_border/
+│   │   └── test_border.py
+│   ├── test_cells/
+│   │   ├── test_edge.py
+│   │   └── test_triangle.py
+│   ├── test_factory/
+│   │   └── test_factory.py
+│   └── test_point/
+│       └── test_point.py
+└── toml_files/
+    ├── config.toml
+    └── input.toml
+
+
 
 ```
 

@@ -1,30 +1,28 @@
-"""
-This module provides functionality to print a mesh of triangles with
-coresponding oil values
-"""
-
 import matplotlib.pyplot as plt
 
 
-class CreateImage():
+class View:
     """
-    Class to print out triangles in a mesh
+    This class provides functionality to print a mesh of triangles with
+    coresponding oil values
 
     Attributes:
-        triangles (list[Triangles]):    A list containing all the instances of
-                                        triangle class.
-        umax (float): maximum value for oil plotting
-        umin (float): minimum value for oil plotting
+        _plot: plt: The matplotlib plot
+        _triangles (list[Triangles]): List containing all  instances of Triangle.
+        _umax (float): maximum value for oil plotting
+        _umin (float): minimum value for oil plotting
     """
 
-    def __init__(self, TriangleList, umax=1.0, umin=0.0):
-        self._triangles = TriangleList
+    def __init__(self, triangle_list, umax=1.0, umin=0.0):
+        self._plot = None
+        self._triangles = triangle_list
         self._umax = umax
         self._umin = umin
 
-    def plot_Triangles(self):
+    def plot_triangles(self):
         """
         Function to plot the triangles stored in the class, with oil values
+        Saves the plot in  _plot
         """
         plt.figure()
 
@@ -33,21 +31,21 @@ class CreateImage():
         sm.set_array([self._umin, self._umax])
 
         # adjust position and size as needed
-        cbar_ax = plt.gca().inset_axes([1, 0, 0.05, 1])
+        cbar_ax = plt.gca().inset_axes([1.0, 0.0, 0.05, 1.0])
         plt.colorbar(sm, cax=cbar_ax, label='Oil value')
 
         for triangle in self._triangles:  # add all the triangles into the plot
             plt.gca().add_patch(
-                    plt.Polygon([point.get_coordinates()
-                                for point in triangle.get_corner_points()],
-                                color=plt.cm.coolwarm(
-                                    (triangle.get_oil_value() - self._umin) /
-                                    (self._umax - self._umin)),
-                                alpha=0.9))
+                plt.Polygon([point.get_coordinates()
+                             for point in triangle.get_corner_points()],
+                            color=plt.cm.coolwarm(
+                                (triangle.get_oil_value() - self._umin) /
+                                (self._umax - self._umin)),
+                            alpha=0.9))
             if triangle.is_in_fg() is True and triangle.get_oil_value() < 0.001:
                 plt.gca().add_patch(
                     plt.Polygon([point.get_coordinates()
-                                for point in triangle.get_corner_points()],
+                                 for point in triangle.get_corner_points()],
                                 color='green',
                                 alpha=0.5))
 
@@ -58,18 +56,17 @@ class CreateImage():
         plt.xlim(0, 1)  # set the x-axis limits
         plt.ylim(0, 1)  # set the y-axis limits
         plt.gca().set_aspect('equal')
-        plt.gca().set_facecolor('gray')    # set land to gray
+        plt.gca().set_facecolor('gray')  # set land to gray
 
-        self._plot = plt    # save plot to be accessed later
+        self._plot = plt  # save plot to be accessed later
 
-    def plot_fishing_ground(self, fg, print_txt=''):
+    def plot_fishing_ground(self, fg, print_txt=""):
         """
         Function to plot given line
 
         Attributes:
-            fish_ground (list[list[float]]): A list containing lists of the different
-                                      axis coordinates for the line
-            print_txt (Bool): String of text to plot beside the line
+            fg (list[list[float]]): List with borderlines for the fishing ground
+            print_txt (str): String of text to plot beside the line
         """
         x_values = [fg[0][0], fg[0][0], fg[0][1], fg[0][1], fg[0][0]]
         y_values = [fg[1][0], fg[1][1], fg[1][1], fg[1][0], fg[1][0]]
@@ -82,19 +79,19 @@ class CreateImage():
 
     def save_img(self, file_loc):
         """
-        Function to save the plotted image to file location
+        Saves the plotted image to specified file location
 
         Attributes:
-            file_loc (str): String or path to where to save current image
+            file_loc (str): String or path to the save location
         """
         self._plot.savefig(file_loc)
         self._plot.close()
 
     def set_title(self, title):
         """
-        Function to set a title in the plotted image
+        Sets the title in the plotted image
 
         Attributes:
-            title (str): String of the title
+            title (str): The title
         """
         self._plot.title(title)

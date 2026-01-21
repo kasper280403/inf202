@@ -20,13 +20,11 @@ class Edge(Cell):
 
     def set_oil_value(self, oil_value):
         """
-        Overides the get_oil_value method in parent class.
-        Task descriptions says oil that excites the map should just disapear.
+        Overides the set_oil_value method in parent class.
+        Task descriptions says oil that exits the map should just disapear.
+        Sets _self_oil_value to 0.0 always.
 
         Args:
             oil_value (float): The amount of oil in that cell.
-
-        Returns:
-             float == 0.0
         """
         self._oil_value = 0.0
