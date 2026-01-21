@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-class CreateImage:
+class View:
     """
     This class provides functionality to print a mesh of triangles with
     coresponding oil values

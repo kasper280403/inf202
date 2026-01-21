@@ -2,7 +2,7 @@ import numpy as np
 from src.model.border.border import Border
 from src.model.factory.factory import Factory
 from src.model.point.point import Point
-from src.model.view.createImage import CreateImage
+from src.model.view.view import View
 import pathlib
 import meshio
 import cv2
@@ -247,7 +247,7 @@ class Controller:
             title (string): Optional title added to the image
             save_path (pathlib.Path): Path to the folder the image is saved in, optional.
         """
-        image = CreateImage(self._triangle_list)
+        image = View(self._triangle_list)
         image.plot_triangles()
         image.plot_fishing_ground(self._fishing_ground, 'Fishing grounds')
         if title is not None:
