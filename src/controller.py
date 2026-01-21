@@ -248,7 +248,7 @@ class Controller:
             save_path (pathlib.Path): Path to the folder the image is saved in, optional.
         """
         image = CreateImage(self._triangle_list)
-        image.plot_Triangles()
+        image.plot_triangles()
         image.plot_fishing_ground(self._fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
