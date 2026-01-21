@@ -27,17 +27,17 @@ class Controller:
     """
 
     def __init__(self):
-        self.triangle_list = None
-        self.oil_null_point = [0.35, 0.45]
-        self.timeline = []
-        self.next_oil_value = {}
-        self.timestep = 0
-        self.timestep_length = 0.01
-        self.fishing_ground = None
+        self._triangle_list = None
+        self._oil_null_point = [0.35, 0.45]
+        self._timeline = []
+        self._next_oil_value = {}
+        self._timestep = 0
+        self._timestep_length = 0.01
+        self._fishing_ground = None
         self._logger = None
 
     def set_oil_null_point(self, center_point):
-        self.oil_null_point = center_point
+        self._oil_null_point = center_point
 
     def set_initial_oil_values(self):
         """
@@ -46,36 +46,36 @@ class Controller:
         """
         value_dict = {}
 
-        for triangle in self.triangle_list:
+        for triangle in self._triangle_list:
             midpoint = triangle.get_midpoint()
-            distance = (midpoint[0] - self.oil_null_point[0]) ** 2 + (midpoint[1] - self.oil_null_point[1]) ** 2
+            distance = (midpoint[0] - self._oil_null_point[0]) ** 2 + (midpoint[1] - self._oil_null_point[1]) ** 2
             oil_value = np.exp(-distance / 0.01)
             triangle.set_oil_value(oil_value)
             value_dict[triangle.get_id] = oil_value
 
-        self.timeline.append(value_dict)
+        self._timeline.append(value_dict)
 
     def set_fishing_ground(self, fishing_ground):
-        self.fishing_ground = fishing_ground
+        self._fishing_ground = fishing_ground
 
     def update_timestep(self):
-        self.timestep += 1
+        self._timestep += 1
 
     def update_oil_values(self):
         """
         Loops through the triangle_list and updates the oil values from the latest timestep.
         """
-        for triangle in self.triangle_list:
+        for triangle in self._triangle_list:
             cell_id = triangle.get_id()
-            oil_value = self.timeline[self.timestep].get(cell_id)
+            oil_value = self._timeline[self._timestep].get(cell_id)
             triangle.set_oil_value(oil_value)
 
     def set_neighbours(self):
         """
         Loops through the triangle_list and finds the neighbours of each triangle.
         """
-        for triangle in self.triangle_list:
-            for other in self.triangle_list:
+        for triangle in self._triangle_list:
+            for other in self._triangle_list:
 
                 if triangle is other:
                     continue
@@ -96,11 +96,11 @@ class Controller:
         """
         self.update_timestep()
 
-        for triangle in self.triangle_list:
+        for triangle in self._triangle_list:
             self.calculate_oil_triangle(triangle)
 
-        for triangle in self.triangle_list:
-            triangle.set_oil_value(self.next_oil_value.get(triangle.get_id()))
+        for triangle in self._triangle_list:
+            triangle.set_oil_value(self._next_oil_value.get(triangle.get_id()))
 
         self.calculate_triangles_fg()
 
@@ -125,7 +125,7 @@ class Controller:
         for flux in flux_list:
             oil_value_new = oil_value_new + flux
 
-        self.next_oil_value[triangle.get_id()] = oil_value_new
+        self._next_oil_value[triangle.get_id()] = oil_value_new
 
     def calculate_flux_triangle_edge(self, border, area_i, flow_i, oil_i):
         """
@@ -140,7 +140,7 @@ class Controller:
         Returns:
             float: The flux over the edge of the Triangle.
         """
-        p_1 = - self.timestep_length / area_i
+        p_1 = - self._timestep_length / area_i
 
         v_normal = border.get_normal()
         oil_ngh = border.get_neighbour().get_oil_value()
@@ -152,7 +152,7 @@ class Controller:
 
     def calculate_flux_edge(self, border, area_i, flow_i, oil_i):
 
-        p_1 = - self.timestep_length / area_i
+        p_1 = - self._timestep_length / area_i
 
         v_normal = border.get_normal()
         oil_ngh = 0
@@ -215,7 +215,7 @@ class Controller:
                     )
                     triangle_cells.append(triangle_cell)
 
-        self.triangle_list = triangle_cells
+        self._triangle_list = triangle_cells
 
     def run_simulation(self, simulation_length=10, n_simulations=100, sim_per_img=None):
         """
@@ -227,14 +227,16 @@ class Controller:
             n_simulations (int): The number of simulation steps to run.
             write_frequency (int): The number of simulations to calculate per image.
         """
-        self.timestep_length = float(simulation_length) / n_simulations
+        if sim_per_img == 0:
+            sim_per_img = None
+        self._timestep_length = float(simulation_length) / n_simulations
         n_simulations = int(n_simulations)
         for i in range(n_simulations):
             self.calculate_timestep()
-            time = self.timestep_length * (i + 1)
+            time = self._timestep_length * (i + 1)
             self.log_oil_level(time)
-            if type(sim_per_img) is int and i % sim_per_img == 0:
-                self.create_image(int(i / sim_per_img), f"time = {time:.2f}")
+            if type(sim_per_img) is int and (i+1) % sim_per_img == 0:
+                self.create_image(int((i+1.0)/sim_per_img), f"time = {time:.2f}")
 
     def create_image(self, img_id, title=None, save_path=None):
         """
@@ -245,9 +247,9 @@ class Controller:
             title (string): Optional title added to the image
             save_path (pathlib.Path): Path to the folder the image is saved in, optional.
         """
-        image = CreateImage(self.triangle_list)
+        image = CreateImage(self._triangle_list)
         image.plot_Triangles()
-        image.plot_fishing_ground(self.fishing_ground, 'Fishing grounds')
+        image.plot_fishing_ground(self._fishing_ground, 'Fishing grounds')
         if title is not None:
             image.set_title(f'{title}')
         if save_path is not None:
@@ -265,7 +267,7 @@ class Controller:
             vid_length (float): The length of the video in seconds.
             name (string): The name of the video file, optional.
         """
-        if self.timestep_length <= 0:
+        if self._timestep_length <= 0:
             raise ValueError("timestep_length must be > 0")
 
         project_root = pathlib.Path(__file__).resolve().parents[1]
@@ -281,7 +283,7 @@ class Controller:
         if frame is None:
             raise FileNotFoundError(f"Could not read {images[0]}")
 
-        fps = len(images) / vid_length
+        fps = len(images) / (vid_length*10.0)
 
         height, width, _ = frame.shape
 
@@ -302,14 +304,14 @@ class Controller:
 
         video.release()
 
-    def config_logger(self, filename):
+    def config_logger(self, filename, logname):
         """
         Configure the logger to log info in given filename
 
         Attributes:
             filename (str): filename of log to write to
         """
-        self._logger = logging.getLogger('Oil simulation')
+        self._logger = logging.getLogger(logname)
         self._logger.setLevel(logging.INFO)
 
         file_handler = logging.FileHandler(filename)
@@ -329,8 +331,8 @@ class Controller:
         """
         Loops through all triangles and calculates if it is in the fishing grounds.
         """
-        for triangle in self.triangle_list:
-            triangle.calculate_in_fg(self.fishing_ground)
+        for triangle in self._triangle_list:
+            triangle.calculate_in_fg(self._fishing_ground)
 
     def log_oil_level(self, time):
         """
@@ -341,8 +343,8 @@ class Controller:
         """
         sum_oil = 0
         sum_area = 0
-        for triangle in self.triangle_list:
-            if triangle.get_in_fg() is True:
+        for triangle in self._triangle_list:
+            if triangle.is_in_fg() is True:
                 sum_area = sum_area + triangle.get_area()
                 if triangle.get_oil_value() > 0.01:
                     sum_oil = sum_oil + triangle.get_area()

@@ -13,7 +13,7 @@ def test_set_oil_value(oil_value):
     edge = Edge([point_a, point_b])
     edge.set_oil_value(oil_value)
 
-    assert edge.oil_value == 0.0
+    assert edge.get_oil_value() == 0.0
 
 
 @given(

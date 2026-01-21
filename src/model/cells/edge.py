@@ -30,7 +30,3 @@ class Edge(Cell):
              float == 0.0
         """
         self._oil_value = 0.0
-
-    @property
-    def oil_value(self):
-        return self._oil_value

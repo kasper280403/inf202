@@ -6,8 +6,8 @@ class Point:
     Represents a 2D point in the mesh
 
     Attributes:
-        _x (int): x coordinate of this point
-        _y (int): y coordinate of this point
+        _x (float): x coordinate of this point
+        _y (float): y coordinate of this point
     """
 
     def __init__(self, cord):
