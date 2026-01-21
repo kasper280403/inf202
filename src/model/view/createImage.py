@@ -44,7 +44,7 @@ class CreateImage():
                                     (triangle.get_oil_value() - self._umin) /
                                     (self._umax - self._umin)),
                                 alpha=0.9))
-            if triangle.get_in_fg() is True and triangle.get_oil_value() < 0.001:
+            if triangle.is_in_fg() is True and triangle.get_oil_value() < 0.001:
                 plt.gca().add_patch(
                     plt.Polygon([point.get_coordinates()
                                 for point in triangle.get_corner_points()],

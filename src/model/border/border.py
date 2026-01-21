@@ -11,7 +11,7 @@ class Border:
         p2 (Point): second edgepoint of the border
         triangle (Triangle): triangle to which the border belongs
         neighbour (Triangle): triangle to which the border borders
-        normal (array[float]): vector defining the normal facing
+        normal (np.array[float]): vector defining the normal facing
                                outwards of the triangle for this border
 
     """

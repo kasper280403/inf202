@@ -16,11 +16,11 @@ class Triangle(Cell):
 
     Attributes(exclusive to Triangle):
         area (float): Area of the triangle.
+        in_fg (bool): True if triangle is in fishing grounds
     """
 
     def __init__(self, corner_points):
         super().__init__(corner_points)
-        self._type = "triangle"
         self._area = self.calculate_area()
         self._in_fg = False
 
@@ -89,13 +89,16 @@ class Triangle(Cell):
             (p3, p1),
         ]
 
-    def get_in_fg(self):
+    def is_in_fg(self):
         """
         Check if this triangle is in the fishing grounds
         """
         return self._in_fg
 
     def calculate_in_fg(self, fg):
+        """
+        Calculate if triangle is in the fishing grounds
+        """
         x_mid, y_mid = self.get_midpoint()
         if fg[0][0] < x_mid < fg[0][1] and fg[1][0] < y_mid < fg[1][1]:
             self._in_fg = True

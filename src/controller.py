@@ -283,7 +283,7 @@ class Controller:
         if frame is None:
             raise FileNotFoundError(f"Could not read {images[0]}")
 
-        fps = len(images) / vid_length
+        fps = len(images) / (vid_length*10.0)
 
         height, width, _ = frame.shape
 
@@ -344,7 +344,7 @@ class Controller:
         sum_oil = 0
         sum_area = 0
         for triangle in self._triangle_list:
-            if triangle.get_in_fg() is True:
+            if triangle.is_in_fg() is True:
                 sum_area = sum_area + triangle.get_area()
                 if triangle.get_oil_value() > 0.01:
                     sum_oil = sum_oil + triangle.get_area()
