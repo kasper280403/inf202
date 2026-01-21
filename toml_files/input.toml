@@ -7,5 +7,5 @@ meshName = "bay.msh"
 borders = [[0.0, 0.45],[0.0, 0.2]]
 
 [IO]
-logName = "Sim1"
+logName = "simulation1"
 writeFrequency = 10
