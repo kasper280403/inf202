@@ -62,6 +62,7 @@ Windows (PowerShell)
 
 ### How to use command tools
 
+
 The project has 3 built in commands to choose which folders and files are used in simulation.  
 To accsess the help sheet in the terminal type: --h or --help  
 To look for config filesin  a specific folder use the command -f or --folder  
