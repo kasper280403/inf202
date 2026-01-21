@@ -151,13 +151,17 @@ inf202
 ├── README.md
 ├── requirements.in
 ├── requirements.txt
+├── results/
+│   └── simulation1/
+│       ├── final_image.png
+│       ├── oil_simulation.mp4
+│       └── simulation1.log
 ├── src/
 │   ├── controller.py
 │   ├── model/
 │   │   ├── border/
 │   │   │   └── border.py
 │   │   ├── cells/
-│   │   │   ├── __init__.py
 │   │   │   ├── cell.py
 │   │   │   ├── edge.py
 │   │   │   └── triangle.py
@@ -166,15 +170,28 @@ inf202
 │   │   ├── point/
 │   │   │   └── point.py
 │   │   └── view/
-│   │       └── createImage.py
+│   │       └── view.py
 │   └── resources/
 │       ├── bay.msh
 │       └── output/
-│             └──  image0.png
+│           ├── image0.png
+│           ├── image1.png
+│           └── image2.png
 ├── tests/
-├── toml_files/
-│   └── input.toml
-└── results/
+│   ├── test_border/
+│   │   └── test_border.py
+│   ├── test_cells/
+│   │   ├── test_edge.py
+│   │   └── test_triangle.py
+│   ├── test_factory/
+│   │   └── test_factory.py
+│   └── test_point/
+│       └── test_point.py
+└── toml_files/
+    ├── config.toml
+    └── input.toml
+
+
 
 ```
 
